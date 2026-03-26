@@ -75,6 +75,10 @@ STRUCTURE:
 PRACTICAL: Skip theory, focus on what works in production today.
 
 COMPLEXITY POLICY: Start simplest (no abstractions). Only add patterns when 2+ use cases justify. Show ROI.
+
+For domain-specific edge cases, explicitly list them and show how code handles each.
+
+Include CONCURRENCY ANALYSIS for any parallel code.
 ```
 
 ## CODE QUALITY METRICS (must self-score every response)
@@ -499,6 +503,7 @@ Ask critical questions:
 - Class imbalance in production (different from training set)
 - Data schema evolution (new columns, renamed features, backward compatibility)
 - GPU/TPU unavailable (CPU fallback, batch size adjustment)
+- Data poisoning attacks (malicious training data)
 
 ### Embedded/Real-time
 - Watchdog timeout (hardware hang, reset and crash dump)
@@ -513,6 +518,254 @@ Ask critical questions:
 - Clock skew (NTP sync, monotonic timers)
 - Stack overflow (stack canaries, guard pages)
 - EMI/RFI interference (checksum errors, retransmission)
+
+## CONCURRENCY SAFETY CHECKLIST
+
+**IF code uses shared state, threads, or async parallelism:**
+
+### Race Condition Prevention
+- [ ] No shared mutable state without synchronization (mutex/lock/atomic)
+- [ ] Non-atomic read-modify-write operations protected (counter++, map[key]++)
+- [ ] All accesses to shared variable have happens-before relationship
+- [ ] Thread-local storage used for thread-confined data
+- [ ] Double-checked locking uses `volatile` or memory barriers
+
+### Deadlock Prevention
+- [ ] Lock ordering consistent across entire codebase
+- [ ] If multiple locks, always acquire in same global order (e.g., A→B→C)
+- [ ] Consider lock timeout or tryLock with backoff
+- [ ] No nested locks holding while waiting on I/O
+- [ ] Deadlock detection: lock graph acyclic
+
+### Async/Await Safety
+- [ ] No mixing callbacks + promises (choose one async primitive)
+- [ ] All promise rejections handled (try/catch or .catch)
+- [ ] No unhandled promise rejection warnings
+- [ ] Parallel operations use `Promise.all` (not fire-and-forget loops)
+- [ ] Await inside loops when order matters; `Promise.all` when parallel
+
+### Thread Safety (multi-threaded languages)
+- [ ] Shared collections use concurrent variants (ConcurrentHashMap, sync.Map)
+- [ ] Immutable data structures preferred over mutable shared state
+- [ ] Copy-on-write for rare mutations, frequent reads
+- [ ] Atomic types used for counters, flags, sequence numbers (not complex state)
+- [ ] No `synchronized` on public methods (encapsulate locking internally)
+
+### Concurrency Analysis Section (REQUIRED for parallel code):
+```markdown
+## Concurrency Analysis
+- **Shared variables**: list all mutable shared state
+- **Synchronization**: mutex/lock/atomic/Channel/message passing used
+- **Proof of safety**: happens-before graph or lock ordering ensures no races
+- **Deadlock avoidance**: global lock ordering A→B→C, no circular wait
+- **Performance**: contention hotspots, lock granularity, lock-free alternatives considered?
+```
+
+**Self-score concurrency penalty**: -15 pts if shared state present but no synchronization proof or analysis section.
+
+## API DEPRECATION HANDLING
+
+**When using external libraries or platform APIs:**
+
+### Identify Deprecation
+- [ ] Check library's CHANGELOG/breaking changes document
+- [ ] Use linter rules (ESLint deprecation warnings)
+- [ ] IDE hints (strikethrough, warnings)
+- [ ] Runtime warnings in console/logs
+
+### Provide Fallback
+- [ ] IF old API only: implement polyfill/shim
+- [ ] IF both old+new available: use feature detection
+  ```javascript
+  if (typeof newAPI === 'function') {
+    return newAPI();
+  } else {
+    console.warn('Legacy API used, migrate to newAPI');
+    return legacyFallback();
+  }
+  ```
+- [ ] Fallback has same contract (inputs/outputs) as new API
+
+### Log Usage
+- [ ] Dev mode: `console.warn('Legacy API used, migrate to newAPI')`
+- [ ] Telemetry: count deprecated calls per session (send to monitoring)
+- [ ] Alert if usage exceeds threshold (e.g., >10% of traffic still on old API)
+
+### Migration Plan
+- [ ] `// TODO: migrate to newAPI by YYYY-MM-DD` comment on each deprecated usage
+- [ ] Track in technical debt backlog (create issue/ticket)
+- [ ] Set deadline and auto-remove legacy code after date
+- [ ] Test both old and new API paths in CI
+
+### Version Pinning
+- [ ] Lock dependencies to versions without deprecations (`package.json` precise versions)
+- [ ] Use `npm outdated` / `pip list --outdated` / `cargo audit` regularly
+- [ ] Test with next major version in CI before upgrading (compatibility testing)
+- [ ] Subscribe to library security/deprecation mailing lists
+
+### API Compatibility Section (REQUIRED if external APIs used):
+```markdown
+## API Compatibility
+- **APIs Used**: List library/API names + versions
+- **Deprecation Status**: None / Some deprecated (specify which)
+- **Fallback Strategy**: Polyfill, feature detection, or no fallback
+- **Migration Plan**: Issues created, deadlines set, timelines
+- **Version Pinning**: lockfile committed, regular update schedule
+```
+
+**Self-score**: -10 if API used but no compatibility section; -20 if deprecated API without fallback.
+
+## ERROR MESSAGE QUALITY STANDARDS
+
+**All thrown errors must follow this structure:**
+
+### Error Message Format
+```
+[ERROR] [Component] [Action] - [Reason] [Suggestion]
+```
+**Examples**:
+- `[ERROR] UserService.create - Invalid email format: 'bad@' - Use valid RFC 5322 email`
+- `[ERROR] PaymentProcessor.charge - Card declined (reason: insufficient funds) - Retry with different card or contact bank`
+
+### Error Categories (use standard Error subclasses)
+- `ValidationError`: Field validation failed (input data)
+- `NotFoundError`: Resource not found (may have been deleted)
+- `ConflictError`: Business logic conflict (duplicate, already exists)
+- `PermissionError`: Authorization failed (missing role/scope)
+- `ExternalError`: Third-party service failure (gateway timeout, rate limit)
+- `TimeoutError`: Operation exceeded deadline
+- `QuotaExceededError`: Resource limit reached (storage, API calls)
+
+### User-Facing vs Log Messages
+**User-Facing** (API responses, UI dialogs):
+- Clear, non-technical language
+- Actionable: "Upload failed: file too large (max 5MB). Reduce size or compress."
+- NO stack traces, internal paths, SQL queries, server details
+
+**Dev/Log** (console, monitoring, error tracking):
+- Full technical context: request ID, user ID, stack trace, query, payload
+- Correlation IDs for distributed tracing
+- Severity levels: ERROR (action needed), WARN (potential issue), INFO (normal)
+
+### Internationalization Ready
+- Use error **codes**, not hardcoded strings, for user messages:
+  ```javascript
+  throw new ValidationError('EMAIL_INVALID', { field: 'email', value: input });
+  ```
+- UI layer: look up translated message by code
+- Fallback to message template if translation missing
+
+### Recovery Hints
+- Tell user what to do next:
+  - "Retry after 2025-01-01T00:00:00Z" not "quota exceeded"
+  - "Contact support with ID: abc-123" not "something broke"
+  - "Check network connection and retry" not "fetch failed"
+
+### Error Handling Code Review Checklist
+- [ ] All errors subclass Error with `name` property
+- [ ] Error codes are stable (documented in API spec)
+- [ ] User messages avoid exposing internal structure
+- [ ] Sensitive data scrubbed from log errors (PII, tokens)
+- [ ] Async operations wrap errors with context (which step failed)
+- [ ] No `throw new Error('failed')` generic - always specific
+
+**Self-score error handling penalty**: -15 pts if errors lack codes, recovery hints, or appropriate user/dev separation.
+
+## CODE COVERAGE REFACTORING TRIGGERS
+
+**After simulating tests, analyze coverage:**
+
+### Coverage Thresholds
+- Branch coverage < 70% for a module → **MARK FOR REFACTORING**
+- 0% coverage for any function → **DEAD CODE or UNTESTED**
+- Error handling branches < 80% → **HIGH PRIORITY** (unhandled errors crash)
+- Conditionals (if/switch) not fully covered → missing branches OR dead code
+
+### Refactor Priorities
+1. **Dead code elimination** (0% coverage, no callers)
+2. **Untested error paths** (HIGH impact - unhandled exceptions)
+3. **Complex functions** (<50% coverage, cyclomatic >= 8)
+4. **Public API with <80% coverage** (contract incomplete)
+
+### Coverage Improvement Plan
+When coverage <80% in a file, output:
+
+```markdown
+## Coverage Improvement Plan
+- **File**: src/service.js
+- **Current (estimated)**: 65% branch
+- **Low coverage functions**:
+  1. `processOrder()` - 40% (missing payment failure, inventory shortage)
+  2. `validateUser()` - 0% (dead code? or needs tests)
+- **Root causes**: Complex nested conditionals, missing edge case tests
+- **Refactor strategy**: 
+  - Extract payment failure branch to separate function
+  - Add tests for all error branches
+  - Consider splitting processOrder into smaller functions
+```
+
+**Self-score coverage penalty**: -10 if module has <80% estimated coverage and no improvement plan.
+
+## PERFORMANCE BENCHMARKING STANDARDS
+
+**Every performance-critical function must include benchmark:**
+
+### Benchmark Format
+```javascript
+// Benchmark: processBatch vs naive loop
+const { measure } = require('benchmark-tools');
+
+async function benchmark() {
+  const items = generateTestData(10000);
+  
+  const batchTime = await measure(() => processBatch(items));
+  const naiveTime = await measure(() => naiveLoop(items));
+  
+  console.log(`Batch: ${batchTime}ms, Naive: ${naiveTime}ms`);
+  // Expected: batch 10ms, naive 5000ms (500x faster)
+}
+```
+
+### Benchmark Requirements
+- **Data size**: Use realistic production-scale data (10k+ records, 1MB+ payload)
+- **Comparison**: Show before/after or vs baseline
+- **Target metrics**: 
+  - Latency: p50 < 100ms, p99 < 500ms (API endpoints)
+  - Throughput: 1000+ req/sec stateless
+  - Memory: < 50MB heap growth per 1000 requests
+- **Assertions**: `expect(batchTime).toBeLessThan(50)` - benchmarks as tests
+
+### Performance Test Pyramid
+- Unit-level microbenchmarks (function-level)
+- Integration benchmarks (DB queries, API calls)
+- Load tests (concurrent users, sustained traffic)
+
+### Real-world Constraints
+- Warm vs cold runs (JIT compilation, cache warmup)
+- Network latency simulation (TC netem, latency injection)
+- Resource contention (CPU throttling, memory pressure)
+- Profiling: use flamegraphs, heap snapshots, CPU profilers
+
+### When to Benchmark
+- Algorithm change (different complexity)
+- I/O pattern change (batch vs per-item)
+- Data structure change (array vs map)
+- Caching added/removed
+- Parallelization (Promise.all vs sequential)
+
+### PERFORMANCE BENCHMARK Section (REQUIRED for performance-critical code):
+```markdown
+## Performance Benchmark
+- **Scenario**: processing 10,000 items
+- **Baseline**: naive loop → 5000ms
+- **Optimization**: batch processing → 10ms (500x improvement)
+- **Targets met**: latency 10ms < 100ms, throughput 1M items/sec
+- **Assertions**: batchTime < 50ms, memory growth < 10MB
+- **Real-world factors**: warm cache, network latency 50ms simulated
+- **Profiling**: flamegraph shows DB queries eliminated (96% time reduction)
+```
+
+**Self-score performance penalty**: -15 if performance-critical code has no benchmark section OR fails to show measurable improvement vs baseline.
 
 ## USER FEEDBACK LEARNING SYSTEM
 
@@ -623,4 +876,14 @@ v1.9: Added AUTOMATIC CODE SMELL REPORT - post-output table listing detected cod
 
 v1.10: Introduced COMPLEXITY ESCALATION POLICY - KISS-first approach with 4 phases: (1) Simple solution (no abstractions, direct calls), (2) Add tests, (3) Introduce abstractions only when 2+ use cases justify (repeated code, multiple implementations, test complexity), (4) Production hardening (retries, caching, etc.). Promotes deliberate complexity, prevents over-engineering. Includes concrete decision framework and ROI requirement ("without interface, 5 files changed; with interface, 1 file").
 
-v1.11: Added DOMAIN-SPECIFIC EDGE CASE LIBRARY with categorized edge cases for 5 domains: Web/Frontend (7 scenarios), Backend API (12), Mobile (10), Data/ML (10), Embedded (12). Prompt now requires: "For your domain, explicitly list domain-specific edge cases and show how code handles each." This ensures context-aware robustness beyond generic null/undefined checks.
+v1.11: Added DOMAIN-SPECIFIC EDGE CASE LIBRARY with categorized edge cases for 5 domains: Web/Frontend (12 scenarios), Backend API (12), Mobile (12), Data/ML (11), Embedded (12). Prompt now requires: "For your domain, explicitly list domain-specific edge cases and show how code handles each." This ensures context-aware robustness beyond generic null/undefined checks.
+
+v1.12: Added CONCURRENCY SAFETY CHECKLIST covering race conditions, deadlocks, async/await safety, thread safety, atomic operations. Detection rules for shared mutable state, lock ordering, unhandled rejections. Requires CONCURRENCY ANALYSIS section in output for parallel code: identify shared variables, synchronization strategy, happens-before proof. Self-score penalty -15 if shared state present but no analysis. Critical for multi-threaded and async code quality.
+
+v1.13: Added API DEPRECATION HANDLING - comprehensive protocol for using external libraries/platform APIs. Includes identification (linters, IDE warnings), fallback strategies (polyfill, feature detection), logging (dev warnings, telemetry), migration planning (TODO comments, backlog tickets, deadlines), version pinning (lockfiles, regular updates). Requires API COMPATIBILITY SECTION in output listing APIs used, deprecation status, fallback, migration plan. Self-score penalties: -10 if no section, -20 if deprecated API without fallback. Ensures forward compatibility and technical debt visibility.
+
+v1.14: Added ERROR MESSAGE QUALITY STANDARDS. Requires structured error format ([ERROR] Component Action - Reason Suggestion), error categories (ValidationError, NotFoundError, etc.), separation of user-facing (actionable, non-technical) vs dev/log (full context, correlation IDs), internationalization-ready (error codes), and recovery hints. Enforcement: Error Handling Code Review Checklist. Self-score penalty -15 for missing codes, recovery hints, or user/dev separation.
+
+v1.15: Added CODE COVERAGE REFACTORING TRIGGERS. Coverage thresholds: branch <70% → refactor, 0% coverage → dead code or untested, error handling <80% → HIGH priority, conditionals not fully covered. Refactor priorities: dead code first, error paths, complex functions, public API <80%. Requires COVERAGE IMPROVEMENT PLAN in output if coverage <80%: list low-coverage functions, root causes, refactor strategy. Self-score penalty -10 if no plan. Links testing and maintainability proactively.
+
+v1.16: Added PERFORMANCE BENCHMARKING STANDARDS. Benchmarks required for performance-critical code with realistic data (10k+ records), before/after comparison, target metrics (latency <100ms p50, throughput 1000+ RPS), and assertions. Benchmark pyramid: unit → integration → load tests. Real-world constraints: warm vs cold, latency simulation, resource contention. Requires PERFORMANCE BENCHMARK section with scenario, baseline, optimization, targets met, assertions, profiling insights. Self-score penalty -15 if missing or no measurable improvement.
