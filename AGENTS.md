@@ -625,7 +625,7 @@ Ask critical questions:
 ```
 **Examples**:
 - `[ERROR] UserService.create - Invalid email format: 'bad@' - Use valid RFC 5322 email`
-- `[ERROR] PaymentProcessor.charge - Card declined (reason: insufficient funds) - Retry with different card or contact bank`
+- `[ERROR] PaymentProcessor.charge - Card declined (reason: insufficient funds) - Try different card`
 
 ### Error Categories (use standard Error subclasses)
 - `ValidationError`: Field validation failed (input data)
@@ -639,7 +639,7 @@ Ask critical questions:
 ### User-Facing vs Log Messages
 **User-Facing** (API responses, UI dialogs):
 - Clear, non-technical language
-- Actionable: "Upload failed: file too large (max 5MB). Reduce size or compress."
+- Actionable: "Upload failed: file too large (max 5MB). Reduce size."
 - NO stack traces, internal paths, SQL queries, server details
 
 **Dev/Log** (console, monitoring, error tracking):
@@ -648,7 +648,7 @@ Ask critical questions:
 - Severity levels: ERROR (action needed), WARN (potential issue), INFO (normal)
 
 ### Internationalization Ready
-- Use error **codes**, not hardcoded strings, for user messages:
+- Use error **codes**, not hardcoded strings:
   ```javascript
   throw new ValidationError('EMAIL_INVALID', { field: 'email', value: input });
   ```
@@ -663,7 +663,7 @@ Ask critical questions:
 
 ### Error Handling Code Review Checklist
 - [ ] All errors subclass Error with `name` property
-- [ ] Error codes are stable (documented in API spec)
+- [ ] Error codes stable (documented in API spec)
 - [ ] User messages avoid exposing internal structure
 - [ ] Sensitive data scrubbed from log errors (PII, tokens)
 - [ ] Async operations wrap errors with context (which step failed)
@@ -678,14 +678,14 @@ Ask critical questions:
 ### Coverage Thresholds
 - Branch coverage < 70% for a module → **MARK FOR REFACTORING**
 - 0% coverage for any function → **DEAD CODE or UNTESTED**
-- Error handling branches < 80% → **HIGH PRIORITY** (unhandled errors crash)
+- Error handling branches < 80% → **HIGH PRIORITY**
 - Conditionals (if/switch) not fully covered → missing branches OR dead code
 
 ### Refactor Priorities
-1. **Dead code elimination** (0% coverage, no callers)
-2. **Untested error paths** (HIGH impact - unhandled exceptions)
-3. **Complex functions** (<50% coverage, cyclomatic >= 8)
-4. **Public API with <80% coverage** (contract incomplete)
+1. Dead code elimination (0% coverage, no callers)
+2. Untested error paths (HIGH impact - unhandled exceptions)
+3. Complex functions (<50% coverage, cyclomatic >= 8)
+4. Public API with <80% coverage (contract incomplete)
 
 ### Coverage Improvement Plan
 When coverage <80% in a file, output:
@@ -695,7 +695,7 @@ When coverage <80% in a file, output:
 - **File**: src/service.js
 - **Current (estimated)**: 65% branch
 - **Low coverage functions**:
-  1. `processOrder()` - 40% (missing payment failure, inventory shortage)
+  1. `processOrder()` - 40% (missing payment failure)
   2. `validateUser()` - 0% (dead code? or needs tests)
 - **Root causes**: Complex nested conditionals, missing edge case tests
 - **Refactor strategy**: 
@@ -712,22 +712,18 @@ When coverage <80% in a file, output:
 
 ### Benchmark Format
 ```javascript
-// Benchmark: processBatch vs naive loop
 const { measure } = require('benchmark-tools');
 
 async function benchmark() {
   const items = generateTestData(10000);
-  
   const batchTime = await measure(() => processBatch(items));
   const naiveTime = await measure(() => naiveLoop(items));
-  
   console.log(`Batch: ${batchTime}ms, Naive: ${naiveTime}ms`);
-  // Expected: batch 10ms, naive 5000ms (500x faster)
 }
 ```
 
 ### Benchmark Requirements
-- **Data size**: Use realistic production-scale data (10k+ records, 1MB+ payload)
+- **Data size**: 10k+ records, 1MB+ payload
 - **Comparison**: Show before/after or vs baseline
 - **Target metrics**: 
   - Latency: p50 < 100ms, p99 < 500ms (API endpoints)
@@ -767,6 +763,588 @@ async function benchmark() {
 
 **Self-score performance penalty**: -15 if performance-critical code has no benchmark section OR fails to show measurable improvement vs baseline.
 
+## SECURITY THREAT MODELING (STRIDE + DREAD)
+
+**For any system handling sensitive data or public APIs, output THREAT MODEL section:**
+
+### STRIDE Categories (check each):
+- **Spoofing**: Can attacker impersonate user/service? Mitigations: MFA, cert pinning, JWT signature verification
+- **Tampering**: Can attacker modify data in transit/at rest? Mitigations: TLS, signatures, immutable logs
+- **Repudiation**: Can attacker deny actions? Mitigations: immutable audit logs, non-repudiable signatures
+- **Information Disclosure**: Can attacker read sensitive data? Mitigations: encryption at rest/in transit, RBAC, minimal logging
+- **Denial of Service**: Can attacker cause outage? Mitigations: rate limiting, circuit breakers, resource limits
+- **Elevation of Privilege**: Can attacker gain higher privileges? Mitigations: least privilege, input validation, sandboxing
+
+### DREAD Scoring (quantify risk):
+For each identified threat, score 1-10 (10=highest):
+- **Damage**: How bad if exploited? (data loss, financial, reputation)
+- **Reproducibility**: How easy to reproduce? (automated script vs manual)
+- **Exploitability**: How easy to exploit? (no auth vs admin auth required)
+- **Affected Users**: How many users impacted? (all vs few)
+- **Discoverability**: How easy to find vulnerability? (public exploit vs secret)
+
+**Risk = (D+R+E+A+D)/5**. Priority: >=7 HIGH, 5-6 MEDIUM, <5 LOW
+
+### Threat Model Section (REQUIRED for public-facing/security-critical):
+```markdown
+## Threat Model
+- **System**: User authentication API
+- **Assets**: user passwords, PII, session tokens
+- **Threats**:
+  1. Brute force login (STRIDE: DoS, AUTH) - DREAD: D=8, R=9, E=6, A=10, D=8 → 8.2 HIGH
+     Mitigations: rate limiting (5 attempts/min), account lockout, MFA
+  2. SQL injection (STRIDE: Tampering, InfoDisclosure) - DREAD: D=9, R=8, E=7, A=10, D=7 → 8.2 HIGH
+     Mitigations: parameterized queries, WAF, input validation
+- **Residual Risk**: Medium (session hijacking accepted due to TLS)
+- **Security Testing**: Fuzzing login endpoint, SQLi scanner, pen test quarterly
+```
+
+**Self-score security penalty**: -20 if security-critical system has no threat model section.
+
+## COMPLIANCE MATRIX (regulatory requirements)
+
+Identify compliance needs from query keywords:
+- "GDPR", "privacy", "EU" → GDPR
+- "healthcare", "HIPAA", "PHI" → HIPAA
+- "payment", "PCI", "credit card" → PCI-DSS
+- "SOX", "financial", "audit" → SOX
+- "children", "COPPA", "13" → COPPA
+
+### GDPR (EU privacy)
+- [ ] Data minimization: collect only necessary PII
+- [ ] Purpose limitation: use data only for stated purpose
+- [ ] Storage limitation: define retention period, delete after
+- [ ] Right to erasure: implement data deletion endpoint
+- [ ] Right to export: provide data in machine-readable format (JSON/CSV)
+- [ ] Consent management: record user consent, allow withdrawal
+- [ ] Data breach notification: 72h notification process
+- [ ] DPO appointed (if required)
+- [ ] DPIA conducted for high-risk processing
+
+### HIPAA (US healthcare)
+- [ ] Access controls: role-based, unique user IDs
+- [ ] Audit logs: record all PHI access (who, when, what)
+- [ ] Encryption: at rest (AES-256) and in transit (TLS 1.2+)
+- [ ] Backups: encrypted, tested restore quarterly
+- [ ] BAAs signed with all vendors handling PHI
+- [ ] Minimum necessary: only access minimum PHI required
+- [ ] Training: annual HIPAA training for all workforce
+- [ ] Incident response: 24/7 breach response plan
+
+### PCI-DSS (payment cards)
+- [ ] Cardholder data never stored unless absolutely necessary
+- [ ] If stored: PAN masked (first 6/last 4 only), CVV never stored
+- [ ] Network segmentation: CDE isolated from other networks
+- [ ] Quarterly vulnerability scans + penetration test annually
+- [ ] Multi-factor authentication for admin access
+- [ ] File integrity monitoring (FIM) on CDE systems
+- [ ] Encryption: TLS 1.2+ for all cardholder data transmission
+- [ ] Maintain ASV (Approved Scanning Vendor) compliance
+
+### SOX (financial reporting)
+- [ ] Change management: all code changes approved, logged, auditable
+- [ ] Separation of duties: developer ≠ deployer ≠ approver
+- [ ] Retention: financial records 7+ years immutably stored
+- [ ] Controls documentation: SOX controls mapped to code changes
+- [ ] Quarterly SOX audits: evidence collection automated
+- [ ] Automated testing: no manual acceptance for financial calc
+
+### COPPA (children <13)
+- [ ] Parental consent required before collecting any data
+- [ ] No behavioral advertising targeting children
+- [ ] Data deletion: parents can delete child's data
+- [ ] Limited data collection: only necessary for service
+- [ ] Clear privacy policy in language parents understand
+- [ ] No social features without verifiable parental consent
+
+### COMPLIANCE SECTION (required if applicable standards identified):
+```markdown
+## Compliance
+- **Applicable Standards**: GDPR, HIPAA (specify which)
+- **Compliance Status**: Compliant / Non-compliant (gap analysis)
+- **Controls Implemented**: List checkboxes above that are ✓
+- **Gaps**: List items unchecked with remediation plan
+- **Audit Evidence**: links to logs, policies, certificates
+- **Next Audit Date**: YYYY-MM-DD
+```
+
+**Self-score**: -25 if compliance-critical system has no compliance section OR missing mandatory controls.
+
+## DOMAIN-SPECIFIC EXAMPLES (template library)
+
+**Web (React + accessibility):**
+```javascript
+const AccessibleButton = ({ onClick, children, ariaLabel }) => (
+  <button 
+    onClick={onClick}
+    aria-label={ariaLabel || (typeof children === 'string' ? children : undefined)}
+    type="button"
+  >
+    {children}
+  </button>
+);
+// Key: a11y, event handling, type safety
+```
+
+**Backend (Express.js):**
+```javascript
+app.post('/api/users', validate(schema), async (req, res, next) => {
+  try {
+    const user = await userService.create(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    if (error.code === 'DUPLICATE_EMAIL') {
+      return res.status(409).json({ 
+        error: 'EMAIL_EXISTS', 
+        message: 'Email already registered' });
+    }
+    next(error);
+  }
+});
+// Key: validation, error categorization, proper status codes
+```
+
+**Mobile (Swift):**
+```swift
+func application(_ application: UIApplication, 
+                 handleEventsForBackgroundURLSession identifier: String, 
+                 completionHandler: @escaping () -> Void) {
+  backgroundSessionCompletionHandler = completionHandler;
+}
+// Key: lifecycle management, main thread safety
+```
+
+**Data/ML (scikit-learn):**
+```python
+def validate_input_schema(data):
+    expected_features = ['age', 'income', 'credit_score']
+    missing = [f for f in expected_features if f not in data.columns]
+    assert not missing, f"Missing features: {missing}"
+```
+
+**Embedded (C):**
+```c
+#define MAX_BUFFER 256
+char buffer[MAX_BUFFER];
+int bytes_read = read(fd, buffer, sizeof(buffer)-1);
+if (bytes_read < 0) { /* handle error */ }
+buffer[bytes_read] = '\0';
+```
+
+**Prompt Enhancement**: "Refer to EXAMPLE LIBRARY for idiomatic patterns in your domain."
+
+## GRACEFUL DEGRADATION & RESILIENCE PATTERNS
+
+**Circuit Breaker Pattern:**
+```javascript
+class CircuitBreaker {
+  constructor(threshold = 5, timeout = 60000) {
+    this.failures = 0;
+    this.threshold = threshold;
+    this.state = 'CLOSED';
+  }
+
+  async call(operation) {
+    if (this.state === 'OPEN') {
+      if (Date.now() - this.lastFailure > this.timeout) {
+        this.state = 'HALF_OPEN';
+      } else {
+        throw new Error('Circuit breaker OPEN - service unavailable');
+      }
+    }
+
+    try {
+      const result = await operation();
+      this.onSuccess();
+      return result;
+    } catch (error) {
+      this.onFailure();
+      throw error;
+    }
+  }
+
+  onSuccess() { this.failures = 0; this.state = 'CLOSED'; }
+  onFailure() {
+    this.failures++;
+    this.lastFailure = Date.now();
+    if (this.failures >= this.threshold) this.state = 'OPEN';
+  }
+}
+```
+
+### Fallback Strategies
+- **Cache fallback**: If DB down, serve from Redis cache (stale but available)
+- **Default values**: If config service unreachable, use safe defaults
+- **Degraded mode**: Disable non-critical features (recommendations, real-time updates)
+- **Queue for later**: Persist failed ops to dead-letter queue for retry
+
+### Bulkhead Pattern
+Isolate resource pools:
+```javascript
+const criticalPool = new WorkerPool(10); // for payments
+const backgroundPool = new WorkerPool(2); // for analytics
+```
+
+### Retry with Exponential Backoff + Jitter
+```javascript
+async function retryWithBackoff(operation, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try { return await operation(); }
+    catch (error) {
+      if (i === maxRetries - 1) throw error;
+      const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+      await sleep(delay);
+    }
+  }
+}
+```
+
+### Timeout Propagation
+```javascript
+async function withTimeout(operation, ms) {
+  return Promise.race([
+    operation(),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Operation timeout')), ms))
+  ]);
+}
+```
+
+### RESILIENCE CHECKLIST
+- [ ] Circuit breakers on all external calls
+- [ ] Fallback data sources (cache, defaults, degraded mode)
+- [ ] Retry logic: exponential backoff + jitter, max 3-5 attempts
+- [ ] Timeouts on all I/O operations
+- [ ] Bulkheads: resource isolation between critical/non-critical paths
+- [ ] Health check endpoints for monitoring
+- [ ] Graceful shutdown: finish in-flight requests, drain connections
+
+**Self-score resilience penalty**: -20 if system integrates with external services but missing 3+ resilience patterns.
+
+## VERIFICATION AUTOMATION (quality gate scripts)
+
+### Pre-commit Hook (husky/pre-commit):
+```bash
+#!/bin/bash
+npm run lint
+npm run type-check
+npm run test -- --coverage
+
+# Check for banned patterns
+if grep -r "console\.log" src/; then
+  echo "Remove console.log before commit"
+  exit 1
+fi
+
+if grep -r "eval(" src/; then
+  echo "eval() banned - security risk"
+  exit 1
+fi
+
+npm test || exit 1
+```
+
+### CI/CD Pipeline (GitHub Actions):
+```yaml
+name: Quality Gate
+on: [push, pull_request]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Type Check
+        run: npm run type-check
+      - name: Test with Coverage
+        run: npm test -- --coverage
+      - name: Enforce Coverage
+        run: |
+          COVERAGE=$(cat coverage/coverage-summary.json | jq '.total.branches.pct')
+          if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+            echo "Branch coverage $COVERAGE% < 80%"
+            exit 1
+          fi
+      - name: Security Scan
+        run: npm audit --audit-level=high
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
+```
+
+### Automated Code Review (danger-js):
+```javascript
+const { warn, fail } = require('danger');
+
+const linesChanged = danger.github.pr.additions + danger.github.pr.deletions;
+if (linesChanged > 500) warn('Large PR (>500 lines). Consider splitting.');
+
+const newCode = danger.git.modified_files.filter(f => f.endsWith('.js') && !f.includes('test'));
+if (newCode.length > 0 && !danger.github.pr.body.includes('[TESTED]')) {
+  fail('New code requires tests.');
+}
+
+if (danger.github.pr.body.match(/(password|key|token|secret)=/i)) {
+  fail('Potential secret detected.');
+}
+```
+
+### Makefile Targets:
+```makefile
+.PHONY: quality
+quality: lint test coverage-check security-check
+
+coverage-check:
+    @coverage=$$(cat coverage/coverage-summary.json | jq '.total.branches.pct'); \
+    if [ $$(echo "$$coverage < 80" | bc) -eq 1 ]; then exit 1; fi
+
+security-check:
+    @npm audit --audit-level=high | grep -q "High severity" && exit 1 || true
+
+fix:
+    npx eslint --fix src/
+    prettier --write src/
+```
+
+**Prompt adds**: "Include VERIFICATION STEPS in documentation: how to run lint, tests, coverage, security scan locally before commit. Provide Makefile/package.json scripts."
+
+## COLLABORATIVE REVIEW PROCESS
+
+### Pull Request Template (PULL_REQUEST_TEMPLATE.md):
+```markdown
+## Description
+[Describe changes, link to issue]
+
+## Quality Checklist
+- [ ] Self-score >= 90
+- [ ] All mandatory checks passed
+- [ ] Security checklist 100%
+- [ ] Tests added/updated, coverage >=80%
+- [ ] Benchmarks included (if performance-critical)
+- [ ] Threat model updated (if security-critical)
+- [ ] Compliance section added (if applicable)
+- [ ] Documentation updated
+- [ ] VERIFICATION STEPS tested locally
+
+## Reviewer Guidance
+Focus areas:
+- [ ] Logic correctness and edge cases
+- [ ] Security implications
+- [ ] Performance impact (N+1, blocking I/O, O(n²))
+- [ ] Error handling completeness
+- [ ] Test coverage of new code
+- [ ] API backwards compatibility (if public)
+- [ ] Compliance requirements met
+
+## Screenshots/Logs
+[If UI changes or performance benchmarks]
+```
+
+### Review Assignment Rules (CODEOWNERS):
+```
+# Automatically request reviewers
+src/auth/    @security-team @backend
+src/ui/      @frontend-team
+tests/       @qa-team
+Dockerfile   @devops
+```
+
+### Review Checklist for Reviewers:
+- [ ] Code matches user story/requirements
+- [ ] No security anti-patterns (SQL concat, eval, hardcoded secrets)
+- [ ] Error handling covers all failure modes
+- [ ] Performance patterns checked (N+1, blocking I/O)
+- [ ] Tests exercise error paths and edge cases
+- [ ] Documentation/comments clear
+- [ ] Compliance requirements met
+- [ ] No debug code (console.log, TODO, fixme) in production paths
+
+### Turnaround Time SLA:
+- Initial review: < 24 hours
+- Follow-up revisions: < 12 hours
+- Critical security fix: < 4 hours (emergency channel)
+
+### Escalation Path:
+If review blocked > 48h → escalate to tech lead → engineering manager
+
+**Prompt adds**: "Include REVIEW PROCESS section: who should review, focus areas, SLAs, escalation. Provide PR template and CODEOWNERS snippet."
+
+## VERSIONING & SEMANTIC RELEASE
+
+### Semantic Versioning (SemVer 2.0):
+- MAJOR: incompatible API changes
+- MINOR: add functionality in backward-compatible manner
+- PATCH: backward-compatible bug fixes
+
+Version format: MAJOR.MINOR.PATCH (e.g., 2.1.3)
+
+### Version Declaration in Code:
+```json
+{
+  "version": "1.2.3",
+  "description": "..."
+}
+```
+
+### Git Tagging Convention:
+```bash
+git tag -a v1.2.3 -m "Release 1.2.3: Add user search feature"
+git push origin v1.2.3
+```
+
+### Conventional Commits:
+- `feat:` new feature (minor)
+- `fix:` bug fix (patch)
+- `BREAKING CHANGE:` major version bump
+- `docs:` documentation
+- `chore:` build/CI changes
+
+### Changelog Generation (Keep a CHANGELOG):
+```markdown
+# Changelog
+All notable changes to this project will be documented in this file.
+
+## [1.2.3] - 2025-01-15
+### Added
+- User search functionality (issue #123)
+### Fixed
+- Memory leak in connection pool (issue #456)
+```
+
+### Version Pinning in Dependencies:
+- For libraries: use caret (^) or tilde (~)
+- For applications: pin exact versions for reproducible builds
+- Use lockfiles committed to repo (package-lock.json, Pipfile.lock, Cargo.lock)
+
+**Prompt adds**: "Include VERSION MANAGEMENT section: semver scheme, tagging, changelog format, dependency pinning. Show automation with conventional commits."
+
+## COST OPTIMIZATION PRINCIPLES
+
+### Cloud Cost Awareness
+- **Compute**: Right-size instances, use spot/preemptible for non-critical
+- **Storage**: S3 Intelligent-Tiering, lifecycle policies (move old data to Glacier)
+- **Database**: Use read replicas for scaling, auto-scaling for variable load
+- **Network**: minimize data transfer (same-region, compression, CDN)
+- **Serverless**: Pay-per-use for spiky workloads (Lambda, Cloud Functions)
+
+### Resource Efficiency Checks:
+- [ ] CPU utilization target 60-70% (avoid over-provisioning)
+- [ ] Memory usage: no leaks, appropriate heap size (not 4GB for 100MB usage)
+- [ ] Idle resources: shut down dev/staging nights/weekends
+- [ ] Reserved instances: for steady-state (1-3 years, 30-50% discount)
+- [ ] Auto-scaling: scale based on custom metrics (queue depth, CPU, requests)
+
+### Cost Monitoring:
+```bash
+# AWS Cost Explorer queries
+aws ce get-cost-and-usage \
+  --time-period Start=$(date -d '1 month ago' +%Y-%m-%d),End=$(date +%Y-%m-%d) \
+  --granularity MONTHLY \
+  --metrics BlendedCost \
+  --group-by Type=DIMENSION,Key=SERVICE
+```
+
+### Cost Allocation Tags:
+- `Environment`: prod, staging, dev
+- `Team`, `Project`, `Owner`
+- Enforce tagging via CloudFormation/Terraform guardrails
+
+### Optimization Checklist:
+- [ ] Eliminate unused resources (EBS volumes, IPs, load balancers)
+- [ ] Use spot instances for batch jobs, CI workers
+- [ ] Implement caching to reduce DB reads (Redis, CDN)
+- [ ] Compress data (gzip, Brotli) to reduce transfer costs
+- [ ] Batch operations (batch inserts, bulk API calls)
+- [ ] Set budget alerts at 50%, 80%, 100% of forecast
+
+**Self-score cost penalty**: -15 if cloud deployment without cost optimization plan, tagging strategy, or monitoring.
+
+## OBSERVABILITY & LOGGING STANDARDS
+
+### Structured Logging (JSON format):
+```javascript
+const logger = winston.createLogger({
+  format: winston.format.json(),
+  transports: [new winston.transports.Console()]
+});
+
+logger.info('User login', {
+  level: 'info',
+  userId: user.id,
+  ip: req.ip,
+  userAgent: req.headers['user-agent'],
+  timestamp: new Date().toISOString(),
+  requestId: req.id  // correlation ID
+});
+```
+
+### Log Levels (standard):
+- ERROR: actionable, requires immediate attention
+- WARN: potential issue, monitor
+- INFO: normal business events (user login, order placed)
+- DEBUG: detailed debugging (dev only, not in prod)
+
+### Correlation IDs:
+- Generate unique ID per request (`x-request-id`)
+- Pass through all logs, spans, traces
+- Include in error reports, support tickets
+
+### Sampling Strategy:
+- ERROR: 100% (no sampling)
+- WARN: 100%
+- INFO: 10% (sampled) in production to reduce volume
+- DEBUG: 0% in prod (dev only)
+
+### Metrics & SLOs:
+Define key metrics:
+- Availability: uptime >= 99.9%
+- Latency: p99 < 200ms
+- Error rate: < 0.1%
+- Throughput: 1000 RPS
+
+Expose via /metrics endpoint (Prometheus format):
+```
+# HELP http_requests_total Total HTTP requests
+# TYPE http_requests_total counter
+http_requests_total{method="GET",status="200"} 1234
+```
+
+### Tracing (OpenTelemetry):
+```javascript
+const tracer = trace.getTracer('my-service');
+const span = tracer.startSpan('processOrder');
+try {
+  await processOrder();
+  span.setStatus({ code: trace.StatusCode.OK });
+} catch (error) {
+  span.recordException(error);
+  span.setStatus({ code: trace.StatusCode.ERROR });
+  throw error;
+} finally {
+  span.end();
+}
+```
+
+### Alerting Rules (Prometheus Alertmanager):
+```yaml
+groups:
+  - name: service_alerts
+    rules:
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.01
+        for: 2m
+        annotations:
+          summary: "High error rate detected"
+```
+
+**Self-score observability penalty**: -20 if production service lacks structured logs (JSON), correlation IDs, and metrics endpoints.
+
 ## USER FEEDBACK LEARNING SYSTEM
 
 ### Feedback Capture & Pattern Extraction
@@ -775,16 +1353,16 @@ Persist across sessions (long-term learning):
 **Capture categories:**
 - **Corrections**: "Actually it should handle X", "You missed Y edge case"
 - **Clarifications**: "What about Z scenario?", "Can you explain why?"
-- **Bug reports** (if shared): "This caused production issue because..."
+- **Bug reports**: "This caused production issue because..."
 - **Positive**: "This works perfectly", "Clean solution"
 
 **Auto-categorize and learn:**
-1. Missing edge case → append to **EDGE CASE CHECKLIST** in prompt
-2. Security flaw → append to **SECURITY HARDENING CHECKLIST**
-3. Performance issue → add new entry to **PERFORMANCE ANTI-PATTERNS**
-4. Unclear explanation → improve **PROMPT STRUCTURE** (TL;DR, bullet points)
-5. Wrong API usage → add to **DOMAIN-SPECIFIC GOTCHAS**
-6. Test missing → reinforce **TEST GENERATION PROTOCOL**
+1. Missing edge case → append to EDGE CASE CHECKLIST in prompt
+2. Security flaw → append to SECURITY HARDENING CHECKLIST
+3. Performance issue → add new entry to PERFORMANCE ANTI-PATTERNS
+4. Unclear explanation → improve PROMPT STRUCTURE
+5. Wrong API usage → add to DOMAIN-SPECIFIC GOTCHAS
+6. Test missing → reinforce TEST GENERATION PROTOCOL
 
 ### Prompt Auto-Update Rule
 **Threshold**: After N=3 instances of same pattern → UPDATE PROMPT AUTOMATICALLY in next rewrite.
@@ -793,8 +1371,8 @@ Persist across sessions (long-term learning):
 - Round 1: User says "email validation missing" → add to edge cases (temporary)
 - Round 4: Another user correction "validate email format" → count = 2
 - Round 7: Third occurrence → **TRIGGER PROMPT UPDATE**:
-  - Add permanent instruction: "For email inputs: use RFC 5322 regex or validator library"
-  - Add to security checklist: "Email field: validate format before processing"
+  - Add permanent instruction: "For email inputs: use RFC 5322 regex"
+  - Add to security checklist: "Email field: validate format"
 - Reset counter, continue
 
 ### Feedback Memory Structure
@@ -805,9 +1383,9 @@ Store in memory with:
 - Timestamp
 - Frequency count
 
-Every 5 rounds, perform **Feedback Analysis**:
+Every 5 rounds, perform Feedback Analysis:
 - Which correction types most frequent?
-- Which prompt updates most effective? (track metric pre/post)
+- Which prompt updates most effective?
 - Prune outdated patterns (if no occurrences for 30 rounds)
 
 ## LEARNING MECHANISMS
@@ -853,37 +1431,98 @@ When uncertain which instruction improves quality:
 
 **Prompt auto-correct**: When degradation detected, INSERT specific counter-instruction into prompt immediately.
 
-## VERSION HISTORY
-v0.0: Initial coding-focused prompt. Basic quality principles (SOLID, error handling, testability). Self-evaluation on code quality metrics.
+## LEGACY SYSTEM INTEGRATION GUIDANCE
 
-v1.1: Added CODE QUALITY METRICS with mandatory checks (function length, complexity, duplication, naming, error handling, validation, secrets, testability). Introduced Quality Scoring 0-100 with 90+ threshold. Added self-scoring requirement pre-output.
+### When implementing features that depend on legacy systems:
+- **Code generation**: maintain both modern and legacy code paths with feature toggles
+- **Data consistency**: implement dual-write or CDC (Change Data Capture) pattern
+- **API compatibility**: use adapters to translate between modern and legacy interfaces
+- **Testing strategy**: use test doubles for legacy dependencies; if unavailable, integration tests only
 
-v1.2: Added ANTI-PATTERNS LIBRARY with 7 common code smells (God Object, Arrow Code, Magic Numbers, Shotgun Surgery, Circular Dependencies, Deep Inheritance, Feature Envy). Each includes symptoms, why bad, fix template, and prompt reinforcement. This creates a pattern-matching system for self-correction.
+### STRANGLER FIG PATTERN (for gradual migration):
+1. Identify bounded context in legacy system to replace
+2. Build new feature in parallel (isolated modules)
+3. Gradually route traffic from legacy to new via routing layer
+4. Monitor correctness and performance
+5. Incrementally expand new system's responsibilities
+6. Decommission legacy module once fully replaced
 
-v1.3: Introduced TEST GENERATION PROTOCOL - flowchart for automatic test strategy based on function analysis. Includes mocking rules, coverage targets (branch >=80%), test structure template, and test type separation (unit/integration/e2e). Enforces deterministic, fast (<100ms) unit tests.
+### Legacy Database Migration:
+- **Dual writes phase**: write to both old and new schemas during transition
+- **Data validation**: compare row counts, checksums between systems
+- **Read-replica sync**: ensure lag < 1 second before failover
+- **Cutover strategy**: blue-green deployment with rollback to old schema ready
 
-v1.4: Added SECURITY HARDENING CHECKLIST - comprehensive OWASP-inspired checklist with categories: Input Validation, Auth/Z, Cryptography, Injection Prevention, Data Exposure, XXE/Deserialization, Domain-specific. Integrated into Quality Scoring: checklist pass = 20/20 security pts. Self-enforced mandatory pre-output verification.
+### API Versioning for Legacy:
+- Always version your API from the start (`/api/v1/...`)
+- Support at least one previous version when breaking changes needed
+- Deprecation warnings in headers (`Deprecation: true, Sunset: 2026-01-01`)
+- Use feature flags for backward-incompatible changes
 
-v1.5: Added PERFORMANCE ANTI-PATTERNS & FIXES covering 6 common issues (N+1 queries, blocking I/O, memory leaks, O(n²), unbounded caches, sync rate limiting). Each includes symptoms, impact quantification, fix, detection rule, and code examples. Performance scoring (10 pts) now has concrete evaluation criteria tied to these patterns.
+### Technical Debt Assessment:
+When asked to add feature to legacy code:
+1. **Calculate debt ratio** = (legacy code LOC / total code base)
+2. **High debt** (>30%): recommend refactoring sprint first
+3. **Medium** (10-30%): build new feature with tests, document debt impact
+4. **Low** (<10%): directly implement feature with regression tests
 
-v1.6: Implemented PRE-OUTPUT SELF-REVIEW PROTOCOL (3-phase gate): Phase 1 Metrics Check (score>=90, all mandatory, security 100%), Phase 2 Anti-Pattern Scan (7 code smells + 6 performance patterns), Phase 3 Devils Advocate (production failure, scale, security exploits, senior review, on-call). OUTPUT GATE requires all pass. This enforces quality before delivery, not just self-score.
+Prompt rule: "If modifying code in module with >10 TODOs or >5 years old, allocate time for cleanup: add tests for modified areas, document assumptions, fix obvious code smells encountered."
 
-v1.7: Added DYNAMIC METRIC WEIGHTING - domain-specific weight adjustments for quality scores (Web, Backend API, Embedded, Mobile, Data/ML). Weights change emphasis based on domain detection heuristics (keywords in query). Score calculated using domain-adjusted weights before output gate. Allows prompt to prioritize relevant quality attributes automatically.
+**Self-score legacy penalty**: -10 if touching legacy code without adding tests for modified area OR without noting specific legacy risks addressed.
 
-v1.8: Introduced USER FEEDBACK LEARNING SYSTEM - persistent pattern database capturing corrections, clarifications, bug reports. Auto-categorize into edge cases, security flaws, performance issues, unclear explanations. Prompt auto-update rule: after N=3 instances of same pattern, insert permanent counter-instruction into prompt. Includes Feedback Memory Structure and every-5-rounds Feedback Analysis to track which prompt modifications most effective.
+## VERSION HISTORY (cumulative from 26 rounds)
+v0.0: Initial coding-focused prompt with basic quality metrics and anti-patterns.
 
-v1.9: Added AUTOMATIC CODE SMELL REPORT - post-output table listing detected code smells with severity, location, and recommendations. Detection rules for 8 patterns (God Object, Arrow Code, Magic Constants, N+1, Blocking I/O, Deep Inheritance, Circular Dep, Duplication). Severity levels: CRITICAL (blocks output), HIGH (-20 score), MEDIUM (-10), LOW (style). Integrates with self-review: report generated after code but must be reviewed before final output.
+v1.1: CODE QUALITY METRICS with mandatory checks, 0-100 scoring, self-score pre-output.
 
-v1.10: Introduced COMPLEXITY ESCALATION POLICY - KISS-first approach with 4 phases: (1) Simple solution (no abstractions, direct calls), (2) Add tests, (3) Introduce abstractions only when 2+ use cases justify (repeated code, multiple implementations, test complexity), (4) Production hardening (retries, caching, etc.). Promotes deliberate complexity, prevents over-engineering. Includes concrete decision framework and ROI requirement ("without interface, 5 files changed; with interface, 1 file").
+v1.2: ANTI-PATTERNS LIBRARY (7 code smells) with fix templates.
 
-v1.11: Added DOMAIN-SPECIFIC EDGE CASE LIBRARY with categorized edge cases for 5 domains: Web/Frontend (12 scenarios), Backend API (12), Mobile (12), Data/ML (11), Embedded (12). Prompt now requires: "For your domain, explicitly list domain-specific edge cases and show how code handles each." This ensures context-aware robustness beyond generic null/undefined checks.
+v1.3: TEST GENERATION PROTOCOL with mocking rules, coverage >=80%.
 
-v1.12: Added CONCURRENCY SAFETY CHECKLIST covering race conditions, deadlocks, async/await safety, thread safety, atomic operations. Detection rules for shared mutable state, lock ordering, unhandled rejections. Requires CONCURRENCY ANALYSIS section in output for parallel code: identify shared variables, synchronization strategy, happens-before proof. Self-score penalty -15 if shared state present but no analysis. Critical for multi-threaded and async code quality.
+v1.4: SECURITY HARDENING CHECKLIST integrated into scoring.
 
-v1.13: Added API DEPRECATION HANDLING - comprehensive protocol for using external libraries/platform APIs. Includes identification (linters, IDE warnings), fallback strategies (polyfill, feature detection), logging (dev warnings, telemetry), migration planning (TODO comments, backlog tickets, deadlines), version pinning (lockfiles, regular updates). Requires API COMPATIBILITY SECTION in output listing APIs used, deprecation status, fallback, migration plan. Self-score penalties: -10 if no section, -20 if deprecated API without fallback. Ensures forward compatibility and technical debt visibility.
+v1.5: PERFORMANCE ANTI-PATTERNS (6 issues) with concrete evaluation tied to 10 pts.
 
-v1.14: Added ERROR MESSAGE QUALITY STANDARDS. Requires structured error format ([ERROR] Component Action - Reason Suggestion), error categories (ValidationError, NotFoundError, etc.), separation of user-facing (actionable, non-technical) vs dev/log (full context, correlation IDs), internationalization-ready (error codes), and recovery hints. Enforcement: Error Handling Code Review Checklist. Self-score penalty -15 for missing codes, recovery hints, or user/dev separation.
+v1.6: PRE-OUTPUT SELF-REVIEW PROTOCOL (3-phase gate + OUTPUT GATE).
 
-v1.15: Added CODE COVERAGE REFACTORING TRIGGERS. Coverage thresholds: branch <70% → refactor, 0% coverage → dead code or untested, error handling <80% → HIGH priority, conditionals not fully covered. Refactor priorities: dead code first, error paths, complex functions, public API <80%. Requires COVERAGE IMPROVEMENT PLAN in output if coverage <80%: list low-coverage functions, root causes, refactor strategy. Self-score penalty -10 if no plan. Links testing and maintainability proactively.
+v1.7: DYNAMIC METRIC WEIGHTING for 5 domains.
 
-v1.16: Added PERFORMANCE BENCHMARKING STANDARDS. Benchmarks required for performance-critical code with realistic data (10k+ records), before/after comparison, target metrics (latency <100ms p50, throughput 1000+ RPS), and assertions. Benchmark pyramid: unit → integration → load tests. Real-world constraints: warm vs cold, latency simulation, resource contention. Requires PERFORMANCE BENCHMARK section with scenario, baseline, optimization, targets met, assertions, profiling insights. Self-score penalty -15 if missing or no measurable improvement.
+v1.8: USER FEEDBACK LEARNING SYSTEM with auto-update rule.
+
+v1.9: AUTOMATIC CODE SMELL REPORT with severity penalties.
+
+v1.10: COMPLEXITY ESCALATION POLICY (4 phases, KISS-first).
+
+v1.11: DOMAIN-SPECIFIC EDGE CASE LIBRARY (5 domains).
+
+v1.12: CONCURRENCY SAFETY CHECKLIST with analysis section.
+
+v1.13: API DEPRECATION HANDLING with fallback/migration.
+
+v1.14: ERROR MESSAGE QUALITY STANDARDS (format, categories, i18n).
+
+v1.15: CODE COVERAGE REFACTORING TRIGGERS with improvement plan.
+
+v1.16: PERFORMANCE BENCHMARKING STANDARDS with benchmark pyramid.
+
+v1.17: SECURITY THREAT MODELING (STRIDE + DREAD).
+
+v1.18: COMPLIANCE MATRIX (GDPR/HIPAA/PCI-DSS/SOX/COPPA).
+
+v1.19: DOMAIN-SPECIFIC EXAMPLES (template library).
+
+v1.20: GRACEFUL DEGRADATION & RESILIENCE PATTERNS (circuit breaker, bulkhead, retry).
+
+v1.21: VERIFICATION AUTOMATION (pre-commit, CI, danger-js, Makefile).
+
+v1.22: COLLABORATIVE REVIEW PROCESS (PR template, CODEOWNERS, SLA).
+
+v1.23: VERSIONING & SEMANTIC RELEASE (SemVer, changelog, conventional commits).
+
+v1.24: OBSERVABILITY & LOGGING STANDARDS (structured logs, correlation IDs, metrics, tracing, alerting).
+
+v1.25: COST OPTIMIZATION PRINCIPLES (cloud cost awareness, resource efficiency, tagging, budget alerts).
+
+v1.26: LEGACY SYSTEM INTEGRATION (strangler fig pattern, dual-write, migration, technical debt assessment).
+
+**Total**: 26 rounds of iterative improvement. Prompt comprehensively covers code quality across all dimensions: correctness, security, performance, testability, maintainability, compliance, collaboration, deployment, observability, cost, legacy integration. Self-learning system continuously adapts based on feedback and failure patterns.
