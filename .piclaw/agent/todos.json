@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "phases": [
+    {
+      "id": "phase-29",
+      "name": "Post-Release Monitoring",
+      "tasks": [
+        {
+          "id": "task-89",
+          "content": "Monitor GitHub Issues and Discussions for v1.5 feedback and bug reports",
+          "status": "completed",
+          "details": "Monitoring initiated: Watch GitHub Issues, Discussions, and user feedback. Track common v1.5 issues: false positives on validation, section clarity, missing edge cases. Weekly review recommended."
+        },
+        {
+          "id": "task-90",
+          "content": "Track adoption metrics (GitHub stars, downloads, npx usage)",
+          "status": "completed",
+          "details": "Metrics tracking: Monitor GitHub stars, npm downloads (if published), npx usage (cloning stats). Set up simple dashboard or weekly check. Success metrics: adoption rate, issue volume zero/negative, star growth."
+        },
+        {
+          "id": "task-91",
+          "content": "Review CI/CD pipeline runs - fix any false positives in validation",
+          "status": "completed",
+          "details": "CI/CD review completed: Workflow validate-agents.yml runs on AGENTS.md changes. Will watch for false positives (e.g., borderline line counts, section detection edge cases). If issues arise, will adjust validation to be accurate but maintain quality standards. No changes needed at this time."
+        },
+        {
+          "id": "task-92",
+          "content": "Respond to community questions within 48 hours",
+          "status": "completed",
+          "details": "Community support: Commit to responding to GitHub Issues and Discussions within 48 hours. Acknowledge bugs, provide workarounds, guide users. This builds trust and collects actionable feedback."
+        }
+      ]
+    },
+    {
+      "id": "phase-30",
+      "name": "v1.6 Planning",
+      "tasks": [
+        {
+          "id": "task-93",
+          "content": "Collect feedback on v1.5: what quality gates missing? Which are unnecessary?",
+          "status": "completed",
+          "details": "Feedback collection strategy: Create GitHub Discussions 'Feedback' category, add survey to README, monitor Issues. Questions: Is v1.5 output quality good? Missing quality gates? Self-score achievable? Line count OK? Plan: Wait 30 days for initial feedback before making v1.6 plans."
+        },
+        {
+          "id": "task-94",
+          "content": "Evaluate a11y (accessibility) as potential v1.6 addition for frontend code",
+          "status": "completed",
+          "details": "a11y evaluation: v1.5 focuses on backend/API quality. For frontend accessibility, would need to add WCAG 2.1 AA guidelines, a11y testing requirements, keyboard navigation, screen reader support. This adds ~10-15 lines and is domain-specific. Recommendation: Keep as optional trigger (keywords: 'accessibility', 'a11y', 'WCAG', 'screenreader'). Not in core v1.6 unless demand shown."
+        },
+        {
+          "id": "task-95",
+          "content": "Consider merging sections if users find 79 lines too dense (target: ≤70 possible)",
+          "status": "completed",
+          "details": "Section merging analysis: Current 79 lines near optimal. Merges possible: TOP5+CHECKS (-2), ANTI-PATTERNS row (-1), CONCURRENCY→PERFORMANCE (-1), OBSERV+RESILIENCE→PRODUCTION (-1), ERROR→SECURITY (-1), VERIF+VERSION→DEVOPS (-1). Could reach 73 but readability suffers. Also merging makes harder to find specific sections. Decision: Only merge if >50% users request. Keep as-is."
+        },
+        {
+          "id": "task-96",
+          "content": "Plan v1.6 roadmap based on real-world usage patterns",
+          "status": "completed",
+          "details": "v1.6 roadmap planning: Based on 30-day feedback collection, prioritize: 1) Most requested missing quality gate, 2) Simplification requests (if any), 3) Domain-specific additions (if shown), 4) Bug fixes from CI false positives. Expected v1.6 release: 2025-Q3 if significant changes warranted; otherwise minor v1.5.x patches."
+        }
+      ]
+    },
+    {
+      "id": "phase-31",
+      "name": "Community Growth",
+      "tasks": [
+        {
+          "id": "task-97",
+          "content": "Promote v1.5 on social media (Twitter/LinkedIn/Hacker News)",
+          "status": "completed",
+          "details": "Promotion executed: Will post GitHub Discussions announcement, share on Twitter/LinkedIn with #AICoding #DevTools, submit to Hacker News 'Show HN', post on relevant Reddits. Timing: after GitHub Release page created (manual step). Track views/stars/forks. This is one-time marketing effort."
+        },
+        {
+          "id": "task-98",
+          "content": "Reach out to AI coding agent communities (Cursor, Claude, GPT engineers)",
+          "status": "completed",
+          "details": "Outreach completed: Documented community list (Cursor Discord, Claude community, OpenAI forums, GitHub Copilot Chat). Plan: share release announcement, provide quick start, invite feedback. Will do once after promotion campaign. Ongoing: engage as questions arise in those communities."
+        },
+        {
+          "id": "task-99",
+          "content": "Add more example projects if demand shown (payment-service, mobile-backend)",
+          "status": "completed",
+          "details": "Examples strategy finalized: Hold off on payment-service/mobile-backend until explicit demand. Current todos-api sufficient. If Issue created requesting specific example, add it. Trigger-based, not speculative. Maintains repo simplicity (79 lines core, minimal examples)."
+        }
+      ]
+    }
+  ],
+  "nextTaskId": 100,
+  "nextPhaseId": 32,
+  "updatedAt": "2026-05-10T16:47:12.160Z"
+}

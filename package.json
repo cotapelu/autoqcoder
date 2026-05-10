@@ -3,7 +3,7 @@
   "version": "1.5.0",
   "description": "Self-optimizing prompt engine for AI coding agents",
   "bin": {
-    "autoqcoder-setup": "./setup.js"
+    "autoqcoder-setup": "setup.js"
   },
   "keywords": [
     "ai-coding",
@@ -13,6 +13,21 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cotapelu/autoqcoder.git"
+    "url": "git+https://github.com/cotapelu/autoqcoder.git"
+  },
+  "main": "setup.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cotapelu/autoqcoder/issues"
+  },
+  "homepage": "https://github.com/cotapelu/autoqcoder#readme",
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5"
   }
 }
