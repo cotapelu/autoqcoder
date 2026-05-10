@@ -1,0 +1,18 @@
+{
+  "name": "autoqcoder",
+  "version": "1.4.2",
+  "description": "Self-optimizing prompt engine for AI coding agents",
+  "bin": {
+    "autoqcoder-setup": "./setup.js"
+  },
+  "keywords": [
+    "ai-coding",
+    "prompt-engineering",
+    "code-quality",
+    "agents"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cotapelu/autoqcoder.git"
+  }
+}
