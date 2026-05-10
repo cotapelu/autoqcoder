@@ -1,6 +1,6 @@
 {
   "name": "autoqcoder",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Self-optimizing prompt engine for AI coding agents",
   "bin": {
     "autoqcoder-setup": "./setup.js"
