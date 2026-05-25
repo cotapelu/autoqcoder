@@ -172,7 +172,7 @@ Mock external deps; test pure logic only; tests <100ms; deterministic. Include: 
 Current date: 2026-05-25
 Current working directory: /home/quangtynu/Qcoder/autoqcoder
 
---- CONVERSATION (104 messages) ---
+--- CONVERSATION (187 messages) ---
 --- Message 0 (USER, 2026-05-25T09:25:35.101Z) ---
 tôi đang chạy tiếp tục tối ưu AGENTS.md và AUTO-CONTINUE.md , sẽ chạy thêm một số vòng, tuy nhiên tôi vừa bổ sung nguyên liệu vào thư mục mate. bạn phân tích full đi
 
@@ -5377,6 +5377,2138 @@ Tool update not found
 --- Message 103 (USER, 2026-05-25T09:48:56.422Z) ---
 [System: Todo update] ✅ Todo updated: 12 remaining, 17 completed.
 
+--- Message 104 (ASSISTANT, 2026-05-25T09:48:56.427Z) ---
+ó vẻ như có lỗi với update todos. Tôi sẽ commit git và sau đó tạo todos mới cho vòng 3.
+</think>
+Tôi sẽ git commit vòng 2:
+[toolCall]
+
+--- Message 105 (TOOL_RESULT, 2026-05-25T09:49:03.892Z) ---
+[main 280fa2d] chore: evolution round 2 - consolidate v1.5 + v2, reduce 20% bloat
+ 7 files changed, 1021 insertions(+), 414 deletions(-)
+
+
+--- Message 106 (ASSISTANT, 2026-05-25T09:49:03.896Z) ---
+uyệt vời! Vòng 2 hoàn thành. Bây giờ tôi cần:
+1. Update todo list để bắt đầu vòng 3
+2. Tạo plan cho vòng 3: Apply actual code transformations (không chỉ file prompt engine nữa)
+3. Chọn một module trong codebase hiện tại để apply mental testing và skill definitions
+4. Thực hiện refactoring thực tế
+
+Tuy nhiên, tôi cần xem codebase hiện tại có gì trước. Hãy list files trong project:
+</think>
+Tuyệt vời! Vòng 2 hoàn thành. Bây giờ tôi sẽ bắt đầu **Vòng 3: Real Codebase Application** - áp dụng các nguyên tắc vào actual code trong project.
+[toolCall]
+
+--- Message 107 (TOOL_RESULT, 2026-05-25T09:49:14.381Z) ---
+/home/quangtynu/Qcoder/autoqcoder/test/agents-validate.test.js
+/home/quangtynu/Qcoder/autoqcoder/examples/todos-api/test/todos.test.js
+/home/quangtynu/Qcoder/autoqcoder/examples/todos-api/src/server.js
+/home/quangtynu/Qcoder/autoqcoder/examples/todos-api/src/routes/todos.js
+/home/quangtynu/Qcoder/autoqcoder/setup.js
+
+
+--- Message 108 (ASSISTANT, 2026-05-25T09:49:14.383Z) ---
+ó một số file code thực tế:
+- test/agents-validate.test.js
+- examples/todos-api/ (Node.js/Express app)
+
+Tôi sẽ phân tích project structure và chọn một module để apply mental testing và skill definitions. Tôi có thể:
+
+1. Phân tích `examples/todos-api/` - đây là một API Node.js/Expresssimple
+2. Apply mental testing lên các endpoints
+3. Check xem có violations nào (anti-patterns, security, performance)
+4. Refactor nếu cần theo guidelines
+
+Hãy đọc project structure:
+</think>
+Tôi thấy project có một **todos-api example** (Node.js/Express). Tôi sẽ phân tích và áp dụng mental testing + skill definitions vào module này.
+[toolCall]
+
+--- Message 109 (TOOL_RESULT, 2026-05-25T09:49:41.215Z) ---
+✅ Todo updated: 12 remaining, 31 completed.
+📊 Use /todos to view, or continue with next task.
+
+Remaining items (12):
+  - task-104 Thực hiện edits trên AGENTS.md [in_progress] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-105 Thực hiện edits trên AUTO-CONTINUE.md [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-106 Git commit changes [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-107 Update PROJECT_STATE.md và metrics [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-108 Chuẩn bị cho vòng tiếp theo [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-111 Optimize AUTO-CONTINUE.md - simplify, remove redundancy [pending] (Vòng 2: Consolidation & Optimization)
+  - task-112 Verify file sizes (target: <150 lines mỗi file) [pending] (Vòng 2: Consolidation & Optimization)
+  - task-113 Edit AGENTS.md với consolidation [pending] (Vòng 2: Consolidation & Optimization)
+  - task-114 Edit AUTO-CONTINUE.md với optimization [pending] (Vòng 2: Consolidation & Optimization)
+  - task-115 Update AGENT_METRICS.md với iteration count [pending] (Vòng 2: Consolidation & Optimization)
+  - task-116 Git commit vòng 2 [pending] (Vòng 2: Consolidation & Optimization)
+  - task-117 Báo cáo kết quả vòng 2 và plan vòng 3 [pending] (Vòng 2: Consolidation & Optimization)
+Phase 4/6 "Vòng 1: Phân tích & Đánh giá hiện trạng" — 4/9 tasks complete
+
+--- Message 110 (USER, 2026-05-25T09:49:41.215Z) ---
+[System: Todo add_phase] ✅ Todo updated: 12 remaining, 31 completed.
+
+--- Message 111 (ASSISTANT, 2026-05-25T09:49:41.221Z) ---
+ôi đã thêm phase mới (Vòng 3) nhưng các task cũ của vòng 1 & 2 vẫn hiển thị cùng lúc. Tuy nhiên, tôi thấy số tasks trong phase này quá nhiều (14 tasks) và có vẻ đang progress theo từng task. Có lẽ tôi nên tiếp tục thực hiện vòng 3 dựa trên kế hoạch đã định.
+
+Tuy nhiên, để đơn giản, tôi nên bắt đầu vòng 3 bằng cách:
+1. Đọc và phân tích code hiện tại
+2. Áp dụng skill definitions
+3. Improve code
+
+Tôi sẽ focus vào vòng 3 và báo cáo kết quả. Nhưng trước tiên, tôi cần check xem có thực sự cần làm tất cả các task cũ không. Có lẽ tôi nên clear các task cũ đã completed và chỉ tập trung vào vòng mới.
+
+Tuy nhiên, user nói "tôi muốn chạy nhiều vòng để đưa vào 2 file AGENTS.md và AUTO-CONTINUE.md". Vậy trọng tâm vẫn là optimize 2 file, không phải apply vào codebase. Vòng 1 & 2 đã làm đủ việc optimize 2 file.
+
+Vòng 3 tôi nên tập trung vào:
+- Validate rằng 2 file mới hoạt động tốt
+- Refine them based on testing
+- Có thể add more examples or clarify ambiguous points
+- Ensure compatibility with mate skills
+
+Tôi sẽ tạo một vòng 3 với scope nhỏ hơn: chỉ refine 2 file, không apply vào codebase.
+
+Hay đơn giản hơn: Tôi đã xong 2 vòng chính. Bây giờ tôi nên tạo **Vòng 4: Final Polish & Documentation** để hoàn thiện và chuẩn bị báo cáo.
+
+Tuy nhiên, user yêu cầu "chạy nhiều vòng", tôi nên tiếp tục. Hãy làm vòng 3: **Validation & Refinement** - kiểm tra xem 2 file có đủ tốt không, và fine-tune.
+
+
+Tôi trước mắt sẽ khám phá cấu trúc project và chọn một mục tiêu nhỏ để tối ưu việc hiểu và tối ưu hóa. Đầu tiên, tôi xem xét project hiện tại, tập trung vào việc đánh giá chất lượng và hiệu quả của các file đã tối ưu.
+</think>
+Tôi sẽ clear các task cũ và bắt đầu **Vòng 3** tập trung vào application thực tế. Nhưng trước tiên, tôi cần hiểu rõ scope: user muốn tối ưu **2 file AGENTS.md & AUTO-CONTINUE.md**, hoặc muốn tôi **apply** các nguyên tắc vào codebase?  
+
+Từ context: "tôi muốn chạy nhiều vòng để đưa vào 2 file AGENTS.md và AUTO-CONTINUE.md" → trọng tâm là **tối ưu 2 file**.  
+
+Vòng 1 & 2 đã integrate + consolidate.  
+
+**Vòng 3** tôi nên:  
+1. Validate rằng 2 file đã đủ tốt cho production  
+2. Add missing patterns từ mate skills  
+3. Ensure consistency và eliminate any remaining duplication  
+4. Add quick reference guide cho daily use  
+5. Final polish  
+
+Tôi sẽ làm **Vòng 3: Final Polish & Gap Analysis**:
+[toolCall]
+
+--- Message 112 (TOOL_RESULT, 2026-05-25T09:50:26.447Z) ---
+✅ Todo updated: 22 remaining, 32 completed.
+📊 Use /todos to view, or continue with next task.
+
+Remaining items (22):
+  - task-104 Thực hiện edits trên AGENTS.md [in_progress] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-105 Thực hiện edits trên AUTO-CONTINUE.md [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-106 Git commit changes [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-107 Update PROJECT_STATE.md và metrics [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-108 Chuẩn bị cho vòng tiếp theo [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-111 Optimize AUTO-CONTINUE.md - simplify, remove redundancy [pending] (Vòng 2: Consolidation & Optimization)
+  - task-112 Verify file sizes (target: <150 lines mỗi file) [pending] (Vòng 2: Consolidation & Optimization)
+  - task-113 Edit AGENTS.md với consolidation [pending] (Vòng 2: Consolidation & Optimization)
+  - task-114 Edit AUTO-CONTINUE.md với optimization [pending] (Vòng 2: Consolidation & Optimization)
+  - task-115 Update AGENT_METRICS.md với iteration count [pending] (Vòng 2: Consolidation & Optimization)
+  - task-116 Git commit vòng 2 [pending] (Vòng 2: Consolidation & Optimization)
+  - task-117 Báo cáo kết quả vòng 2 và plan vòng 3 [pending] (Vòng 2: Consolidation & Optimization)
+  - task-133 Compare against mate/skill/ definitions - any missing key concepts? [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-134 Add Atomic Design section (from code-review skill) to AGENTS.md [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-135 Add Concurrency Analysis template to AGENTS.md [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-136 Add Debugging Checklist to AUTO-CONTINUE.md (from code-review) [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-137 Add Quick Reference (cheat sheet) to AUTO-CONTINUE.md [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-138 Verify all 6 skills are referenced properly [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-139 Run final file size check (target: AGENTS <160, AUTO <200) [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-140 Update PROJECT_STATE.md với final polish [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-141 Git commit vòng 3 (final) [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-142 Generate comprehensive report sau 3 vòng [pending] (Vòng 3: Final Polish & Gap Analysis)
+Phase 4/7 "Vòng 1: Phân tích & Đánh giá hiện trạng" — 4/9 tasks complete
+
+--- Message 113 (USER, 2026-05-25T09:50:26.447Z) ---
+[System: Todo add_phase] ✅ Todo updated: 22 remaining, 32 completed.
+
+--- Message 114 (ASSISTANT, 2026-05-25T09:50:26.450Z) ---
+òng 3 tôi sẽ:
+1. Compare against mate skills để xem còn thiếu gì
+2. Add Atomic Design section (from code-review skill) - đây là section về Frontend Architecture (Atomic Design)
+3. Add Concurrency Analysis template - từ phần CONCURRENCY của AGENTS.md hiện tại
+4. Add Debugging Checklist to AUTO-CONTINUE.md (from code-review skill - nguyên tắc debugging)
+5. Add Quick Reference (cheat sheet) - cho daily use
+6. Verify all 6 skills referenced
+7. File size check
+8. Update docs
+9. Git commit
+
+Tôi cần đọc lại code-review skill để xem những gì còn thiếu:
+</think>
+Tôi sẽ phân tích gap với mate skills. Đầu tiên, đọc code-review skill để xem những gì chưa có trong AGENTS.md:
+[toolCall]
+
+--- Message 115 (TOOL_RESULT, 2026-05-25T09:50:36.875Z) ---
+---
+name: vibe-cleaner
+description: Phát hiện và làm sạch AI-generated "vibe code"
+license: MIT
+compatibility: opencode
+metadata:
+  audience: senior-developers
+  scope: quality-assurance
+---
+## Chức năng
+- Nhận diện code được AI sinh nhanh (vibe code)
+- Phát hiện anti-patterns, logic thừa, coupling ẩn
+- Clean up: dead code, redundant checks, poor naming
+- Áp dụng 14 nguyên tắc từ guideline.md
+
+## Dấu hiệu vibe code
+- Tên biến: data1, resultX, temp, handler123
+- Logic trùng lặp, if/else vô nghĩa
+- Hàm dài không cần thiết
+- Comment nhiều nhưng không giải thích được
+- Copy-paste component/function
+
+## Quy tắc clean
+1. **Không tin code là đúng** - questioning mindset
+2. **Phân tích domain** - xác định boundary rõ ràng
+3. **Mỗi hàm = 1 ý định** - Single Responsibility
+4. **Refactor incremental** - commit từng phần nhỏ
+5. **Validate sau mỗi thay đổi**
+
+## Khi nào dùng
+Khi codebase có dấu hiệu rapid prototyping, demo-oriented code, hoặc cần technical debt cleanup.
+
+---
+## Nguyên tắc bắt buộc từ guideline.md
+
+### 1. Đọc toàn bộ code trước khi clean
+- Đọc hết mọi source code, mọi dòng code, mọi file
+- Đọc cả file config, HTML templates, JS, CSS
+- Không được bỏ sót bất kỳ file nào, bất kỳ dòng code nào
+
+### 2. Questioning mindset (QUAN TRỌNG NHẤT)
+- KHÔNG tin code hiện tại là đúng
+- KHÔNG giả định kiến trúc hiện tại là hợp lý
+- KHÔNG bảo vệ quyết định cũ
+- CHỈ dựa trên phân tích kỹ thuật có thể kiểm chứng
+
+### 3. Nhận diện VIBE CODE - Dấu hiệu chính
+- **Tên biến mơ hồ**: data1, resultX, temp, handler123, item, obj
+- **Logic trùng lặp**: Cùng logic lặp lại ở nhiều nơi
+- **If/else vô nghĩa**: Check phòng thủ dư thừa, điều kiện luôn true/false
+- **Hàm quá dài**: Một hàm làm quá nhiều thứ
+- **Comment nhiều nhưng không giải thích được**: Code phải tự document
+- **Copy-paste component/function**: Dấu hiệu của AI sinh nhanh
+
+### 4. Phân tích kiến trúc
+- Xác định domain thực sự của bài toán
+- Xác định boundary: domain vs application vs infrastructure
+- Chỉ ra vi phạm:
+  - Single Responsibility
+  - Dependency Inversion
+  - Separation of Concerns
+
+### 5. Làm sạch logic từng function
+Với mỗi function, trả lời:
+- Input là gì?
+- Output là gì?
+- Invariant là gì?
+- Edge case nào bị bỏ qua?
+
+Xóa:
+- Logic trùng
+- If/else vô nghĩa
+- Check phòng thủ dư thừa
+- Hàm chỉ tồn tại vì AI sinh ra
+
+### 6. Chuẩn hóa naming
+Đổi tên:
+- Biến, hàm, class có tên mơ hồ
+- Tên kiểu AI: data1, resultX, temp, handler123
+
+Yêu cầu:
+- Tên phản ánh Ý NGHĨA, không phản ánh CÁCH VIẾT
+- Một hàm = một ý định
+
+### 7. Kiểm soát rủi ro AI sinh
+- **Security**: Hardcode secrets? SQL Injection? Unsafe deserialization?
+- **Performance**: Loop thừa? Query N+1?
+- **Correctness**: Race condition? State không đồng bộ?
+
+Nếu không thể xác minh: PHẢI ghi rõ: [Chưa xác minh]
+
+### 8. Refactor có kiểm soát (AN TOÀN)
+- **Version Control**: Commit thường xuyên trên main branch trước khi sửa lớn
+- **Incremental Changes**: Sửa từng phần nhỏ, commit ngay. Không sửa "ào ào"
+- **Backup Strategy**: Không xóa code cũ vội. Stash hoặc commit backup trước
+- **Risk Assessment**: Đánh giá rủi ro trước khi sửa
+- **Testing After Changes**: Chạy tests ngay sau mỗi thay đổi
+- **Documentation**: Ghi lại thay đổi trong commit message
+
+### 9. Trình bày refactor
+- Trước refactor: vấn đề gì
+- Sau refactor: giải quyết ra sao
+- Safety Check: Đã test? Có backup? Có thể revert?
+
+### 10. Kết luận cuối
+Báo cáo rõ:
+- Những phần đã được làm sạch
+- Những phần vẫn còn rủi ro
+- Những giả định kỹ thuật đang tồn tại
+- Những điểm cần xác nhận thêm từ người viết code gốc
+
+**CẤM:**
+- Cấm tô hồng (phóng đại thành tựu)
+- Cấm nói chung chung (phải cụ thể, có ví dụ)
+- Cấm che giấu technical debt (phải báo cáo rõ)
+
+---
+## 7️⃣ Debugging & Issue Resolution (QUAN TRỌNG)
+
+### Nguyên tắc bắt buộc:
+- **KHÔNG XÓA CODE** - Đó là giải pháp cuối cùng, vi phạm nguyên tắc
+- **Đọc toàn bộ file trước** - Không chỉ đoạn code suspected, đọc mọi dòng, imports, dependencies
+- **Bình tĩnh phân tích** - Đọc lại toàn bộ file, mọi dòng code liên quan
+- **Tìm root cause** - Check braces, imports, async/sync, lifetimes
+- **Incremental debugging** - Add debug prints, isolate sections, test hypotheses từng bước
+- **Systematic approach** - Read → Understand → Isolate → Test → Verify
+
+### Tại sao hiệu quả:
+- Đọc toàn bộ file hiểu context đầy đủ: dependencies, structure, related logic
+- Không miss root cause như unmatched braces ở vị trí khác
+- **Preserve code** - tìm real root cause thay vì xóa code để "pass"
+
+### Nếu vẫn failed:
+- Consult team, review git history, pair programming
+- Disable feature tạm thời thay vì xóa code
+- Luôn có plan restore code từ git nếu cần
+
+### Cấm tuyệt đối:
+- Xóa code để pass test
+- "Vá áo" - fix tạm thời dẫn đến nhiều bug hơn
+- Chấp nhận degradation
+
+### Đọc lại bắt buộc:
+Nếu chưa hiểu rõ code, PHẢI ĐỌC LẠI cho đến khi nắm vững hoàn toàn mọi dòng code. Vi phạm sẽ dẫn đến lỗi nghiêm trọng, degradation hệ thống.
+
+---
+## 11️⃣ Frontend & UI/UX Review
+Clean cả FE impact:
+
+- **Component quality**: Copy-paste components? Hooks dư thừa?
+- **State management**: Context vs Redux, props drilling?
+- **Data flow**: API response khớp với component consumption?
+- **Naming & Structure**: Tên component, prop, state rõ nghĩa?
+
+---
+## 12️⃣ End-to-End Flow Review
+Kiểm tra luồng hoàn chỉnh:
+
+- **User Action**: Click → Form submit → API call → Response → UI update
+- **Error propagation**: Error handling đầy đủ ở mọi layer?
+- **Race conditions**: Concurrent requests xử lý đúng?
+- **Loading states**: User feedback tốt ở mọi trạng thái?
+
+---
+## 13️⃣ Review & Validation Toàn diện
+Thay vì automated tests:
+
+- **Integration Review**: Mentally check API calls và component interactions
+- **E2E Mental Walkthrough**: Tưởng tượng full user flows
+- **Performance Review**: Mentally assess bundle size, load times
+- **Accessibility Review**: ARIA, keyboard nav, screen readers
+- **Security Review**: XSS, data exposure, injection vulnerabilities
+
+---
+## 14️⃣ Evolution Metrics
+Sau mỗi clean round, đo lường:
+
+**Code Quality:**
+- Lines of code removed
+- % duplicate code eliminated
+- Complexity reduction
+
+**Feature Completion:**
+- % features implemented vs planned
+- Missing gaps identified
+
+**UX Improvements:**
+- Accessibility score
+- Error states coverage
+- User feedback quality
+
+**Security Hardening:**
+- Vulnerabilities addressed
+- Attack surface reduction
+
+**Process:**
+- Time efficiency (hours per round)
+- Maintenance ease improvement
+
+---
+## 🎯 Production Readiness Enforcer (BẮT BUỘC)
+
+### Nguyên tắc vàng:
+- **KHÔNG VIẾT TEST CODE** - Tưởng tượng và kiểm tra trong đầu
+- **KHÔNG CHECK BẰNG TOOL** - Tưởng tượng mọi tình huống, mọi luồng
+- **NẾU THIẾU THÌ VIẾT THÊM** - Không bỏ bớt, không skip
+- **APP NGÀY CÀNG HOÀN THIỆN** - Mỗi lần review = thêm code, thêm tính năng
+
+### 1️⃣ Mental Testing - Test trong tưởng tượng
+Thay vì viết test code, tưởng tượng và verify tất cả:
+
+**Component/Function Testing:**
+- Input: Các loại dữ liệu đầu vào (valid, invalid, null, empty, boundary)
+- Output: Kết quả trả về đúng?
+- Logic: Mọi nhánh if/else/switch được cover?
+- Edge cases: Corner cases, boundary values, null handling
+- Error paths: Exception handling, error messages
+
+**Service/Logic Testing:**
+- Business logic: Mọi rule được validate?
+- Dependencies: Mocked services hoạt động đúng?
+- State management: State transitions đúng?
+- Concurrency: Race conditions?
+
+**API/Data Testing:**
+- HTTP methods: GET/POST/PUT/DELETE đúng?
+- Status codes: 200/400/401/403/404/500 đúng?
+- Data flow: Input → Process → Output đúng?
+- Persistence: Data saved/retrieved correctly?
+
+### 2️⃣ Mental Checking - Check trong tưởng tượng
+Thay vì dùng linter/tool, tưởng tượng và verify:
+
+**Code Quality:**
+- Naming: Tên biến/hàm/class rõ nghĩa?
+- Structure: Code organization hợp lý?
+- Duplication: Logic trùng lặp?
+- Complexity: Hàm quá dài/phức tạp?
+
+**Security:**
+- Authentication: Ai có quyền gọi API này?
+- Authorization: RBAC/permissions đúng?
+- Input validation: SQL injection, XSS, CSRF?
+- Secrets: Hardcoded keys/passwords?
+
+**Performance:**
+- N+1 queries: Có vấn đề gì?
+- Caching: Cache strategy hợp lý?
+- Memory: Leaks, unnecessary allocations?
+- Latency: Response time chấp nhận được?
+
+### 3️⃣ Scenario Coverage - Mọi tình huống
+Tưởng tượng và cover TẤT CẢ scenarios:
+
+**User Scenarios:**
+- Happy path: User làm đúng flow
+- Error path: User nhập sai, click nhầm
+- Edge cases: User làm điều không expected
+- Recovery: User muốn undo, retry
+- Parallel: User mở nhiều tabs, nhiều requests
+
+**Business Scenarios:**
+- Normal operation: Ngày thường
+- Peak load: Giờ cao điểm
+- Failure: Service down, network fail
+- Recovery: Failover, data restoration
+- Compliance: Audit trails, logging
+
+**Technical Scenarios:**
+- Network issues: Timeout, disconnect
+- Database: Connection fail, deadlock
+- External services: Third-party API down
+- Data: Large data, migration, backup
+
+### 4️⃣ Flow Coverage - Mọi luồng (BẮT BUỘC)
+Kiểm tra CẢ HAI CHIỀU, không được thiếu:
+
+**🔽 Top-Down (UI → Backend → DB):**
+```
+User Action
+  → UI Component
+    → State Change
+      → API Call
+        → Backend Processing
+          → Database
+            → Response
+              → UI Update
+                → User Feedback
+```
+
+**🔼 Bottom-Up (DB → Backend → UI):**
+```
+Data Changed
+  → Event Emission
+    → State Update
+      → Real-time Sync
+        → UI Re-render
+          → User Notification
+```
+
+Từng bước verify cả hai chiều.
+
+### 5️⃣ Missing Code = VIẾT THÊM
+**QUAN TRỌNG NHẤT:**
+- NẾU PHÁT HIỆN THIẾU → VIẾT THÊM CODE
+- NẾU THẤY CHƯA HOÀN CHỈNH → IMPLEMENT TIẾP
+- NẾU MISSING FEATURE → THÊM VÀO
+- NẾU API CHƯA ĐỦ → EXPAND API
+
+**KHÔNG ĐƯỢC:**
+- ❌ Skip vì "không yêu cầu"
+- ❌ Remove code vì "không cần"
+- ❌ Simplify bằng cách bỏ tính năng
+- ❌ Pass nhanh bằng cách giảm scope
+
+### 6️⃣ Industry Standards - Chuẩn công nghiệp
+Verify code đạt chuẩn production:
+
+**API Design:**
+- RESTful conventions (URL, HTTP methods, status codes)
+- Versioning (v1, v2)
+- Documentation (OpenAPI/Swagger)
+- Rate limiting, pagination, filtering
+
+**Code Quality:**
+- SOLID principles
+- Clean Architecture
+- Design patterns phù hợp
+- Error handling patterns
+
+**Security:**
+- OWASP guidelines
+- Authentication (JWT, OAuth2)
+- Encryption (TLS, at-rest)
+- Audit logging
+
+**Operations:**
+- Monitoring (metrics, logs)
+- Alerting (thresholds, escalation)
+- Health checks
+- Graceful degradation
+
+**Documentation:**
+- API docs updated
+- README complete
+- Comments meaningful
+- Architecture diagrams
+
+### 7️⃣ Production Readiness Checklist
+Trước khi kết thúc review, verify:
+
+- [ ] Tất cả functions có mental tests passed
+- [ ] Tất cả APIs có contract verified
+- [ ] Tất cả flows (UI→DB và DB→UI) verified
+- [ ] Tất cả edge cases được cover
+- [ ] Tất cả error paths được handle
+- [ ] Security vulnerabilities none
+- [ ] Performance acceptable
+- [ ] Code đạt chuẩn industry
+- [ ] Documentation updated
+- [ ] Missing code = VIẾT THÊM (không bỏ bớt)
+
+### 8️⃣ Output Format
+Khi kết thúc, báo cáo:
+
+```
+Production Readiness Report:
+✅ Mental Tests: [số] cases passed
+✅ Flow Coverage: UI→DB: [x], DB→UI: [y]  
+✅ Scenarios: [số] scenarios covered
+✅ Edge Cases: [số] cases handled
+✅ Missing Code: [số] functions/components added
+✅ Industry Standards: [x/y] criteria met
+⚠️  Still Missing: [liệt kê nếu có]
+📝 Recommendations: [nếu cần]
+```
+
+**Cấm:**
+- ❌ Nói "không cần test" mà không mental test
+- ❌ Bỏ sót flow direction (chỉ check 1 chiều)
+- ❌ Skip edge case
+- ❌ Remove code thay vì thêm code
+- ❌ Nói "đã đủ" khi thực tế chưa đủ
+
+---
+## 14️⃣ Frontend Architecture (Atomic Design)
+
+### Atomic Component Library:
+- **Atoms**: Button, Input, Select, Checkbox, Radio, Label, Icon, Badge, Chip...
+- **Molecules**: FormGroup, Card, Modal, Alert, Pagination, SearchBar, Dropdown...
+- **Organisms**: Header, Sidebar, DataTable, FilterPanel, ActionPanel, InfoCard...
+- **Templates**: PageLayout, AuthLayout, DashboardLayout, ModalLayout...
+- **Pages**: Sử dụng Templates + Components (KHÔNG viết lại UI elements)
+
+### Rules:
+1. **Pages KHÔNG viết lại UI elements** - Dùng component library
+2. **Components bậc cao có thể dùng tất cả bậc thấp**
+3. **UI/UX đồng nhất** qua shared components
+4. **Mỗi feature** = feature folder + shared components
+
+### Frontend Structure:
+```
+frontend/
+├── components/
+│   ├── atoms/           # Basic UI (Button, Input, Icon...)
+│   ├── molecules/       # Combinations (FormGroup, Card, Modal...)
+│   └── organisms/       # Complex (Header, Sidebar, DataTable...)
+├── features/            # Feature folders
+│   ├── auth/
+│   ├── dashboard/
+│   ├── users/
+│   └── ...
+├── templates/           # Page layouts
+└── pages/               # Page definitions (dùng components)
+```
+
+### Feature-Based Organization:
+- Frontend organized by **features** (không phải layers)
+- Mỗi feature sử dụng **component library** (không tự viết UI)
+- Mỗi feature khớp với **backend module**
+- 1 FE chung cho **multiple backend apps** (modular monoliths)
+
+### Frontend-Backend Mapping:
+- Frontend feature → Backend module
+- API calls map từ feature → tương ứng backend module
+- Multiple backend apps share same FE
+
+### Validation:
+- [ ] Pages sử dụng component library (không inline UI)
+- [ ] UI elements đồng nhất qua components
+- [ ] Components sử dụng đúng atomic hierarchy
+- [ ] Features organized correctly
+
+
+--- Message 116 (ASSISTANT, 2026-05-25T09:50:36.879Z) ---
+ừ code-review skill, tôi thấy các phần chưa có trong AGENTS.md:
+- Atomic Design (Frontend Architecture)
+- Debugging Checklist (debugging & issue resolution)
+- Evolution Metrics (có trong AGENTS.md rồi)
+- Concurrency Analysis template (chưa chi tiết)
+
+Trong AGENTS.md hiện tại:
+- Đã có CONCURRENCY section nhưng ngắn gọn
+
+Tôi cần thêm:
+1. Atomic Design section vào AGENTS.md (Frontend Architecture)
+2. Debugging Checklist vào AUTO-CONTINUE.md (từ code-review skill)
+3. Concurrency Analysis template (detailed) vào AGENTS.md
+4. Quick Reference/cheat sheet vào AUTO-CONTINUE.md
+
+Bắt đầu thêm Atomic Design vào AGENTS.md:
+</think>
+Bây giờ tôi sẽ thêm các sections còn thiếu. Phân tích gap:
+
+**Missing từ code-review skill:**
+- Atomic Design (Frontend Architecture) - chưa có
+- Debugging Checklist chi tiết - chỉ có nguyên tắc chung
+
+**Missing từ CONCURRENCY section:**
+- Chưa có template để viết analysis
+
+Tôi sẽ thêm:
+[toolCall]
+
+--- Message 117 (TOOL_RESULT, 2026-05-25T09:51:01.935Z) ---
+Could not find the exact text in /home/quangtynu/Qcoder/autoqcoder/AGENTS.md. The old text must match exactly including all whitespace and newlines.
+
+--- Message 118 (ASSISTANT, 2026-05-25T09:51:01.939Z) ---
+ỗi vì oldText không khớp chính xác. Tôi cần đọc file và lấy chính xác nội dung cần thay thế. Đọc lại phần CONCURRENCY:
+</think>
+
+[toolCall]
+
+--- Message 119 (TOOL_RESULT, 2026-05-25T09:51:11.541Z) ---
+
+---
+
+## TEST GENERATION (NẾU CẦN TEST CODE)
+Mock external deps; test pure logic only; tests <100ms; deterministic. Include: valid, null/undefined, boundaries, malformed. Verify effects and side effects. Coverage: CI branch ≥80%. All error paths covered. Each public API ≥1 test. Structure: `describe` → `it` (AAA). Unit=business logic; Integration=service contracts; E2E <10%.
+
+---
+
+## COMPLIANCE & COST (if applicable)
+
+
+[17 more lines in file. Use offset=134 to continue.]
+
+--- Message 120 (ASSISTANT, 2026-05-25T09:51:11.544Z) ---
+ần đọc section CONCURRENCY cụ thể:
+</think>
+
+[toolCall]
+
+--- Message 121 (TOOL_RESULT, 2026-05-25T09:51:23.831Z) ---
+(no output)
+
+Command exited with code 1
+
+--- Message 122 (ASSISTANT, 2026-05-25T09:51:23.834Z) ---
+ông có section CONCURRENCY? Có lẽ tôi đã thay đổi nó lúc consolidate. Hãy xem cấu trúc file hiện tại:
+</think>
+
+[toolCall]
+
+--- Message 123 (TOOL_RESULT, 2026-05-25T09:51:30.790Z) ---
+6:## CORE QUALITY GATE (BẮT BUỘC)
+35:## PRODUCTION STANDARDS
+67:## SELF-EVOLUTION & PRODUCTION READINESS
+83:## MANDATORY PRINCIPLES
+127:## TEST GENERATION (NẾU CẦN TEST CODE)
+132:## COMPLIANCE & COST (if applicable)
+140:## TEMPLATE
+
+
+--- Message 124 (ASSISTANT, 2026-05-25T09:51:30.794Z) ---
+ủa, tôi đã thiếu section CONCURRENCY trong version consolidated? Trong v1.5 original có, nhưng tôi đã omit khi consolidate. Tôi cần thêm nó vào. Cũng như CONCURRENCY analysis template.
+
+Tôi sẽ thêm section mới sau MANDATORY PRINCIPLES và trước TEST GENERATION. Đọc content hiện tại quanh đó:
+</think>
+
+[toolCall]
+
+--- Message 125 (TOOL_RESULT, 2026-05-25T09:51:42.982Z) ---
+- Tưởng tượng ALL inputs: valid, invalid, null, empty, boundary
+- Từng nhánh logic phải cover
+- Tất cả error paths phải handle
+- Data flow cả 2 chiều (UI→DB, DB→UI)
+
+---
+
+## TEST GENERATION (NẾU CẦN TEST CODE)
+Mock external deps; test pure logic only; tests <100ms; deterministic. Include: valid, null/undefined, boundaries, malformed. Verify effects and side effects. Coverage: CI branch ≥80%. All error paths covered. Each public API ≥1 test. Structure: `describe` → `it` (AAA). Unit=business logic; Integration=service contracts; E2E <10%.
+
+---
+
+## COMPLIANCE & COST (if applicable)
+
+**Compliance** (GDPR/HIPAA/PCI/SOX/COPPA/audited): Require COMPLIANCE section with Standards, Status (✅ Compliant/⚠️ Non-compliant), Controls ([x]/[ ]), Gaps with remediation plan, Evidence links, Next Audit date. Penalty -25 if missing.
+
+**Cost Optimization** (cloud/AWS/GCP/Azure/scale/cost): Right-size (60-70% CPU), spot/preemptible, reserved (1-3y, 30-50% off), S3 Intelligent-Tiering, lifecycle, read replicas, auto-scaling, minimize transfer, serverless for spiky, budget alerts, tagging. Penalty -15 if missing.
+
+---
+
+
+[11 more lines in file. Use offset=140 to continue.]
+
+--- Message 126 (ASSISTANT, 2026-05-25T09:51:42.987Z) ---
+ôi sẽ thêm 2 sections mới: CONCURRENCY (với template) và DEBUGGING & ISSUE RESOLUTION trước TEST GENERATION. Tôi cần chính xác oldText để match:
+</think>
+
+[toolCall]
+
+--- Message 127 (TOOL_RESULT, 2026-05-25T09:52:16.761Z) ---
+Successfully replaced 1 block(s) in /home/quangtynu/Qcoder/autoqcoder/AGENTS.md.
+
+--- Message 128 (ASSISTANT, 2026-05-25T09:52:16.764Z) ---
+uyệt vời! Bây giờ cần thêm section Debugging Checklist vào AUTO-CONTINUE.md và Quick Reference. Trước tiên xem structure hiện tại:
+</think>
+Tuyệt vời! Bây giờ thêm **Debugging Checklist** và **Quick Reference** vào AUTO-CONTINUE.md:
+[toolCall]
+
+--- Message 129 (TOOL_RESULT, 2026-05-25T09:52:40.277Z) ---
+# AUTO-CONTINUE.md - Evolution Workflow (v2.0)
+
+---
+
+## WORKFLOW (MANDATORY)
+
+```
+Analyze → Clarify → Plan → Test(fail) → Implement → Refactor → Optimize → Verify
+
+LOOP: while failed || improvable || not_minimal:
+  detect → improve → test → verify
+```
+
+---
+
+## SESSION START (BẮT BUỘC)
+
+Mỗi session mới (hoặc sau khi đọc codebase mới):
+
+1. Đọc toàn bộ repository
+2. Đọc `docs/PROJECT_STATE.md` (nếu có)
+3. Hiểu capabilities và failures hiện tại
+4. Xác định next highest-impact task
+5. Implement improvements
+6. Run tests/builds với tools
+7. Update `PROJECT_STATE.md`
+8. Update `TODO.md` với completed và follow-ups
+
+---
+
+## CONTINUOUS LOOP MODE
+
+Default: continuous evolution. Sau khi complete iteration, phải identify next highest-impact TODO và tiếp tục work, ngay cả khi không có user prompt mới, UNLESS:
+- User explicitly tells you to stop or pause
+- Tests/builds fail và cần clarification
+- Không còn actionable TODO items
+
+---
+
+## EVOLUTION & SELF-IMPROVEMENT
+
+**Mỗi vòng loop phải update evolution files:**
+
+- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
+- `docs/AGENT_PROFILE.md`: Tasks thường fail, weak languages/stacks, fragile modules, weaknesses
+- `docs/EVOLUTION.md`: Trajectory changes, planned refactors, anticipated debt updates
+
+**Meta-Goal:** System breaks less, fixes faster, plans further ahead, ít repeated mistakes.
+
+---
+
+[147 more lines in file. Use offset=51 to continue.]
+
+--- Message 130 (ASSISTANT, 2026-05-25T09:52:40.280Z) ---
+ôi sẽ thêm Debugging Checklist và Quick Reference sau SKILL INTEGRATION, trước PRINCIPLES. Tìm vị trí chính xác:
+</think>
+
+[toolCall]
+
+--- Message 131 (TOOL_RESULT, 2026-05-25T09:52:47.043Z) ---
+152:## PRINCIPLES (REMINDER)
+
+
+--- Message 132 (ASSISTANT, 2026-05-25T09:52:47.047Z) ---
+ậy tôi sẽ thêm sau SKILL INTEGRATION và trước PRINCIPLES. Đọc đoạn đó:
+</think>
+
+[toolCall]
+
+--- Message 133 (TOOL_RESULT, 2026-05-25T09:52:54.704Z) ---
+| `code-review` | Vibe-cleaner cleanup |
+| `dotnet-modular-architect` | .NET modular monolith |
+| `erp-architect` | Fullstack ERP system |
+| `iam-platform-layer` | Authentication/Authorization |
+
+**Bắt buộc:** Đọc skill file tương ứng trước khi modify.
+
+---
+
+## PRINCIPLES (REMINDER)
+
+- Simplicity-first (200→50 lines)
+- No over-engineering
+- Declarative > Imperative
+- Readable > Clever
+
+[40 more lines in file. Use offset=158 to continue.]
+
+--- Message 134 (ASSISTANT, 2026-05-25T09:52:54.709Z) ---
+ôi sẽ thêm Debugging Checklist và Quick Reference vào AUTO-CONTINUE.md sau skill integration và trước PRINCIPLES:
+</think>
+
+[toolCall]
+
+--- Message 135 (TOOL_RESULT, 2026-05-25T09:53:29.036Z) ---
+Successfully replaced 1 block(s) in /home/quangtynu/Qcoder/autoqcoder/AUTO-CONTINUE.md.
+
+--- Message 136 (ASSISTANT, 2026-05-25T09:53:29.039Z) ---
+uyệt vời! Bây giờ kiểm tra file sizes:
+</think>
+Kiểm tra file sizes:
+[toolCall]
+
+--- Message 137 (TOOL_RESULT, 2026-05-25T09:53:34.839Z) ---
+  237 /home/quangtynu/Qcoder/autoqcoder/AGENTS.md
+  289 /home/quangtynu/Qcoder/autoqcoder/AUTO-CONTINUE.md
+  526 total
+
+
+--- Message 138 (ASSISTANT, 2026-05-25T09:53:34.843Z) ---
+ôi đã vượt target: AGENTS.md 237 lines (target <160), AUTO-CONTINUE.md 289 (target <200). Nhưng so với ban đầu: AGENTS.md từ 298 → 237 (giảm 20%), AUTO-CONTINUE.md từ 133 → 289 (tăng 117% do thêm nhiều content).  
+
+Tôi cần cân nhắc:  
+- Target ban đầu là đơn giản hóa, nhưng sau khi integrate mate, content cần thiết là nhiều hơn  
+- Priority là **complete và production-ready**, không chỉ **short**  
+- Tuy nhiên, vẫn có thể optimize bằng cách remove một số redundancy  
+
+Tôi sẽ review content để xem có thể compress thêm không. Nhưng trước tiên, hãy commit vòng 3 hiện tại và báo cáo. User muốn nhiều vòng, nên tôi có thể làm thêm vòng compress nếu cần.  
+
+Tuy nhiên, tôi nhớ instruction: "tôi muốn chạy nhiều vòng để đưa vào 2 file". Vậy tôi có thể tiếp tục compress nữa để đạt target size. Nhưng quan trọng hơn là đảm bảo đầy đủ.  
+
+Tôi sẽ tiếp tục Vòng 4: Compress & Polish để giảm size nhưng giữ nội dung.
+</think>
+File size tăng so với target, nhưng vẫn trong ngưỡng chấp nhận được (so với v1.5 ban đầu: 298+133=431, bây giờ 237+289=526 → tăng 22% để có thêm features). Điều này là cần thiết để cover đầy đủ.
+
+Tuy nhiên, tôi có thể compress thêm bằng cách remove một số redundancy. Tôi sẽ tiếp tục **Vòng 4: Final Compression** để tối ưu hơn nữa:
+[toolCall]
+
+--- Message 139 (TOOL_RESULT, 2026-05-25T09:54:04.913Z) ---
+✅ Todo updated: 30 remaining, 33 completed.
+📊 Use /todos to view, or continue with next task.
+
+Remaining items (30):
+  - task-104 Thực hiện edits trên AGENTS.md [in_progress] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-105 Thực hiện edits trên AUTO-CONTINUE.md [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-106 Git commit changes [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-107 Update PROJECT_STATE.md và metrics [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-108 Chuẩn bị cho vòng tiếp theo [pending] (Vòng 1: Phân tích & Đánh giá hiện trạng)
+  - task-111 Optimize AUTO-CONTINUE.md - simplify, remove redundancy [pending] (Vòng 2: Consolidation & Optimization)
+  - task-112 Verify file sizes (target: <150 lines mỗi file) [pending] (Vòng 2: Consolidation & Optimization)
+  - task-113 Edit AGENTS.md với consolidation [pending] (Vòng 2: Consolidation & Optimization)
+  - task-114 Edit AUTO-CONTINUE.md với optimization [pending] (Vòng 2: Consolidation & Optimization)
+  - task-115 Update AGENT_METRICS.md với iteration count [pending] (Vòng 2: Consolidation & Optimization)
+  - task-116 Git commit vòng 2 [pending] (Vòng 2: Consolidation & Optimization)
+  - task-117 Báo cáo kết quả vòng 2 và plan vòng 3 [pending] (Vòng 2: Consolidation & Optimization)
+  - task-133 Compare against mate/skill/ definitions - any missing key concepts? [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-134 Add Atomic Design section (from code-review skill) to AGENTS.md [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-135 Add Concurrency Analysis template to AGENTS.md [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-136 Add Debugging Checklist to AUTO-CONTINUE.md (from code-review) [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-137 Add Quick Reference (cheat sheet) to AUTO-CONTINUE.md [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-138 Verify all 6 skills are referenced properly [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-139 Run final file size check (target: AGENTS <160, AUTO <200) [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-140 Update PROJECT_STATE.md với final polish [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-141 Git commit vòng 3 (final) [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-142 Generate comprehensive report sau 3 vòng [pending] (Vòng 3: Final Polish & Gap Analysis)
+  - task-144 Merge MANDATORY PRINCIPLES vào MANDATORY PRINCIPLES (avoid duplication) [pending] (Vòng 4: Compression & Final Polish)
+  - task-145 Simplify CONCURRENCY section (remove verbose template, keep minimal) [pending] (Vòng 4: Compression & Final Polish)
+  - task-146 Simplify FRONTEND ARCHITECTURE (concise hơn) [pending] (Vòng 4: Compression & Final Polish)
+  - task-147 Shorten DEBUGGING CHECKLIST (keep only essential) [pending] (Vòng 4: Compression & Final Polish)
+  - task-148 Review QUICK REFERENCE - có thể move to separate file? [pending] (Vòng 4: Compression & Final Polish)
+  - task-149 Final file size check (target: AGENTS <200, AUTO <250) [pending] (Vòng 4: Compression & Final Polish)
+  - task-150 Update PROJECT_STATE.md với compression plan [pending] (Vòng 4: Compression & Final Polish)
+  - task-151 Git commit vòng 4 [pending] (Vòng 4: Compression & Final Polish)
+Phase 4/8 "Vòng 1: Phân tích & Đánh giá hiện trạng" — 4/9 tasks complete
+
+--- Message 140 (USER, 2026-05-25T09:54:04.912Z) ---
+[System: Todo add_phase] ✅ Todo updated: 30 remaining, 33 completed.
+
+--- Message 141 (ASSISTANT, 2026-05-25T09:54:04.917Z) ---
+ôi thấy có nhiều task lỗi thời từ các vòng trước. Tôi cần restart lại và chỉ tập trung vào vòng hiện tại. Trước tiên tôi sẽ xóa các phase cũ và bắt đầu lại từ đầu với một kế hoạch rõ ràng.
+
+Mục tiêu: Tối ưu 2 file AGENTS.md và AUTO-CONTINUE.md. Sau 3 vòng:
+- Vòng 1: Integrate mate extensions
+- Vòng 2: Consolidate và giảm file size
+- Vòng 3: Add missing sections (Atomic Design, Debugging, Quick Reference)
+
+Bây giờ tôi đang ở Vòng 4: Compression. Tôi cần đánh giá xem file hiện tại có tốt không, và có thể giảm nào.
+
+Vấn đề: AGENTS.md 237 lines, AUTO-CONTINUE.md 289 lines. Có thể compress thêm.
+
+Nhưng trước tiên tôi cần fix các task error từ trước. Thay vìContinue với task cũ, tôi sẽ add_phase mới và focus vào compression.
+</think>
+Tôi thấy có nhiều task lỗi thời. Tôi sẽ **reset todos** và bắt đầu một kế hoạch clean cho các vòng tiếp theo:
+[toolCall]
+
+--- Message 142 (TOOL_RESULT, 2026-05-25T09:54:32.854Z) ---
+Todo list cleared.
+
+--- Message 143 (USER, 2026-05-25T09:54:32.854Z) ---
+[System: Todo delete] Todo list cleared.
+
+--- Message 144 (ASSISTANT, 2026-05-25T09:54:32.858Z) ---
+ốt. Bây giờ tạo plan mới cho các vòng tiếp theo. Tôi đã hoàn thành:
+
+Vòng 1: Integration (thêm mate v2 vào AGENTS.md & AUTO-CONTINUE.md)
+Vòng 2: Consolidation (gộp v1.5 + v2, giảm 20% bloat)
+Vòng 3: Gap analysis & add missing sections (Concurrency, Debugging, Frontend)
+Vòng 4: Compression (cần thực hiện)
+
+Tôi sẽ tạo plan mới tập trung vào: Compression, Final Check, Generate Report.
+
+Tóm tắt câu trả lời: Sau 3 vòng tối ưu, 2 file đã:
+- AGENTS.md: 237 lines (vs 298 ban đầu, tinh gọn 20%)
+- AUTO-CONTINUE.md: 289 lines (vs 133 ban đầu, tăng do thêm nội dung quan trọng)
+
+Vòng 4 cần: Giảm AUTO-CONTINUE.md xuống ~250, giữ nguyên AGENTS.md ~230, đảm bảo không mất nội dung.
+
+Tôi sẽ:
+1. Simplify QUICK REFERENCE (có thể move ra file riêng hoặc rút gọn)
+2. Remove redundant PRINCIPLES (có 2 lần)
+3. Merge一些 sections
+4. Final file size check
+5. Git commit
+6. Báo cáo tổng kết
+</think>
+Tôi sẽ tạo plan clear cho các vòng tiếp theo:
+[toolCall]
+
+--- Message 145 (TOOL_RESULT, 2026-05-25T09:55:14.926Z) ---
+✅ Todo updated: 8 remaining, 0 completed.
+📊 Use /todos to view, or continue with next task.
+
+Remaining items (8):
+  - task-1 Remove duplicate PRINCIPLES sections in AUTO-CONTINUE.md [in_progress] (Vòng 4: Compression & Final Check)
+  - task-2 Simplify QUICK REFERENCE - move some to APPENDIX hoặc remove [pending] (Vòng 4: Compression & Final Check)
+  - task-3 Compress AUTO-CONTINUE.md target <250 lines [pending] (Vòng 4: Compression & Final Check)
+  - task-4 Verify AGENTS.md has all essential content (no gaps) [pending] (Vòng 4: Compression & Final Check)
+  - task-5 Ensure all 6 mate skills referenced in both files [pending] (Vòng 4: Compression & Final Check)
+  - task-6 Final consistency check (no contradictions) [pending] (Vòng 4: Compression & Final Check)
+  - task-7 Git commit vòng 4 [pending] (Vòng 4: Compression & Final Check)
+  - task-8 Generate comprehensive final report [pending] (Vòng 4: Compression & Final Check)
+Phase 1/1 "Vòng 4: Compression & Final Check" — 0/8 tasks complete
+
+--- Message 146 (USER, 2026-05-25T09:55:14.926Z) ---
+[System: Todo add_phase] ✅ Todo updated: 8 remaining, 0 completed.
+
+--- Message 147 (ASSISTANT, 2026-05-25T09:55:14.930Z) ---
+, bây giờ tôi sẽ bắt đầu compression. Trước tiên, xem AUTO-CONTINUE.md hiện tại có duplicates PRINCIPLES không: check file content. Từ lần trước, tôi thấy có section PRINCIPLES ở cuối. Kiểm tra xem có duplicate không. Nếu không có duplicate, có thể skip.
+
+Bây giờ tôi sẽ:
+1. Xóa duplicate PRINCIPLES nếu có
+2. Simplify QUICK REFERENCE (có thể move một số sang APPENDIX)
+3. Ensure all skills referenced
+4. Final check
+
+Thực hiện task 1: kiểm tra duplicate PRINCIPLES.
+</think>
+Tôi sẽ bắt đầu compression. Đầu tiên, kiểm tra duplicate trong AUTO-CONTINUE.md:
+[toolCall]
+
+--- Message 148 (TOOL_RESULT, 2026-05-25T09:55:29.495Z) ---
+| `code-review` | Vibe-cleaner cleanup |
+| `dotnet-modular-architect` | .NET modular monolith |
+| `erp-architect` | Fullstack ERP system |
+| `iam-platform-layer` | Authentication/Authorization |
+
+**Bắt buộc:** Đọc skill file tương ứng trước khi modify.
+
+---
+
+## DEBUGGING CHECKLIST (from code-review skill)
+
+**Systematic Debugging Process:**
+1. Read entire file (mọi dòng, imports, dependencies)
+2. Understand context (structure, related logic)
+3. Isolate problem (reproduction case, minimal code)
+4. Test hypotheses (debug prints, unit tests)
+5. Verify fix (no regression)
+
+**Per-file Debugging:**
+- [ ] Đọc toàn bộ file trước khi modify
+
+[128 more lines in file. Use offset=163 to continue.]
+
+--- Message 149 (ASSISTANT, 2026-05-25T09:55:29.499Z) ---
+ôi thấy có section `## PRINCIPLES (REMINDER)` và `## DEBUGGING CHECKLIST` nhưng không thấy duplicate PRINCIPLES. Có vẻ như tôi đã quên thêm PRINCIPLES vào AUTO-CONTINUE.md. Kiểm tra xem file có section PRINCIPLES không.
+</think>
+
+[toolCall]
+
+--- Message 150 (TOOL_RESULT, 2026-05-25T09:55:41.020Z) ---
+## DEBUGGING CHECKLIST (from code-review skill)
+
+**Systematic Debugging Process:**
+1. Read entire file (mọi dòng, imports, dependencies)
+2. Understand context (structure, related logic)
+3. Isolate problem (reproduction case, minimal code)
+4. Test hypotheses (debug prints, unit tests)
+5. Verify fix (no regression)
+
+**Per-file Debugging:**
+- [ ] Đọc toàn bộ file trước khi modify
+- [ ] Identify root cause (không skip)
+- [ ] Check braces, parentheses, indentation
+- [ ] Verify async/await, promises
+- [ ] Check lifetimes (memory, connections)
+- [ ] Review error logs full context
+- [ ] Add debug output nếu cần
+- [ ] Isolate section bằng comments
+- [ ] Test hypotheses từng bước
+- [ ] Verify happy & error paths
+
+[119 more lines in file. Use offset=172 to continue.]
+
+--- Message 151 (ASSISTANT, 2026-05-25T09:55:41.023Z) ---
+ông thấy duplicate PRINCIPLES nên task 1 -> skip (không cần xóa). Tôi sẽ chuyển sang task 2: Simplify QUICK REFERENCE. Xem section QUICK REFERENCE hiện tại có gì:
+
+Từ content trước đó, tôi thấy có section "## QUICK REFERENCE (Cheat Sheet)". Tôi có thể đơn giản hóa nó, giữ những điểm quan trọng nhất.
+
+Task 2: Simplify QUICK REFERENCE. Tôi sẽ đọc section này và rút gọn:
+
+- Mental Testing Prompt (có thể để nguyên, khá hay)
+- Quality Gate Checklist (cần thiết)
+- When to Apply Skills (cần thiết)
+- Risk Levels (cần thiết)
+- Git Commit Message Format (cần thiết)
+- Evolution Files Update Frequency (có thể chuyển sang docs hoặc remove)
+
+Tôi sẽ compress QUICK REFERENCE, giữ lại chỉ các checklist chính. Di chuyển một số vào APPENDIX (có thể tạo file docs/QUICK_REFERENCE.md) hoặc giữ trong file nhưng rút gọn.
+
+Vì target là file <250 lines, và AUTO-CONTINUE hiện tại 289 lines, tôi cần giảm ~40 lines. Tôi sẽ:
+1. Rút gọn QUICK REFERENCE
+2. Merge một số bullet points
+3. Loại bỏ các phần ít cần thiết
+
+Cụ thể, section QUICK REFERENCE hiện tại có:
+- Mental Testing Prompt (10 questions) -> giữ, nhưng có thể rút gọn từng câu
+- Quality Gate Checklist (16 items) -> giữ, nhưng compact
+- When to Apply Skills (bảng) -> giữ, nhưng compact
+- Risk Levels (definition) -> giữ, essential
+- Git Commit Message Format -> giữ, essential
+- Evolution Files Update Frequency -> chuyển sang docs/EVOLUTION.md (đã có) -> remove
+
+Tiếp tục.
+</think>
+Tôi thấy không có duplicate PRINCIPLES. Skip task 1. Bây giờ **compress AUTO-CONTINUE.md** bằng cách rút gọn QUICK REFERENCE:
+[toolCall]
+
+--- Message 152 (TOOL_RESULT, 2026-05-25T09:55:55.129Z) ---
+- [ ] Test hypotheses từng bước
+- [ ] Verify happy & error paths
+
+**Nếu vẫn fail:** Consult team, review git history, disable feature tạm thời (không xóa), plan restore.
+
+**Cấm:** Xóa code để pass, vá áo, chấp nhận degradation.
+
+---
+
+## QUICK REFERENCE (Cheat Sheet)
+
+### Mental Testing Prompt (self-ask)
+```
+For this function/module:
+1. Inputs: valid, invalid, null, empty, boundary?
+2. Outputs: expected, error, edge?
+3. All branches covered? (if/else/switch)
+4. Error paths: exceptions, returns, fallback?
+5. Data flow: UI→DB và DB→UI?
+6. Security: injection, auth, secrets?
+7. Performance: O(n), N+1, blocking I/O?
+8. Concurrency: race conditions, locks?
+9. State consistency: atomic, immutable?
+10. Observability: logs, metrics, traces?
+```
+
+### Quality Gate Checklist (before output)
+```
+[ ] Functions ≤20 lines
+[ ] Complexity ≤10
+[ ] No 5+ duplicates
+[ ] 100% error handling
+[ ] 100% input validation
+[ ] No hardcoded secrets
+[ ] Testable (no DB/network in business logic)
+[ ] Coverage ≥80%
+[ ] All tests pass
+[ ] No 12 anti-patterns
+[ ] Devil's advocate passed
+[ ] Mental testing done
+[ ] Flow coverage UI→DB & DB→UI
+[ ] Missing code written
+[ ] Code preserved (no deletion)
+[ ] Risk assessed (Low/Medium/High)
+[ ] Git commit after round
+```
+
+### When to Apply Skills
+- Angular project → `angular-modular-architect`
+- .NET backend → `dotnet-modular-architect`
+- Database changes → `backend-db-pattern` (4 steps)
+- Code cleanup → `code-review` (vibe-cleaner)
+- Fullstack ERP → `erp-architect`
+- Auth/Security → `iam-platform-layer`
+
+### Risk Levels
+- **Low**: Documentation, refactor same module, add tests, fix typos
+- **Medium**: Add feature, modify API, change DB schema, cross-module impact
+- **High**: Rewrite core, change architecture, security fix, data migration
+
+### Git Commit Message Format
+```
+feat: <description>
+fix: <description>
+refactor: <description>
+chore: evolution round - <description>
+```
+
+### Evolution Files Update Frequency
+- After every meaningful change: update AGENT_METRICS (with numbers)
+- After every round: update AGENT_PROFILE (new weaknesses?)
+- After trajectory change: update EVOLUTION.md
+
+---
+
+## PRINCIPLES (REMINDER)
+
+- Simplicity-first (200→50 lines)
+- No over-engineering
+- Declarative > Imperative
+- Readable > Clever
+
+---
+
+## SCOPE
+
+**Out:** DevOps, Infra, CI/CD, Deployment, Cloud, Server, Ops, Meetings
+
+**In:** Security, Testing, Bug Fix, Code Quality, Performance, Scalability
+
+---
+
+## TARGETS
+
+- Coverage: ≥80%
+- Functions: ≤20 lines
+- Complexity: ≤10
+- Security: 100%
+- Self-Score: ≥90
+- Evolution Metrics: improving trend
+
+[21 more lines in file. Use offset=270 to continue.]
+
+--- Message 153 (ASSISTANT, 2026-05-25T09:55:55.178Z) ---
+ôi sẽ rút gọn QUICK REFERENCE từ khoảng 80 lines xuống còn ~50 lines bằng cách:
+
+1. **Mental Testing Prompt**: Giữ nguyên 10 câu hỏi nhưng có thể để dạng bullet ngắn hơn (giữ nguyên nội dung, chỉ định dạng)
+2. **Quality Gate Checklist**: Giữ nguyên 17 items (cần thiết)
+3. **When to Apply Skills**: Giữ nguyên bảng 6 skill (cần thiết)
+4. **Risk Levels**: Giữ nguyên definition (cần thiết)
+5. **Git Commit Message Format**: Giữ nguyên (cần thiết)
+6. **Evolution Files Update Frequency**: **REMOVE** vì đã có trong phần EVOLUTION & SELF-IMPROVEMENT. Có thể tham khảo trong docs/EVOLUTION.md.
+
+Vậy tôi sẽ xóa phần "### Evolution Files Update Frequency" khỏi QUICK REFERENCE.
+
+Sau đó, tôi cũng có thể gộp "### PRINCIPLES" và "### SCOPE" và "### TARGETS" vào cùng một section nhỏ hơn? Để tiết kiệm space.
+
+Hiện tại AUTO-CONTINUE.md có:
+- ~30 lines WORKFLOW/SESSION/CONTINUOUS
+- ~50 lines EVOLUTION & SELF-IMPROVEMENT
+- ~10 lines PUSHGUIDE QUALITY GATES
+- ~40 lines MENTAL TESTING MODE
+- ~20 lines CODE PRESERVATION RULE
+- ~15 lines CHANGE COST & RISK
+- ~10 lines MISSING CODE
+- ~10 lines SKILL INTEGRATION
+- ~120 lines DEBUGGING CHECKLIST + QUICK REFERENCE + PRINCIPLES + SCOPE + TARGETS + DONE + ANTI-SLOP
+
+Tổng ~289 lines. Tôi cần giảm xuống <250, tức là cần giảm ~40 lines.
+
+Cách giảm:
+1. Xóa Evolution Files Update Frequency (~5 lines) -> done
+2. Gộp PRINCIPLES, SCOPE, TARGETS thành 1 section nhỏ (~20 lines -> ~10 lines) -> tiết kiệm 10 lines
+3. Rút gọn DEBUGGING CHECKLIST từ 10 items -> 5-6 items -> tiết kiệm 20 lines
+4. 
+
+Tôi sẽ bắt đầu compress ngay.
+</think>
+Tôi sẽ compress QUICK REFERENCE và remove phần Evolution Files Update Frequency (đã có trong EVOLUTION.md):
+[toolCall]
+
+--- Message 154 (TOOL_RESULT, 2026-05-25T09:56:55.785Z) ---
+Successfully replaced 1 block(s) in /home/quangtynu/Qcoder/autoqcoder/AUTO-CONTINUE.md.
+
+--- Message 155 (ASSISTANT, 2026-05-25T09:56:55.788Z) ---
+ốt! Tôi đã xóa 1 big section và gộp các sections nhỏ. Kiểm tra line count mới:
+current: 289 lines -> after compression: approximate?
+
+Tôi sẽ kiểm tra lại.
+</think>
+Kiểm tra line count:
+[toolCall]
+
+--- Message 156 (TOOL_RESULT, 2026-05-25T09:57:01.847Z) ---
+265 /home/quangtynu/Qcoder/autoqcoder/AUTO-CONTINUE.md
+
+
+--- Message 157 (ASSISTANT, 2026-05-25T09:57:01.851Z) ---
+a! Từ 289 -> 265 lines (giảm 24 lines). Còn 15 lines nữa cần giảm để đạt <250.
+
+Tiếp tục compress AGENTS.md. Trước tiên kiểm tra line count hiện tại: 237 lines. Target <200? Ban đầu round 2 target <150, nhưng sau khi thêm nhiều sections nên 237 là cao. Tôi có thể giảm bằng cách:
+
+1. Rút goncé SECTION "SELF-EVOLUTION & PRODUCTION READINESS" hiện tại khá dài (~40 lines). Tôi có thể đưa một số chi tiết vào docs/ và giữ nguyên title summary.
+
+2. Merge "PRODUCTION STANDARDS" (Security, Performance, etc) - đã khá concise rồi.
+
+3. Đưa "DEBUGGING & ISSUE RESOLUTION" vào "SELF-EVOLUTION" hoặc tách thành file riêng? Nhưng vẫn nên giữ trong AGENTS.md cho tiện lookup.
+
+Tôi sẽ re-read AGENTS.md để xem có section nào có thể rút gọn.
+</think>
+Tốt! 265 lines (target <250, còn 15 lines nữa). Tôi sẽ đọc lại AUTO-CONTINUE.md để xem còn chi tiết nào có thể rút gọn:
+[toolCall]
+
+--- Message 158 (TOOL_RESULT, 2026-05-25T09:57:13.525Z) ---
+- [ ] Test hypotheses từng bước
+- [ ] Verify happy & error paths
+
+**Nếu vẫn fail:** Consult team, review git history, disable feature tạm thời (không xóa), plan restore.
+
+**Cấm:** Xóa code để pass, vá áo, chấp nhận degradation.
+
+---
+
+## QUICK REFERENCE (Cheat Sheet)
+
+### Mental Testing Prompt (self-ask)
+```
+For this function/module:
+1. Inputs: valid, invalid, null, empty, boundary?
+2. Outputs: expected, error, edge?
+3. All branches covered? (if/else/switch)
+4. Error paths: exceptions, returns, fallback?
+5. Data flow: UI→DB và DB→UI?
+6. Security: injection, auth, secrets?
+7. Performance: O(n), N+1, blocking I/O?
+8. Concurrency: race conditions, locks?
+9. State consistency: atomic, immutable?
+10. Observability: logs, metrics, traces?
+```
+
+### Quality Gate Checklist (before output)
+```
+[ ] Functions ≤20 lines
+[ ] Complexity ≤10
+
+[67 more lines in file. Use offset=200 to continue.]
+
+--- Message 159 (ASSISTANT, 2026-05-25T09:57:13.529Z) ---
+ần QUICK REFERENCE hiện tại vẫn còn dài (khoảng 90 lines). Tôi có thể rút gọn hơn:
+
+- Mental Testing Prompt: 10 câu hỏi -> giữ nguyên vì rất hữu ích
+- Quality Gate Checklist: 17 items -> có thể compact thành 2 columns? Hoặc giữ nguyên
+- When to Apply Skills: bảng 6 skill -> giữ nguyên, nhưng có thể compact
+- Risk Levels: giữ nguyên
+- Git Commit: giữ nguyên
+
+Tôi có thể bỏ một số description dài, chỉ giữ key points. Ví dụ:
+- "Evolution Files Update Frequency" đã bỏ ở task trước? Thực ra tôi mới bỏ trong commit này.
+
+Kiểm tra xem Evolution Files Update Frequency đã bỏ chưa? Trong edit trước tôi đã xóa section "Evolution Files Update Frequency". Vậy phần còn lại trong QUICK REFERENCE hiện tại là:
+
+```
+Mental Testing Prompt
+Quality Gate Checklist
+When to Apply Skills
+Risk Levels
+Git Commit Message Format
+```
+
+Tôi có thể rút gọn Quality Gate Checklist: thay vì mỗi item một dòng, Compact thành 2 columns.
+
+Tuy nhiên, để đơn giản, tôi có thể bỏ phần "When to Apply Skills" và "Risk Levels" đưa vào file riêng docs/REFERENCE.md, hoặc giữ nhưng make it shorter.
+
+Mục tiêu: giảm 15 lines. Tôi sẽ:
+
+1. Chuyển phần "When to Apply Skills" và "Risk Levels" sang docs/QUICK_REFERENCE.md (tạo file mới)
+2. Giữ lại trong AUTO-CONTINUE chỉ Mental Testing Prompt và Quality Gate Checklist
+
+Nhưng điều này sẽ làm tăng số file. Có lẽ nên giữ trong AUTO-CONTINUE nhưng rút gọn.
+
+Một cách khác: Merge "Quality Gate Checklist" và "Mental Testing Prompt" thành 1 section, và bỏ phần "When to Apply Skills" và "Risk Levels" vì đã có trong skill documentation.
+
+Tôi quyết định: Chỉ giữ lại 2 sections trong QUICK REFERENCE:
+- Mental Testing Prompt (10 câu)
+- Quality Gate Checklist (17 items - nhưng có thể hiển thị dạng compact)
+
+Còn "When to Apply Skills" và "Risk Levels" đã có trong skill docs và AGENTS.md -> có thể tham khảo, không cần lặp.
+
+Tôi sẽ edit QUICK REFERENCE section:
+</think>
+Tôi sẽ giảm thêm bằng cách rút gọn phần Mental Testing Prompt (gộp thành 1 dòng) và Quality Gate Checklist (dạng compact):
+[toolCall]
+
+--- Message 160 (TOOL_RESULT, 2026-05-25T09:58:20.632Z) ---
+Successfully replaced 1 block(s) in /home/quangtynu/Qcoder/autoqcoder/AUTO-CONTINUE.md.
+
+--- Message 161 (ASSISTANT, 2026-05-25T09:58:20.636Z) ---
+ còn 265 - (đã rút gọn) khoảng 40 -> còn ~225 lines. Kiểm tra lại line count.
+</think>
+Kiểm tra line count:
+[toolCall]
+
+--- Message 162 (TOOL_RESULT, 2026-05-25T09:58:26.028Z) ---
+242 /home/quangtynu/Qcoder/autoqcoder/AUTO-CONTINUE.md
+
+
+--- Message 163 (ASSISTANT, 2026-05-25T09:58:26.033Z) ---
+! 242 lines (<250). Đã đạt target.
+
+Bây giờ kiểm tra AGENTS.md: hiện tại 237 lines. Có thể giữ nguyên vì đã khá concise. Tuy nhiên, tôi có thể giảm thêm ~30 lines nữa để đạt <200? Target ban đầu <150 đã không đạt, nhưng 237 vẫn cao. Tôi sẽ review AGENTS.md xem có section nào redundant không.
+
+Các sections trong AGENTS.md:
+1. CORE QUALITY GATE (bắt buộc)
+2. PRODUCTION STANDARDS (Security, Performance, Observability, Resilience, Error Messages, Concurrency, Verification, Versioning) - khá dài nhưng mỗi section đều quan trọng
+3. SELF-EVOLUTION & PRODUCTION READINESS - dài (có thể rút gọn)
+4. MANDATORY PRINCIPLES - khá dài
+5. TEST GENERATION (Nếu cần) - ngắn
+6. COMPLIANCE & COST - ngắn
+7. TEMPLATE - rất ngắn
+
+Tôi có thể:
+- Rút gọn PRODUCTION STANDARDS: Merge Security, Performance, Observability, Resilience, Error Messages, Concurrency, Verification, Versioning thành bullet points compact, không mô tả chi tiết. Giữ title và key requirements.
+- Rút gọn SELF-EVOLUTION & PRODUCTION READINESS: Đưa chi tiết về code preservation, risk, missing code vào bullet points rút gọn.
+- Merger MANDATORY PRINCIPLES vào PRODUCTION STANDARDS? Không nên vìPrinciples là nhánh riêng.
+
+Thay vào đó, tôi có thể tạo **APPENDIX** cho chi tiết, và trong AGENTS.md chỉ giữ summary.
+
+Vì đây là prompt engine, cần đủ chi tiết để guide agent. Vậy 237 lines có thể chấp nhận được. Tuy nhiên, để đạt <200, tôi cần giảm 37 lines.
+
+Tôi sẽ thử:
+1. Rút gọn PRODUCTION STANDARDS từ 8 sections thành 4-5 bullet points mỗi section (không có description chi tiết). Ví dụ:
+
+
+I'll condense each section to its core essence, eliminating verbose explanations while maintaining critical information. For Security, I'll list key requirements and standards. Performance will focus on key metrics and constraints. Observability and Resilience will highlight core patterns and mechanisms. Error Messages and Concurrency will capture essential formatting and safety guidelines. The goal is to preserve necessary details while drastically reducing word count.
+
+2. Evolution section: từ ~40 lines -> 20 lines bằng cách bullet points.
+
+3. PRINCIPLES: từ ~10 lines -> 5 lines.
+
+Tôi sẽ bắt đầu edit AGENTS.md.
+</think>
+Tốt! AUTO-CONTINUE.md đạt target **242 lines**. Bây giờ tôi sẽ compress AGENTS.md từ 237 xuống còn <200:
+[toolCall]
+
+--- Message 164 (TOOL_RESULT, 2026-05-25T09:58:59.224Z) ---
+- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
+- `docs/AGENT_PROFILE.md`: Weaknesses, fragile modules, error-prone stacks
+- `docs/EVOLUTION.md`: 3-6 month roadmap, planned refactors, debt, infrastructure evolution
+
+**After every meaningful change, update:**
+1. Metrics with actual numbers
+2. Profile weaknesses (new exposures?)
+3. Evolution trajectory (changed?)
+
+**Meta-Goal:** System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.
+
+---
+
+## MANDATORY PRINCIPLES
+
+**Code Preservation:**
+- KHÔNG XÓA CODE (last resort)
+- Debug: Read → Understand → Isolate → Test → Verify (systematic)
+- Nếu lỗi: preserve, tìm root cause, fix logic
+- Luôn có plan restore từ git
+- Disable feature tạm thời thay vì xóa
+
+**Change Cost & Risk:**
+- Estimate engineering cost (hours/days)
+- Risk level: Low / Medium / High
+- Estimated rollback time
+- Prefer Low-risk, high-impact over High-risk, aesthetic
+
+**Missing Code = Write More:**
+- Nếu phát hiện thiếu → VIẾT THÊM
+- KHÔNG skip "không yêu cầu"
+- KHÔNG remove code để simplify
+- KHÔNG giảm scope để pass nhanh
+- App ngày càng hoàn thiện
+
+**Production Readiness Checklist:**
+- [ ] All functions mental-tested (valid/invalid/edge/error)
+- [ ] All APIs contract verified
+- [ ] All flows UI→DB và DB→UI
+- [ ] All edge cases covered
+- [ ] All error paths handled
+- [ ] Security vulnerabilities none
+- [ ] Performance acceptable
+- [ ] Industry standards met
+- [ ] Documentation updated
+- [ ] Missing code = written (not skipped)
+
+**Mental Testing Mode:**
+- KHÔNG viết test code (sẽ verify trong đầu)
+- KHÔNG check bằng tool (tưởng tượng scenarios)
+
+[119 more lines in file. Use offset=120 to continue.]
+
+--- Message 165 (ASSISTANT, 2026-05-25T10:01:12.123Z) ---
+ôi thấy section MANDATORY PRINCIPLES khá dài (~50 lines). Có thể chuyển một số vào APPENDIX.
+
+Tuy nhiên, tôi nghĩ nên giữ nguyên content vì đây là core guidelines. Thay vào đó, tôi sẽ compress PRODUCTION STANDARDS (Security, Performance, Observability, Resilience, Error Messages, Concurrency) bằng cách:
+
+- Mỗi section chỉ giữ 2-3 bullet points thay vì mô tả dài.
+- Thay vì: "Structured JSON logs..." -> chỉ giữ "Structured JSON logs (pino/winston)"
+- Thay vì liệt kê đầy đủ metrics -> chỉ giữ các metric chính
+
+Tôi sẽ edit AGENTS.md để compress PRODUCTION STANDARDS.
+</think>
+Tôi sẽ compress PRODUCTION STANDARDS trong AGENTS.md:
+[toolCall]
+
+--- Message 166 (TOOL_RESULT, 2026-05-25T10:01:24.037Z) ---
+## PRODUCTION STANDARDS
+
+**Security:**
+Validate inputs; parameterized queries; no eval/crypto; KMS; TLS 1.2+; Auth on ALL state-changing endpoints; HttpOnly cookies; No PII logs; JWT RS256; Rate limiting (IP/user); CSP headers; SQL/XSS/CSRF prevention; Password hashing (bcrypt/Argon2); Command injection prevention (execFile); Threat model (STRIDE+DREAD).
+
+**Performance:**
+Targets: p50<100ms, p99<200ms, 1000+ RPS, O(n). Include PERFORMANCE BENCHMARK section: Scenario (10k+ records, 1MB+ payload); Baseline (old approach, metrics); Optimization (new approach, metrics); Targets (p50/p99/throughput/memory); Assertions (expect(...).toBeLessThan(...)); Real-world (warm cache, 50ms latency); Profiling (flamegraph/heap findings). No O(n²), N+1, blocking I/O.
+
+**Observability:**
+Structured JSON logs (pino/winston); Correlation IDs (X-Request-ID); Levels: ERROR/WARN/INFO/DEBUG; Metrics endpoint (/metrics, Prometheus); Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics; SLOs: availability 99.9%, p99<200ms, error rate <0.1%; Tracing: OpenTelemetry; Alerting: Alertmanager for SLO breaches.
+
+**Resilience (External services):**
+Retry: exp backoff+jitter, max 3-5; Timeout: all I/O (10s default); Circuit breaker: threshold=5, timeout=60s; Bulkhead: isolate pools; Fallback: cache/default/degraded; Health: /health (ready, live, db, cache); Graceful shutdown. Checklist: 5/7 required (retry, timeout, circuit breaker, bulkhead, fallback, health, shutdown).
+
+**Error Messages:**
+Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready (error codes). Recovery hints included.
+
+**Concurrency (shared state/parallelism):**
+Provide analysis: Shared variables; Synchronization (mutex/lock/atomic); Safety proof (happens-before); Deadlock avoidance (lock ordering); Performance (contention, lock-free). Prevent race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
+
+**Verification & Collaboration:**
+Pre-commit (husky): lint, type-check, test --coverage, fail on high npm audit. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. VERIFICATION_STEPS.md.
+
+PR template: description, quality checklist (self-score, mandatory, security, tests, benchmarks, compliance, docs, verification). CODEOWNERS by directory. SLA: initial <24h, follow-up <12h, critical security <4h. Escalation: blocked 48h → tech lead → manager. Branch: main protected, feature branches, PR required.
+
+**Versioning & Deprecation:**
+SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits: `feat:`→minor, `fix:`→patch, `BREAKING CHANGE:`→major, `docs:`/`chore:`. Git tagging: `git tag -a v1.2.3 -m "Release" && git push origin v1.2.3`. Changelog: [Unreleased], [1.2.3]-date, Added/Fixed/Removed. Dependencies: pin exact for apps (commit package-lock), caret/tilde for libraries. Lockfiles committed.
+
+Deprecation: Detect via CHANGELOG, linter, runtime logs. Fallback: polyfill/feature detection. Log warnings, telemetry, alert high usage. Migration: TODOs with deadline, test both paths in CI. Version pinning: lock to non-deprecated, `npm outdated` before upgrade.
+
+---
+
+## SELF-EVOLUTION & PRODUCTION READINESS
+
+**Evolution Files (maintain automatically):**
+- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
+- `docs/AGENT_PROFILE.md`: Weaknesses, fragile modules, error-prone stacks
+- `docs/EVOLUTION.md`: 3-6 month roadmap, planned refactors, debt, infrastructure evolution
+
+**After every meaningful change, update:**
+1. Metrics with actual numbers
+2. Profile weaknesses (new exposures?)
+3. Evolution trajectory (changed?)
+
+**Meta-Goal:** System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.
+
+---
+
+## MANDATORY PRINCIPLES
+
+**Code Preservation:**
+- KHÔNG XÓA CODE (last resort)
+- Debug: Read → Understand → Isolate → Test → Verify (systematic)
+- Nếu lỗi: preserve, tìm root cause, fix logic
+- Luôn có plan restore từ git
+- Disable feature tạm thời thay vì xóa
+
+**Change Cost & Risk:**
+- Estimate engineering cost (hours/days)
+- Risk level: Low / Medium / High
+- Estimated rollback time
+- Prefer Low-risk, high-impact over High-risk, aesthetic
+
+**Missing Code = Write More:**
+- Nếu phát hiện thiếu → VIẾT THÊM
+- KHÔNG skip "không yêu cầu"
+- KHÔNG remove code để simplify
+- KHÔNG giảm scope để pass nhanh
+- App ngày càng hoàn thiện
+
+**Production Readiness Checklist:**
+- [ ] All functions mental-tested (valid/invalid/edge/error)
+- [ ] All APIs contract verified
+- [ ] All flows UI→DB và DB→UI
+- [ ] All edge cases covered
+- [ ] All error paths handled
+- [ ] Security vulnerabilities none
+- [ ] Performance acceptable
+- [ ] Industry standards met
+- [ ] Documentation updated
+- [ ] Missing code = written (not skipped)
+
+**Mental Testing Mode:**
+- KHÔNG viết test code (sẽ verify trong đầu)
+- KHÔNG check bằng tool (tưởng tượng scenarios)
+- Tưởng tượng ALL inputs: valid, invalid, null, empty, boundary
+- Từng nhánh logic phải cover
+- Tất cả error paths phải handle
+- Data flow cả 2 chiều (UI→DB, DB→UI)
+
+---
+
+## CONCURRENCY (shared state/parallelism)
+
+### Analysis Template (BẮT BUỘC)
+Khi code có shared state/parallelism, cung cấp:
+
+1. **Shared Variables**: List tất cả shared state (global, static, caches)
+2. **Synchronization**: Mutex/lock/atomic/queue used?
+3. **Safety Proof**: Happens-before relation, memory barriers
+
+[104 more lines in file. Use offset=135 to continue.]
+
+--- Message 167 (ASSISTANT, 2026-05-25T10:01:24.045Z) ---
+ôi thấy PRODUCTION STANDARDS khá dài vì mỗi section đều có mô tả chi tiết. Tôi sẽ compress mỗi section thành bullet points ngắn gọn. Ví dụ:
+
+**Security:**
+- Validate inputs, parameterized queries
+- No eval/crypto, KMS, TLS 1.2+
+- Auth on ALL state changes, HttpOnly cookies, No PII logs
+- JWT RS256, Rate limiting, CSP, SQL/XSS/CSRF prevention
+- Password hashing (bcrypt/Argon2), Command injection prevention
+- Threat model (STRIDE+DREAD)
+
+Thay vì 1 paragraph dài. Cách này sẽ giảm đáng kể.
+
+Tuy nhiên, cần đảm bảo không mất thông tin quan trọng. Tôi sẽ edit PRODUCTION STANDARDS section:
+</think>
+Tôi sẽ compress PRODUCTION STANDARDS thành bullet points ngắn:
+[toolCall]
+
+--- Message 168 (TOOL_RESULT, 2026-05-25T10:02:02.853Z) ---
+Could not find the exact text in /home/quangtynu/Qcoder/autoqcoder/AGENTS.md. The old text must match exactly including all whitespace and newlines.
+
+--- Message 169 (ASSISTANT, 2026-05-25T10:02:02.859Z) ---
+ông tìm thấy chính xác. Tôi cần đọc lại section đó để có exact match. Đọc tiếp phần còn lại của PRODUCTION STANDARDS (từ line 100).
+</think>
+
+[toolCall]
+
+--- Message 170 (TOOL_RESULT, 2026-05-25T10:02:16.553Z) ---
+- KHÔNG skip "không yêu cầu"
+- KHÔNG remove code để simplify
+- KHÔNG giảm scope để pass nhanh
+- App ngày càng hoàn thiện
+
+**Production Readiness Checklist:**
+- [ ] All functions mental-tested (valid/invalid/edge/error)
+- [ ] All APIs contract verified
+- [ ] All flows UI→DB và DB→UI
+- [ ] All edge cases covered
+- [ ] All error paths handled
+- [ ] Security vulnerabilities none
+- [ ] Performance acceptable
+- [ ] Industry standards met
+- [ ] Documentation updated
+- [ ] Missing code = written (not skipped)
+
+**Mental Testing Mode:**
+- KHÔNG viết test code (sẽ verify trong đầu)
+- KHÔNG check bằng tool (tưởng tượng scenarios)
+- Tưởng tượng ALL inputs: valid, invalid, null, empty, boundary
+- Từng nhánh logic phải cover
+- Tất cả error paths phải handle
+- Data flow cả 2 chiều (UI→DB, DB→UI)
+
+---
+
+## CONCURRENCY (shared state/parallelism)
+
+### Analysis Template (BẮT BUỘC)
+Khi code có shared state/parallelism, cung cấp:
+
+1. **Shared Variables**: List tất cả shared state (global, static, caches)
+2. **Synchronization**: Mutex/lock/atomic/queue used?
+3. **Safety Proof**: Happens-before relation, memory barriers
+4. **Deadlock Avoidance**: Lock ordering, timeout, lock-free design
+5. **Performance**: Contention points, lock-free alternatives
+6. **Async Safety**: Handle all rejections, no callback+promise mix
+
+**Prevent:** Race conditions, deadlocks, memory consistency errors.
+
+---
+
+## DEBUGGING & ISSUE RESOLUTION (from code-review skill)
+
+### Systematic Debugging Process
+**Bắt buộc thực hiện theo thứ tự:**
+1. **Read entire file** - Không chỉ đoạn suspected, đọc mọi dòng, imports, dependencies
+2. **Understand context** - Structure, related logic, external calls
+3. **Isolate problem** - Reproduction case, minimal code
+
+[89 more lines in file. Use offset=150 to continue.]
+
+--- Message 171 (ASSISTANT, 2026-05-25T10:02:16.562Z) ---
+ôi sẽ xem toàn bộ file để tìm chunk PRODUCTION STANDARDS. Đoạn trên là MANDATORY PRINCIPLES. PRODUCTION STANDARDS bắt đầu từ line ~67 (sau SELF-EVOLUTION?). Tôi cần đọc từ đầu PRODUCTION STANDARDS.
+
+Đọc file từ đầu để xem cấu trúc:
+</think>
+Tôi sẽ đọc toàn bộ AGENTS.md để tìm đúng chunk cần edit:
+[toolCall]
+
+--- Message 172 (TOOL_RESULT, 2026-05-25T10:02:38.571Z) ---
+35:## PRODUCTION STANDARDS
+
+
+--- Message 173 (ASSISTANT, 2026-05-25T10:02:38.575Z) ---
+DUCTION STANDARDS bắt đầu ở line 35. Tôi sẽ đọc từ line 35 đến trước khi kết thúc section (trước SELF-EVOLUTION). Tìm line kết thúc PRODUCTION STANDARDS (line bắt đầu SELF-EVOLUTION).
+
+Dùng grep:
+</think>
+
+[toolCall]
+
+--- Message 174 (TOOL_RESULT, 2026-05-25T10:02:48.483Z) ---
+## PRODUCTION STANDARDS
+
+**Security:**
+Validate inputs; parameterized queries; no eval/crypto; KMS; TLS 1.2+; Auth on ALL state-changing endpoints; HttpOnly cookies; No PII logs; JWT RS256; Rate limiting (IP/user); CSP headers; SQL/XSS/CSRF prevention; Password hashing (bcrypt/Argon2); Command injection prevention (execFile); Threat model (STRIDE+DREAD).
+
+**Performance:**
+Targets: p50<100ms, p99<200ms, 1000+ RPS, O(n). Include PERFORMANCE BENCHMARK section: Scenario (10k+ records, 1MB+ payload); Baseline (old approach, metrics); Optimization (new approach, metrics); Targets (p50/p99/throughput/memory); Assertions (expect(...).toBeLessThan(...)); Real-world (warm cache, 50ms latency); Profiling (flamegraph/heap findings). No O(n²), N+1, blocking I/O.
+
+**Observability:**
+Structured JSON logs (pino/winston); Correlation IDs (X-Request-ID); Levels: ERROR/WARN/INFO/DEBUG; Metrics endpoint (/metrics, Prometheus); Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics; SLOs: availability 99.9%, p99<200ms, error rate <0.1%; Tracing: OpenTelemetry; Alerting: Alertmanager for SLO breaches.
+
+**Resilience (External services):**
+Retry: exp backoff+jitter, max 3-5; Timeout: all I/O (10s default); Circuit breaker: threshold=5, timeout=60s; Bulkhead: isolate pools; Fallback: cache/default/degraded; Health: /health (ready, live, db, cache); Graceful shutdown. Checklist: 5/7 required (retry, timeout, circuit breaker, bulkhead, fallback, health, shutdown).
+
+**Error Messages:**
+Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready (error codes). Recovery hints included.
+
+**Concurrency (shared state/parallelism):**
+Provide analysis: Shared variables; Synchronization (mutex/lock/atomic); Safety proof (happens-before); Deadlock avoidance (lock ordering); Performance (contention, lock-free). Prevent race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
+
+**Verification & Collaboration:**
+Pre-commit (husky): lint, type-check, test --coverage, fail on high npm audit. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. VERIFICATION_STEPS.md.
+
+PR template: description, quality checklist (self-score, mandatory, security, tests, benchmarks, compliance, docs, verification). CODEOWNERS by directory. SLA: initial <24h, follow-up <12h, critical security <4h. Escalation: blocked 48h → tech lead → manager. Branch: main protected, feature branches, PR required.
+
+**Versioning & Deprecation:**
+SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits: `feat:`→minor, `fix:`→patch, `BREAKING CHANGE:`→major, `docs:`/`chore:`. Git tagging: `git tag -a v1.2.3 -m "Release" && git push origin v1.2.3`. Changelog: [Unreleased], [1.2.3]-date, Added/Fixed/Removed. Dependencies: pin exact for apps (commit package-lock), caret/tilde for libraries. Lockfiles committed.
+
+Deprecation: Detect via CHANGELOG, linter, runtime logs. Fallback: polyfill/feature detection. Log warnings, telemetry, alert high usage. Migration: TODOs with deadline, test both paths in CI. Version pinning: lock to non-deprecated, `npm outdated` before upgrade.
+
+---
+
+## SELF-EVOLUTION & PRODUCTION READINESS
+
+**Evolution Files (maintain automatically):**
+- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
+- `docs/AGENT_PROFILE.md`: Weaknesses, fragile modules, error-prone stacks
+- `docs/EVOLUTION.md`: 3-6 month roadmap, planned refactors, debt, infrastructure evolution
+
+**After every meaningful change, update:**
+1. Metrics with actual numbers
+2. Profile weaknesses (new exposures?)
+3. Evolution trajectory (changed?)
+
+**Meta-Goal:** System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.
+
+---
+
+
+
+--- Message 175 (ASSISTANT, 2026-05-25T10:02:48.487Z) ---
+ôi thấy PRODUCTION STANDARDS từ line 35 đến trước SELF-EVOLUTION (line 83). Tôi sẽ replace section này bằng version đã compress:
+
+Mỗi section sẽ là 1 bullet point ngắn, không có paragraph dài. Ví dụ:
+
+**Security:** Validate inputs, parameterized queries, no eval/crypto, KMS, TLS 1.2+, Auth on ALL endpoints, HttpOnly cookies, No PII logs, JWT RS256, Rate limiting, CSP, SQL/XSS/CSRF prevention, Password hashing (bcrypt/Argon2), Command injection prevention, Threat model (STRIDE+DREAD).
+
+Tương tự cho các section khác. Tôi sẽ viết lại mỗi section thành 1-2 dòng.
+
+Tôi cần exact oldText để replace. oldText là từ line 35 đến line 82 (bao gồm cả tiêu đề và hết trước SELF-EVOLUTION). Tôi sẽ lấy chính xác từ sed trên (35,82) và replace bằng version compress.
+
+Nhưng cần lưu ý: sed n start-end in sed -n '35,82p' thì line 35 đến line 82 inclusive. Tuy nhiên, SELF-EVOLUTION bắt đầu ở line 83. Vậy oldText là từ line 35 đến line 82.
+
+Tôi sẽ chép nội dung đó và compress.
+</think>
+Tôi sẽ compress PRODUCTION STANDARDS bằng cách replace toàn bộ section:
+[toolCall]
+
+--- Message 176 (TOOL_RESULT, 2026-05-25T10:04:02.580Z) ---
+Could not find the exact text in /home/quangtynu/Qcoder/autoqcoder/AGENTS.md. The old text must match exactly including all whitespace and newlines.
+
+--- Message 177 (ASSISTANT, 2026-05-25T10:04:02.584Z) ---
+ôi cần chính xác oldText. Từ sed output, tôi thấy:
+
+```
+## PRODUCTION STANDARDS
+
+**Security:**
+Validate inputs; parameterized queries; no eval/crypto; KMS; TLS 1.2+; Auth on ALL state-changing endpoints; HttpOnly cookies; No PII logs; JWT RS256; Rate limiting (IP/user); CSP headers; SQL/XSS/CSRF prevention; Password hashing (bcrypt/Argon2); Command injection prevention (execFile); Threat model (STRIDE+DREAD).
+
+**Performance:**
+Targets: p50<100ms, p99<200ms, 1000+ RPS, O(n). Include PERFORMANCE BENCHMARK section: Scenario (10k+ records, 1MB+ payload); Baseline (old approach, metrics); Optimization (new approach, metrics); Targets (p50/p99/throughput/memory); Assertions (expect(...).toBeLessThan(...)); Real-world (warm cache, 50ms latency); Profiling (flamegraph/heap findings). No O(n²), N+1, blocking I/O.
+
+**Observability:**
+Structured JSON logs (pino/winston); Correlation IDs (X-Request-ID); Levels: ERROR/WARN/INFO/DEBUG; Metrics endpoint (/metrics, Prometheus); Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics; SLOs: availability 99.9%, p99<200ms, error rate <0.1%; Tracing: OpenTelemetry; Alerting: Alertmanager for SLO breaches.
+
+**Resilience (External services):**
+Retry: exp backoff+jitter, max 3-5; Timeout: all I/O (10s default); Circuit breaker: threshold=5, timeout=60s; Bulkhead: isolate pools; Fallback: cache/default/degraded; Health: /health (ready, live, db, cache); Graceful shutdown. Checklist: 5/7 required (retry, timeout, circuit breaker, bulkhead, fallback, health, shutdown).
+
+**Error Messages:**
+Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready (error codes). Recovery hints included.
+
+**Concurrency (shared state/parallelism):**
+Provide analysis section: Shared variables; Synchronization (mutex/lock/atomic); Safety proof (happens-before); Deadlock avoidance (lock ordering); Performance (contention, lock-free). Prevent race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
+
+**Verification & Collaboration:**
+Pre-commit (husky): lint, type-check, test --coverage, fail on high npm audit. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. VERIFICATION_STEPS.md.
+
+PR template: description, quality checklist (self-score, mandatory, security, tests, benchmarks, compliance, docs, verification). CODEOWNERS by directory. SLA: initial <24h, follow-up <12h, critical security <4h. Escalation: blocked 48h → tech lead → manager. Branch: main protected, feature branches, PR required.
+
+**Versioning & Deprecation:**
+SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits: `feat:`→minor, `fix:`→patch, `BREAKING CHANGE:`→major, `docs:`/`chore:`. Git tagging: `git tag -a v1.2.3 -m "Release" && git push origin v1.2.3`. Changelog: [Unreleased], [1.2.3]-date, Added/Fixed/Removed. Dependencies: pin exact for apps (commit package-lock), caret/tilde for libraries. Lockfiles committed.
+
+Deprecation: Detect via CHANGELOG, linter, runtime logs. Fallback: polyfill/feature detection. Log warnings, telemetry, alert high usage. Migration: TODOs with deadline, test both paths in CI. Version pinning: lock to non-deprecated, `npm outdated` before upgrade.
+
+---
+
+## SELF-EVOLUTION & PRODUCTION READINESS
+```
+
+Tôi sẽ copy chính xác và replace.
+</think>
+Để tôi lấy chính xác oldText từ file:
+[toolCall]
+
+--- Message 178 (TOOL_RESULT, 2026-05-25T10:04:58.939Z) ---
+## PRODUCTION STANDARDS\n\n**Security:**\nValidate inputs; parameterized queries; no eval/crypto; KMS; TLS 1.2+; Auth on ALL state-changing endpoints; HttpOnly cookies; No PII logs; JWT RS256; Rate limiting (IP/user); CSP headers; SQL/XSS/CSRF prevention; Password hashing (bcrypt/Argon2); Command injection prevention (execFile); Threat model (STRIDE+DREAD).\n\n**Performance:**\nTargets: p50<100ms, p99<200ms, 1000+ RPS, O(n). Include PERFORMANCE BENCHMARK section: Scenario (10k+ records, 1MB+ payload); Baseline (old approach, metrics); Optimization (new approach, metrics); Targets (p50/p99/throughput/memory); Assertions (expect(...).toBeLessThan(...)); Real-world (warm cache, 50ms latency); Profiling (flamegraph/heap findings). No O(n²), N+1, blocking I/O.\n\n**Observability:**\nStructured JSON logs (pino/winston); Correlation IDs (X-Request-ID); Levels: ERROR/WARN/INFO/DEBUG; Metrics endpoint (/metrics, Prometheus); Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics; SLOs: availability 99.9%, p99<200ms, error rate <0.1%; Tracing: OpenTelemetry; Alerting: Alertmanager for SLO breaches.\n\n**Resilience (External services):**\nRetry: exp backoff+jitter, max 3-5; Timeout: all I/O (10s default); Circuit breaker: threshold=5, timeout=60s; Bulkhead: isolate pools; Fallback: cache/default/degraded; Health: /health (ready, live, db, cache); Graceful shutdown. Checklist: 5/7 required (retry, timeout, circuit breaker, bulkhead, fallback, health, shutdown).\n\n**Error Messages:**\nFormat: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready (error codes). Recovery hints included.\n\n**Concurrency (shared state/parallelism):**\nProvide analysis: Shared variables; Synchronization (mutex/lock/atomic); Safety proof (happens-before); Deadlock avoidance (lock ordering); Performance (contention, lock-free). Prevent race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.\n\n**Verification & Collaboration:**\nPre-commit (husky): lint, type-check, test --coverage, fail on high npm audit. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. VERIFICATION_STEPS.md.\n\nPR template: description, quality checklist (self-score, mandatory, security, tests, benchmarks, compliance, docs, verification). CODEOWNERS by directory. SLA: initial <24h, follow-up <12h, critical security <4h. Escalation: blocked 48h → tech lead → manager. Branch: main protected, feature branches, PR required.\n\n**Versioning & Deprecation:**\nSemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits: `feat:`→minor, `fix:`→patch, `BREAKING CHANGE:`→major, `docs:`/`chore:`. Git tagging: `git tag -a v1.2.3 -m "Release" && git push origin v1.2.3`. Changelog: [Unreleased], [1.2.3]-date, Added/Fixed/Removed. Dependencies: pin exact for apps (commit package-lock), caret/tilde for libraries. Lockfiles committed.\n\nDeprecation: Detect via CHANGELOG, linter, runtime logs. Fallback: polyfill/feature detection. Log warnings, telemetry, alert high usage. Migration: TODOs with deadline, test both paths in CI. Version pinning: lock to non-deprecated, `npm outdated` before upgrade.\n\n---\n\n## SELF-EVOLUTION & PRODUCTION READINESS\n\n**Evolution Files (maintain automatically):**\n- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR\n- `docs/AGENT_PROFILE.md`: Weaknesses, fragile modules, error-prone stacks\n- `docs/EVOLUTION.md`: 3-6 month roadmap, planned refactors, debt, infrastructure evolution\n\n**After every meaningful change, update:**\n1. Metrics with actual numbers\n2. Profile weaknesses (new exposures?)\n3. Evolution trajectory (changed?)\n\n**Meta-Goal:** System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.\n\n---\n\n
+
+--- Message 179 (ASSISTANT, 2026-05-25T10:04:58.943Z) ---
+! Bây giờ tôi sẽ replace bằng version compress. Tôi sẽ giữ lại **SELF-EVOLUTION & PRODUCTION READINESS** (không đổi nhiều), và chỉ compress PRODUCTION STANDARDS.
+
+newText sẽ là:
+- PRODUCTION STANDARDS (compress)
+- SELF-EVOLUTION & PRODUCTION READINESS (giữ nguyên vì ngắn rồi)
+
+Tôi sẽ viết version compress của PRODUCTION STANDARDS, sau đó đến SELF-EVOLUTION.
+
+Compressed version:
+
+```
+## PRODUCTION STANDARDS
+
+**Security:** Input validation, parameterized queries, no eval/crypto, KMS, TLS 1.2+, Auth ALL state-changing, HttpOnly cookies, No PII logs, JWT RS256, Rate limiting, CSP, SQL/XSS/CSRF prevention, Password hashing (bcrypt/Argon2), Command injection prevention, Threat model (STRIDE+DREAD).
+
+**Performance:** p50<100ms, p99<200ms, 1000+ RPS, O(n). Include PERFORMANCE BENCHMARK: Scenario (10k+ records, 1MB+ payload), Baseline/Optimization metrics, Assertions, Real-world (warm cache, 50ms), Profiling. No O(n²), N+1, blocking I/O.
+
+**Observability:** Structured JSON logs, Correlation IDs (X-Request-ID), Levels ERROR/WARN/INFO/DEBUG, Metrics (/metrics, Prometheus), Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics, SLOs (99.9% availability, p99<200ms, error rate<0.1%), Tracing (OpenTelemetry), Alerting (Alertmanager).
+
+**Resilience:** Retry (exp backoff+jitter, max 3-5), Timeout (all I/O, 10s default), Circuit breaker (threshold=5, timeout=60s), Bulkhead (isolate pools), Fallback (cache/default/degraded), Health (/health: ready, live, db, cache), Graceful shutdown. Checklist: 5/7 required.
+
+**Error Messages:** Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready, recovery hints.
+
+**Concurrency:** Provide analysis: Shared variables, Synchronization (mutex/lock/atomic), Safety proof (happens-before), Deadlock avoidance (lock ordering), Performance (contention, lock-free). Prevent: race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
+
+**Verification & Collaboration:** Pre-commit (husky): lint, type-check, test --coverage. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. PR template: description, quality checklist, CODEOWNERS. SLA: initial<24h, follow-up<12h, critical<4h. Protected branches, PR required.
+
+**Versioning & Deprecation:** SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits. Git tagging. Changelog. Pin exact for apps, caret/tilde for libraries. Deprecation: detect via logs, fallback, migration TODOs, version pinning.
+
+---
+
+## SELF-EVOLUTION & PRODUCTION READINESS
+
+**Evolution Files (maintain automatically):**
+- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
+- `docs/AGENT_PROFILE.md`: Weaknesses, fragile modules, error-prone stacks
+- `docs/EVOLUTION.md`: 3-6 month roadmap, planned refactors, debt, infrastructure evolution
+
+**After every meaningful change, update:**
+1. Metrics with actual numbers
+2. Profile weaknesses (new exposures?)
+3. Evolution trajectory (changed?)
+
+**Meta-Goal:** System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.
+
+---
+
+```
+
+So sánh: oldText có ~50 lines (mỗi section dài). Compressed version ~30 lines. Tiết kiệm được ~20 lines.
+
+Tôi sẽ dùng edit tool với oldText chính xác (đã có từ bash) và newText như trên.
+</think>
+Tôi sẽ tạo newText đầy đủ và replace:
+[toolCall]
+
+--- Message 180 (TOOL_RESULT, 2026-05-25T10:06:11.232Z) ---
+Could not find the exact text in /home/quangtynu/Qcoder/autoqcoder/AGENTS.md. The old text must match exactly including all whitespace and newlines.
+
+--- Message 181 (ASSISTANT, 2026-05-25T10:06:11.236Z) ---
+ẫn không match. Có lẽ có whitespace issues. Tôi sẽ dùng bash để xem chính xác oldText với cat -A để thấy các ký tự ẩn. Hoặc tôi có thể dùng write để overwrite toàn bộ file thay vì edit từng section. Đơn giản hơn: tôi sẽ rewrite file hoàn toàn với version compress đã chuẩn bị.
+
+Tuy nhiên, rewrite mất nhiều công. Có thể dùng `sed -i` để replace section nhưng cần match chính xác.
+
+Một cách khác: tôi có thể xem file hiện tại, copy nội dung, edit bằng text editor, và write lại. Nhưng tôi đang dùng tool edit.
+
+Tôi sẽ thử lấy oldText bằng cách dùng `cat` và escape đúng cách. Hoặc đơn giản: tôi sẽ dùng `write` để overwrite toàn bộ file AGENTS.md với version đã compress. Tôi sẽ combine toàn bộ sections lại thành file mới.
+
+Để tiết kiệm thời gian, tôi sẽ dùng write để tạo file mới hoàn chỉnh với nội dung compress. Tuy nhiên, cần đảm bảo không mất thông tin nào quan trọng.
+
+Tôi sẽ lấy toàn bộ nội dung file hiện tại, compress PRODUCTION STANDARDS, và write lại.
+
+Trước tiên, backup thông tin: Tôi có thể dùng `read` toàn bộ file rồi tạo nội dung mới. Nhưng tôi cần đảm bảo các section khác không bị thay đổi.
+
+Cách khác: vì edit không match, tôi có thể dùng bash `sed` với đa số pattern. Nhưng đơn giản nhất là tạo file mới và replace.
+
+Tôi sẽ đọc toàn bộ AGENTS.md hiện tại, tạo nội dung mới trong memory, rồi write.
+
+Đọc file:
+</think>
+Vì edit không match exact whitespace, tôi sẽ dùng `write` để overwrite toàn bộ file với version đã compress:
+[toolCall]
+
+--- Message 182 (TOOL_RESULT, 2026-05-25T10:06:48.907Z) ---
+# SELF-OPTIMIZING PROMPT ENGINE - v2.0 (Unified)
+**Production-ready code generator với self-evolution**
+
+---
+
+## CORE QUALITY GATE (BẮT BUỘC)
+
+Trước khi output code, phải pass:
+
+**Metrics (≥90 points):**
+- [ ] Functions ≤20 lines
+- [ ] Complexity ≤10
+- [ ] No 5+ duplicates
+- [ ] Error handling 100% (all public)
+- [ ] Input validation 100% (all external)
+- [ ] No hardcoded secrets
+- [ ] Testable (no direct DB/network in business logic)
+- [ ] Coverage ≥80% (measured)
+- [ ] All tests pass
+
+**Anti-Patterns (12):**
+God Object; Arrow Code; Magic Constants; Shotgun Surgery; Circular Dep; Deep Inheritance; Feature Envy; N+1 Queries; Blocking I/O; O(n²); Unbounded Cache; Sync Rate Limit.
+→ Fix: Extract; Guard clauses; Named constant; Single module; Interface; Composition; Move function; JOIN/batch; Async; Hashmaps; TTL/limit; Token bucket.
+
+**Devil's Advocate:**
+- [ ] Failure modes: timeout, deadlock, OOM, unhandled exceptions?
+- [ ] Scale: O(n), memory linear, DB indexes, 1M+ users?
+- [ ] Security: SQL/XSS/command injection, privilege escalation?
+- [ ] Senior: over-engineering, missing edge cases, poor naming?
+- [ ] On-call: alert storms, retry storms, cascading failures?
+- [ ] SLOs: p99<200ms, error rate <0.1%, availability 99.9%
+
+---
+
+## PRODUCTION STANDARDS
+
+**Security:**
+Validate inputs; parameterized queries; no eval/crypto; KMS; TLS 1.2+; Auth on ALL state-changing endpoints; HttpOnly cookies; No PII logs; JWT RS256; Rate limiting (IP/user); CSP headers; SQL/XSS/CSRF prevention; Password hashing (bcrypt/Argon2); Command injection prevention (execFile); Threat model (STRIDE+DREAD).
+
+**Performance:**
+Targets: p50<100ms, p99<200ms, 1000+ RPS, O(n). Include PERFORMANCE BENCHMARK section: Scenario (10k+ records, 1MB+ payload); Baseline (old approach, metrics); Optimization (new approach, metrics); Targets (p50/p99/throughput/memory); Assertions (expect(...).toBeLessThan(...)); Real-world (warm cache, 50ms latency); Profiling (flamegraph/heap findings). No O(n²), N+1, blocking I/O.
+
+**Observability:**
+Structured JSON logs (pino/winston); Correlation IDs (X-Request-ID); Levels: ERROR/WARN/INFO/DEBUG; Metrics endpoint (/metrics, Prometheus); Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics; SLOs: availability 99.9%, p99<200ms, error rate <0.1%; Tracing: OpenTelemetry; Alerting: Alertmanager for SLO breaches.
+
+**Resilience (External services):**
+Retry: exp backoff+jitter, max 3-5; Timeout: all I/O (10s default); Circuit breaker: threshold=5, timeout=60s; Bulkhead: isolate pools; Fallback: cache/default/degraded; Health: /health (ready, live, db, cache); Graceful shutdown. Checklist: 5/7 required (retry, timeout, circuit breaker, bulkhead, fallback, health, shutdown).
+
+**Error Messages:**
+Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready (error codes). Recovery hints included.
+
+**Concurrency (shared state/parallelism):**
+Provide analysis: Shared variables; Synchronization (mutex/lock/atomic); Safety proof (happens-before); Deadlock avoidance (lock ordering); Performance (contention, lock-free). Prevent race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
+
+**Verification & Collaboration:**
+Pre-commit (husky): lint, type-check, test --coverage, fail on high npm audit. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. VERIFICATION_STEPS.md.
+
+PR template: description, quality checklist (self-score, mandatory, security, tests, benchmarks, compliance, docs, verification). CODEOWNERS by directory. SLA: initial <24h, follow-up <12h, critical security <4h. Escalation: blocked 48h → tech lead → manager. Branch: main protected, feature branches, PR required.
+
+**Versioning & Deprecation:**
+SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits: `feat:`→minor, `fix:`→patch, `BREAKING CHANGE:`→major, `docs:`/`chore:`. Git tagging: `git tag -a v1.2.3 -m "Release" && git push origin v1.2.3`. Changelog: [Unreleased], [1.2.3]-date, Added/Fixed/Removed. Dependencies: pin exact for apps (commit package-lock), caret/tilde for libraries. Lockfiles committed.
+
+Deprecation: Detect via CHANGELOG, linter, runtime logs. Fallback: polyfill/feature detection. Log warnings, telemetry, alert high usage. Migration: TODOs with deadline, test both paths in CI. Version pinning: lock to non-deprecated, `npm outdated` before upgrade.
+
+---
+
+## SELF-EVOLUTION & PRODUCTION READINESS
+
+**Evolution Files (maintain automatically):**
+- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
+- `docs/AGENT_PROFILE.md`: Weaknesses, fragile modules, error-prone stacks
+- `docs/EVOLUTION.md`: 3-6 month roadmap, planned refactors, debt, infrastructure evolution
+
+**After every meaningful change, update:**
+1. Metrics with actual numbers
+2. Profile weaknesses (new exposures?)
+3. Evolution trajectory (changed?)
+
+**Meta-Goal:** System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.
+
+---
+
+## MANDATORY PRINCIPLES
+
+**Code Preservation:**
+- KHÔNG XÓA CODE (last resort)
+- Debug: Read → Understand → Isolate → Test → Verify (systematic)
+- Nếu lỗi: preserve, tìm root cause, fix logic
+- Luôn có plan restore từ git
+- Disable feature tạm thời thay vì xóa
+
+**Change Cost & Risk:**
+- Estimate engineering cost (hours/days)
+- Risk level: Low / Medium / High
+- Estimated rollback time
+- Prefer Low-risk, high-impact over High-risk, aesthetic
+
+**Missing Code = Write More:**
+- Nếu phát hiện thiếu → VIẾT THÊM
+- KHÔNG skip "không yêu cầu"
+- KHÔNG remove code để simplify
+- KHÔNG giảm scope để pass nhanh
+- App ngày càng hoàn thiện
+
+**Production Readiness Checklist:**
+- [ ] All functions mental-tested (valid/invalid/edge/error)
+- [ ] All APIs contract verified
+- [ ] All flows UI→DB và DB→UI
+- [ ] All edge cases covered
+- [ ] All error paths handled
+- [ ] Security vulnerabilities none
+- [ ] Performance acceptable
+- [ ] Industry standards met
+- [ ] Documentation updated
+- [ ] Missing code = written (not skipped)
+
+**Mental Testing Mode:**
+- KHÔNG viết test code (sẽ verify trong đầu)
+- KHÔNG check bằng tool (tưởng tượng scenarios)
+- Tưởng tượng ALL inputs: valid, invalid, null, empty, boundary
+- Từng nhánh logic phải cover
+- Tất cả error paths phải handle
+- Data flow cả 2 chiều (UI→DB, DB→UI)
+
+---
+
+## CONCURRENCY (shared state/parallelism)
+
+### Analysis Template (BẮT BUỘC)
+Khi code có shared state/parallelism, cung cấp:
+
+1. **Shared Variables**: List tất cả shared state (global, static, caches)
+2. **Synchronization**: Mutex/lock/atomic/queue used?
+3. **Safety Proof**: Happens-before relation, memory barriers
+4. **Deadlock Avoidance**: Lock ordering, timeout, lock-free design
+5. **Performance**: Contention points, lock-free alternatives
+6. **Async Safety**: Handle all rejections, no callback+promise mix
+
+**Prevent:** Race conditions, deadlocks, memory consistency errors.
+
+---
+
+## DEBUGGING & ISSUE RESOLUTION (from code-review skill)
+
+### Systematic Debugging Process
+**Bắt buộc thực hiện theo thứ tự:**
+1. **Read entire file** - Không chỉ đoạn suspected, đọc mọi dòng, imports, dependencies
+2. **Understand context** - Structure, related logic, external calls
+3. **Isolate problem** - Reproduction case, minimal code
+4. **Test hypotheses** - Add debug prints, unit tests
+5. **Verify fix** - Ensure no regression
+
+### Debugging Checklist
+- [ ] Đọc toàn bộ file trước khi modify
+- [ ] Identify root cause (không skip)
+- [ ] Check braces, parentheses, indentation
+- [ ] Verify async/await, promises
+- [ ] Check lifetimes (memory, connections)
+- [ ] Review error logs full context (stack trace, request ID)
+- [ ] Add debug output nếu cần
+- [ ] Isolate section bằng comments/disable
+- [ ] Test hypotheses từng bước
+- [ ] Verify both happy path & error paths
+
+### If Still Failing
+- Consult team hoặc pair programming
+- Review git history để xem previous working state
+- Disable feature tạm thời (feature flag) thay vì xóa code
+- Always có plan restore từ git
+
+**Cấm tuyệt đối:**
+- ❌ Xóa code để pass test
+- ❌ "Vá áo" - fix tạm thời gây bug khác
+- ❌ Chấp nhận degradation
+- ❌ Bỏ qua root cause
+
+---
+
+## FRONTEND ARCHITECTURE (Atomic Design)
+
+### Component Hierarchy
+**Atoms**: Basic UI (Button, Input, Icon, Badge, Checkbox...)
+**Molecules**: Combinations (FormGroup, Card, Modal, Alert...)
+**Organisms**: Complex sections (Header, Sidebar, DataTable, FilterPanel...)
+**Templates**: Page layouts (AuthLayout, DashboardLayout...)
+**Pages**: Use Templates + Components (KHÔNG viết UI elements mới)
+
+### Rules
+- Pages dùng component library (không inline UI)
+- Features organized by domain (not layers)
+- Mỗi feature có component library riêng hoặc dùng shared
+- UI/UX nhất quán qua shared components
+
+### Structure
+```
+frontend/
+├── components/
+│   ├── atoms/
+│   ├── molecules/
+│   └── organisms/
+├── features/{feature}/
+├── templates/
+└── pages/
+```
+
+### Validation Checklist
+- [ ] Pages sử dụng component library
+- [ ] Không có inline UI elements trong pages
+- [ ] Components dùng đúng atomic hierarchy
+- [ ] Features organized by domain
+- [ ] Shared components không chứa business logic
+
+---
+
+## TEST GENERATION (NẾU CẦN TEST CODE)
+Mock external deps; test pure logic only; tests <100ms; deterministic. Include: valid, null/undefined, boundaries, malformed. Verify effects and side effects. Coverage: CI branch ≥80%. All error paths covered. Each public API ≥1 test. Structure: `describe` → `it` (AAA). Unit=business logic; Integration=service contracts; E2E <10%.
+
+---
+
+## COMPLIANCE & COST (if applicable)
+
+**Compliance** (GDPR/HIPAA/PCI/SOX/COPPA/audited): Require COMPLIANCE section with Standards, Status (✅ Compliant/⚠️ Non-compliant), Controls ([x]/[ ]), Gaps with remediation plan, Evidence links, Next Audit date. Penalty -25 if missing.
+
+**Cost Optimization** (cloud/AWS/GCP/Azure/scale/cost): Right-size (60-70% CPU), spot/preemptible, reserved (1-3y, 30-50% off), S3 Intelligent-Tiering, lifecycle, read replicas, auto-scaling, minimize transfer, serverless for spiky, budget alerts, tagging. Penalty -15 if missing.
+
+---
+
+## TEMPLATE
+```
+Expert engineer. Production code:
+QUALITY: Functions<=20, complexity<=10, no dup>5, 100% error handling, validation, no secrets.
+STRUCTURE: TL;DR, Code, Tests, Verification, Gotchas.
+```
+
+---
+
+*v2.0: ~150 lines target. Unified v1.5 + mate extensions. Production-readiness focused.*
+
+
+--- Message 183 (ASSISTANT, 2026-05-25T10:06:48.914Z) ---
+ tôi sẽ write file mới với version compress của PRODUCTION STANDARDS. Trước tiên tôi sẽ tạo nội dung compress, sau đó write.
+
+Tôi sẽ giữ nguyên tất cả các sections khác, chỉ compress PRODUCTION STANDARDS.
+
+Compressed PRODUCTION STANDARDS:
+
+## PRODUCTION STANDARDS
+
+**Security:** Input validation, parameterized queries, no eval/crypto, KMS, TLS 1.2+, Auth ALL state-changing, HttpOnly cookies, No PII logs, JWT RS256, Rate limiting, CSP, SQL/XSS/CSRF prevention, Password hashing (bcrypt/Argon2), Command injection prevention, Threat model (STRIDE+DREAD).
+
+**Performance:** p50<100ms, p99<200ms, 1000+ RPS, O(n). PERFORMANCE BENCHMARK: Scenario (10k+ records, 1MB+ payload), Baseline/Optimization metrics, Assertions, Real-world (warm cache, 50ms), Profiling. No O(n²), N+1, blocking I/O.
+
+**Observability:** Structured JSON logs, Correlation IDs (X-Request-ID), Levels ERROR/WARN/INFO/DEBUG, Metrics (/metrics, Prometheus), Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics, SLOs (99.9% availability, p99<200ms, error rate<0.1%), Tracing (OpenTelemetry), Alerting (Alertmanager).
+
+**Resilience:** Retry (exp backoff+jitter, max 3-5), Timeout (all I/O, 10s default), Circuit breaker (threshold=5, timeout=60s), Bulkhead (isolate pools), Fallback (cache/default/degraded), Health (/health: ready, live, db, cache), Graceful shutdown. Checklist: 5/7 required.
+
+**Error Messages:** Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready, recovery hints.
+
+**Concurrency:** Provide analysis: Shared variables, Synchronization (mutex/lock/atomic), Safety proof (happens-before), Deadlock avoidance (lock ordering), Performance (contention, lock-free). Prevent: race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
+
+**Verification & Collaboration:** Pre-commit (husky): lint, type-check, test --coverage. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. PR template: description, quality checklist, CODEOWNERS. SLA: initial<24h, follow-up<12h, critical<4h. Protected branches, PR required.
+
+**Versioning & Deprecation:** SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits. Git tagging. Changelog. Pin exact for apps, caret/tilde for libraries. Deprecation: detect via logs, fallback, migration TODOs, version pinning.
+
+---
+
+## SELF-EVOLUTION & PRODUCTION READINESS
+...
+
+Tôi sẽ tạo file content hoàn chỉnh và write.
+</think>
+Bây giờ tôi sẽ viết lại toàn bộ file với PRODUCTION STANDARDS đã compress:
+[toolCall]
+
+--- Message 184 (TOOL_RESULT, 2026-05-25T10:08:27.366Z) ---
+Successfully wrote 9737 bytes to /home/quangtynu/Qcoder/autoqcoder/AGENTS.md
+
+--- Message 185 (ASSISTANT, 2026-05-25T10:08:27.371Z) ---
+ đã overwite file với version compact. Bây giờ Kiểm tra line count:
+</think>
+
+[toolCall]
+
+--- Message 186 (TOOL_RESULT, 2026-05-25T10:08:34.876Z) ---
+225 /home/quangtynu/Qcoder/autoqcoder/AGENTS.md
+
+
 --- AVAILABLE TOOLS (9) ---
 • read: Read the contents of a file. Supports text files and images (jpg, png, gif, webp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.
   Parameters: {
@@ -5549,4 +7681,4 @@ Tool update not found
   ]
 }
 
-=== END CONTEXT LOG (2026-05-25T09:48:56.425Z) ===
+=== END CONTEXT LOG (2026-05-25T10:08:34.879Z) ===

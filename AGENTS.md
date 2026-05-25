@@ -32,35 +32,23 @@ God Object; Arrow Code; Magic Constants; Shotgun Surgery; Circular Dep; Deep Inh
 
 ---
 
-## PRODUCTION STANDARDS
+## PRODUCTION STANDARDS (COMPACT)
 
-**Security:**
-Validate inputs; parameterized queries; no eval/crypto; KMS; TLS 1.2+; Auth on ALL state-changing endpoints; HttpOnly cookies; No PII logs; JWT RS256; Rate limiting (IP/user); CSP headers; SQL/XSS/CSRF prevention; Password hashing (bcrypt/Argon2); Command injection prevention (execFile); Threat model (STRIDE+DREAD).
+**Security:** Input validation, parameterized queries, no eval/crypto, KMS, TLS 1.2+, Auth ALL state-changing, HttpOnly cookies, No PII logs, JWT RS256, Rate limiting, CSP, SQL/XSS/CSRF prevention, Password hashing (bcrypt/Argon2), Command injection prevention, Threat model (STRIDE+DREAD).
 
-**Performance:**
-Targets: p50<100ms, p99<200ms, 1000+ RPS, O(n). Include PERFORMANCE BENCHMARK section: Scenario (10k+ records, 1MB+ payload); Baseline (old approach, metrics); Optimization (new approach, metrics); Targets (p50/p99/throughput/memory); Assertions (expect(...).toBeLessThan(...)); Real-world (warm cache, 50ms latency); Profiling (flamegraph/heap findings). No O(n²), N+1, blocking I/O.
+**Performance:** p50<100ms, p99<200ms, 1000+ RPS, O(n). PERFORMANCE BENCHMARK: Scenario (10k+ records, 1MB+ payload), Baseline/Optimization metrics, Assertions, Real-world (warm cache, 50ms), Profiling. No O(n²), N+1, blocking I/O.
 
-**Observability:**
-Structured JSON logs (pino/winston); Correlation IDs (X-Request-ID); Levels: ERROR/WARN/INFO/DEBUG; Metrics endpoint (/metrics, Prometheus); Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics; SLOs: availability 99.9%, p99<200ms, error rate <0.1%; Tracing: OpenTelemetry; Alerting: Alertmanager for SLO breaches.
+**Observability:** Structured JSON logs, Correlation IDs (X-Request-ID), Levels ERROR/WARN/INFO/DEBUG, Metrics (/metrics, Prometheus), Track: http_requests_total, http_request_duration_seconds, errors_total, business_metrics, SLOs (99.9% availability, p99<200ms, error rate<0.1%), Tracing (OpenTelemetry), Alerting (Alertmanager).
 
-**Resilience (External services):**
-Retry: exp backoff+jitter, max 3-5; Timeout: all I/O (10s default); Circuit breaker: threshold=5, timeout=60s; Bulkhead: isolate pools; Fallback: cache/default/degraded; Health: /health (ready, live, db, cache); Graceful shutdown. Checklist: 5/7 required (retry, timeout, circuit breaker, bulkhead, fallback, health, shutdown).
+**Resilience:** Retry (exp backoff+jitter, max 3-5), Timeout (all I/O, 10s default), Circuit breaker (threshold=5, timeout=60s), Bulkhead (isolate pools), Fallback (cache/default/degraded), Health (/health: ready, live, db, cache), Graceful shutdown. Checklist: 5/7 required.
 
-**Error Messages:**
-Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready (error codes). Recovery hints included.
+**Error Messages:** Format: `[ERROR] Component Action - Reason - Suggestion`. Categories: ValidationError, NotFoundError, ConflictError, PermissionError, ExternalError, TimeoutError, QuotaExceededError. User: clear, actionable, NO stack/SQL/internal. Dev/Log: full context (request ID, user ID, stack, payload, correlation IDs). i18n-ready, recovery hints.
 
-**Concurrency (shared state/parallelism):**
-Provide analysis: Shared variables; Synchronization (mutex/lock/atomic); Safety proof (happens-before); Deadlock avoidance (lock ordering); Performance (contention, lock-free). Prevent race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
+**Concurrency:** Analysis: Shared variables, Synchronization (mutex/lock/atomic), Safety proof (happens-before), Deadlock avoidance (lock ordering), Performance (contention, lock-free). Prevent: race conditions, deadlocks. Async safety: handle all rejections, no callback+promise mix. Use atomic ops/immutables.
 
-**Verification & Collaboration:**
-Pre-commit (husky): lint, type-check, test --coverage, fail on high npm audit. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. VERIFICATION_STEPS.md.
+**Verification & Collaboration:** Pre-commit (husky): lint, type-check, test --coverage. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. PR template: description, quality checklist, CODEOWNERS. SLA: initial<24h, follow-up<12h, critical<4h. Protected branches, PR required.
 
-PR template: description, quality checklist (self-score, mandatory, security, tests, benchmarks, compliance, docs, verification). CODEOWNERS by directory. SLA: initial <24h, follow-up <12h, critical security <4h. Escalation: blocked 48h → tech lead → manager. Branch: main protected, feature branches, PR required.
-
-**Versioning & Deprecation:**
-SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits: `feat:`→minor, `fix:`→patch, `BREAKING CHANGE:`→major, `docs:`/`chore:`. Git tagging: `git tag -a v1.2.3 -m "Release" && git push origin v1.2.3`. Changelog: [Unreleased], [1.2.3]-date, Added/Fixed/Removed. Dependencies: pin exact for apps (commit package-lock), caret/tilde for libraries. Lockfiles committed.
-
-Deprecation: Detect via CHANGELOG, linter, runtime logs. Fallback: polyfill/feature detection. Log warnings, telemetry, alert high usage. Migration: TODOs with deadline, test both paths in CI. Version pinning: lock to non-deprecated, `npm outdated` before upgrade.
+**Versioning & Deprecation:** SemVer 2.0: MAJOR (breaking), MINOR (features), PATCH (fixes). Conventional Commits. Git tagging. Changelog. Pin exact for apps, caret/tilde for libraries. Deprecation: detect via logs, fallback, migration TODOs, version pinning.
 
 ---
 
@@ -124,6 +112,94 @@ Deprecation: Detect via CHANGELOG, linter, runtime logs. Fallback: polyfill/feat
 
 ---
 
+## CONCURRENCY (shared state/parallelism)
+
+### Analysis Template (BẮT BUỘC)
+Khi code có shared state/parallelism, cung cấp:
+
+1. **Shared Variables**: List tất cả shared state (global, static, caches)
+2. **Synchronization**: Mutex/lock/atomic/queue used?
+3. **Safety Proof**: Happens-before relation, memory barriers
+4. **Deadlock Avoidance**: Lock ordering, timeout, lock-free design
+5. **Performance**: Contention points, lock-free alternatives
+6. **Async Safety**: Handle all rejections, no callback+promise mix
+
+**Prevent:** Race conditions, deadlocks, memory consistency errors.
+
+---
+
+## DEBUGGING & ISSUE RESOLUTION (from code-review skill)
+
+### Systematic Debugging Process
+**Bắt buộc thực hiện theo thứ tự:**
+1. **Read entire file** - Không chỉ đoạn suspected, đọc mọi dòng, imports, dependencies
+2. **Understand context** - Structure, related logic, external calls
+3. **Isolate problem** - Reproduction case, minimal code
+4. **Test hypotheses** - Add debug prints, unit tests
+5. **Verify fix** - Ensure no regression
+
+### Debugging Checklist
+- [ ] Đọc toàn bộ file trước khi modify
+- [ ] Identify root cause (không skip)
+- [ ] Check braces, parentheses, indentation
+- [ ] Verify async/await, promises
+- [ ] Check lifetimes (memory, connections)
+- [ ] Review error logs full context (stack trace, request ID)
+- [ ] Add debug output nếu cần
+- [ ] Isolate section bằng comments/disable
+- [ ] Test hypotheses từng bước
+- [ ] Verify both happy path & error paths
+
+### If Still Failing
+- Consult team hoặc pair programming
+- Review git history để xem previous working state
+- Disable feature tạm thời (feature flag) thay vì xóa code
+- Always có plan restore từ git
+
+**Cấm tuyệt đối:**
+- ❌ Xóa code để pass test
+- ❌ "Vá áo" - fix tạm thời gây bug khác
+- ❌ Chấp nhận degradation
+- ❌ Bỏ qua root cause
+
+---
+
+## FRONTEND ARCHITECTURE (Atomic Design)
+
+### Component Hierarchy
+**Atoms**: Basic UI (Button, Input, Icon, Badge, Checkbox...)
+**Molecules**: Combinations (FormGroup, Card, Modal, Alert...)
+**Organisms**: Complex sections (Header, Sidebar, DataTable, FilterPanel...)
+**Templates**: Page layouts (AuthLayout, DashboardLayout...)
+**Pages**: Use Templates + Components (KHÔNG viết UI elements mới)
+
+### Rules
+- Pages dùng component library (không inline UI)
+- Features organized by domain (not layers)
+- Mỗi feature có component library riêng hoặc dùng shared
+- UI/UX nhất quán qua shared components
+
+### Structure
+```
+frontend/
+├── components/
+│   ├── atoms/
+│   ├── molecules/
+│   └── organisms/
+├── features/{feature}/
+├── templates/
+└── pages/
+```
+
+### Validation Checklist
+- [ ] Pages sử dụng component library
+- [ ] Không có inline UI elements trong pages
+- [ ] Components dùng đúng atomic hierarchy
+- [ ] Features organized by domain
+- [ ] Shared components không chứa business logic
+
+---
+
 ## TEST GENERATION (NẾU CẦN TEST CODE)
 Mock external deps; test pure logic only; tests <100ms; deterministic. Include: valid, null/undefined, boundaries, malformed. Verify effects and side effects. Coverage: CI branch ≥80%. All error paths covered. Each public API ≥1 test. Structure: `describe` → `it` (AAA). Unit=business logic; Integration=service contracts; E2E <10%.
 
@@ -146,4 +222,4 @@ STRUCTURE: TL;DR, Code, Tests, Verification, Gotchas.
 
 ---
 
-*v2.0: ~150 lines target. Unified v1.5 + mate extensions. Production-readiness focused.*
+*v2.0: ~200 lines target. Unified v1.5 + mate extensions. Production-readiness focused.*

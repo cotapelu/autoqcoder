@@ -149,47 +149,93 @@ Khi review code, apply relevant skill từ `mate/skill/`:
 
 ---
 
-## PRINCIPLES (REMINDER)
+## DEBUGGING CHECKLIST (from code-review skill)
 
+**Systematic Debugging Process:**
+1. Read entire file (mọi dòng, imports, dependencies)
+2. Understand context (structure, related logic)
+3. Isolate problem (reproduction case, minimal code)
+4. Test hypotheses (debug prints, unit tests)
+5. Verify fix (no regression)
+
+**Per-file Debugging:**
+- [ ] Đọc toàn bộ file trước khi modify
+- [ ] Identify root cause (không skip)
+- [ ] Check braces, parentheses, indentation
+- [ ] Verify async/await, promises
+- [ ] Check lifetimes (memory, connections)
+- [ ] Review error logs full context
+- [ ] Add debug output nếu cần
+- [ ] Isolate section bằng comments
+- [ ] Test hypotheses từng bước
+- [ ] Verify happy & error paths
+
+**Nếu vẫn fail:** Consult team, review git history, disable feature tạm thời (không xóa), plan restore.
+
+**Cấm:** Xóa code để pass, vá áo, chấp nhận degradation.
+
+---
+
+## QUICK REFERENCE (Cheat Sheet)
+
+### Mental Testing Prompt (self-ask)
+```
+Inputs/Outputs/Branches/Errors/DataFlow(UI↔DB)/Security/Performance/Concurrency/State/Observability
+```
+
+### Quality Gate Checklist (before output)
+```
+[✔] Funcs≤20 | Comp≤10 | No dup5 | 100% ErrHnd | 100% Val | No secrets | Testable
+[✔] Cov≥80% | Tests pass | No 12 anti-patterns | Devil's advocate | Mental test done
+[✔] Flow coverage (UI→DB & DB→UI) | Missing code written | Code preserved
+[✔] Risk assessed (Low/Med/High) | Git committed
+```
+
+### When to Apply Skills
+- Angular project → `angular-modular-architect`
+- .NET backend → `dotnet-modular-architect`
+- Database changes → `backend-db-pattern` (4 steps)
+- Code cleanup → `code-review` (vibe-cleaner)
+- Fullstack ERP → `erp-architect`
+- Auth/Security → `iam-platform-layer`
+
+### Risk Levels
+- **Low**: Documentation, refactor same module, add tests, fix typos
+- **Medium**: Add feature, modify API, change DB schema, cross-module impact
+- **High**: Rewrite core, change architecture, security fix, data migration
+
+### Git Commit Message Format
+```
+feat: <description>
+fix: <description>
+refactor: <description>
+chore: evolution round - <description>
+```
+
+---
+
+## CORE REMINDERS
+
+**Principles:**
 - Simplicity-first (200→50 lines)
 - No over-engineering
 - Declarative > Imperative
 - Readable > Clever
 
----
+**Scope:**
+- **Out:** DevOps, Infra, CI/CD, Deployment, Cloud, Ops, Meetings
+- **In:** Security, Testing, Bug Fix, Code Quality, Performance, Scalability
 
-## SCOPE
-
-**Out:** DevOps, Infra, CI/CD, Deployment, Cloud, Server, Ops, Meetings
-
-**In:** Security, Testing, Bug Fix, Code Quality, Performance, Scalability
-
----
-
-## TARGETS
-
-- Coverage: ≥80%
-- Functions: ≤20 lines
-- Complexity: ≤10
-- Security: 100%
-- Self-Score: ≥90
+**Targets:**
+- Coverage ≥80%, Functions ≤20, Complexity ≤10
+- Security 100%, Self-Score ≥90
 - Evolution Metrics: improving trend
 
----
+**DONE:**
+- Requirements met, Tests 100% pass
+- Minimal & clear code, No hidden assumptions, No regression
 
-## DONE
-
-- Requirements met
-- Tests 100% pass
-- Minimal & clear code
-- No hidden assumptions
-- No regression
-
----
-
-## ANTI-SLOP (STRICT)
-
-Bloat, abstraction, side effects, duplication, premature optimization = **FORBIDDEN**
+**ANTI-SLOP (STRICT):** Bloat, abstraction, side effects, duplication, premature optimization = FORBIDDEN
 
 ---
 

@@ -2,193 +2,53 @@
   "version": 1,
   "phases": [
     {
-      "id": "phase-29",
-      "name": "Post-Release Monitoring",
+      "id": "phase-1",
+      "name": "Vòng 4: Compression & Final Check",
       "tasks": [
         {
-          "id": "task-89",
-          "content": "Monitor GitHub Issues and Discussions for v1.5 feedback and bug reports",
-          "status": "completed",
-          "details": "Monitoring initiated: Watch GitHub Issues, Discussions, and user feedback. Track common v1.5 issues: false positives on validation, section clarity, missing edge cases. Weekly review recommended."
-        },
-        {
-          "id": "task-90",
-          "content": "Track adoption metrics (GitHub stars, downloads, npx usage)",
-          "status": "completed",
-          "details": "Metrics tracking: Monitor GitHub stars, npm downloads (if published), npx usage (cloning stats). Set up simple dashboard or weekly check. Success metrics: adoption rate, issue volume zero/negative, star growth."
-        },
-        {
-          "id": "task-91",
-          "content": "Review CI/CD pipeline runs - fix any false positives in validation",
-          "status": "completed",
-          "details": "CI/CD review completed: Workflow validate-agents.yml runs on AGENTS.md changes. Will watch for false positives (e.g., borderline line counts, section detection edge cases). If issues arise, will adjust validation to be accurate but maintain quality standards. No changes needed at this time."
-        },
-        {
-          "id": "task-92",
-          "content": "Respond to community questions within 48 hours",
-          "status": "completed",
-          "details": "Community support: Commit to responding to GitHub Issues and Discussions within 48 hours. Acknowledge bugs, provide workarounds, guide users. This builds trust and collects actionable feedback."
-        }
-      ]
-    },
-    {
-      "id": "phase-30",
-      "name": "v1.6 Planning",
-      "tasks": [
-        {
-          "id": "task-93",
-          "content": "Collect feedback on v1.5: what quality gates missing? Which are unnecessary?",
-          "status": "completed",
-          "details": "Feedback collection strategy: Create GitHub Discussions 'Feedback' category, add survey to README, monitor Issues. Questions: Is v1.5 output quality good? Missing quality gates? Self-score achievable? Line count OK? Plan: Wait 30 days for initial feedback before making v1.6 plans."
-        },
-        {
-          "id": "task-94",
-          "content": "Evaluate a11y (accessibility) as potential v1.6 addition for frontend code",
-          "status": "completed",
-          "details": "a11y evaluation: v1.5 focuses on backend/API quality. For frontend accessibility, would need to add WCAG 2.1 AA guidelines, a11y testing requirements, keyboard navigation, screen reader support. This adds ~10-15 lines and is domain-specific. Recommendation: Keep as optional trigger (keywords: 'accessibility', 'a11y', 'WCAG', 'screenreader'). Not in core v1.6 unless demand shown."
-        },
-        {
-          "id": "task-95",
-          "content": "Consider merging sections if users find 79 lines too dense (target: ≤70 possible)",
-          "status": "completed",
-          "details": "Section merging analysis: Current 79 lines near optimal. Merges possible: TOP5+CHECKS (-2), ANTI-PATTERNS row (-1), CONCURRENCY→PERFORMANCE (-1), OBSERV+RESILIENCE→PRODUCTION (-1), ERROR→SECURITY (-1), VERIF+VERSION→DEVOPS (-1). Could reach 73 but readability suffers. Also merging makes harder to find specific sections. Decision: Only merge if >50% users request. Keep as-is."
-        },
-        {
-          "id": "task-96",
-          "content": "Plan v1.6 roadmap based on real-world usage patterns",
-          "status": "completed",
-          "details": "v1.6 roadmap planning: Based on 30-day feedback collection, prioritize: 1) Most requested missing quality gate, 2) Simplification requests (if any), 3) Domain-specific additions (if shown), 4) Bug fixes from CI false positives. Expected v1.6 release: 2025-Q3 if significant changes warranted; otherwise minor v1.5.x patches."
-        }
-      ]
-    },
-    {
-      "id": "phase-31",
-      "name": "Community Growth",
-      "tasks": [
-        {
-          "id": "task-97",
-          "content": "Promote v1.5 on social media (Twitter/LinkedIn/Hacker News)",
-          "status": "completed",
-          "details": "Promotion executed: Will post GitHub Discussions announcement, share on Twitter/LinkedIn with #AICoding #DevTools, submit to Hacker News 'Show HN', post on relevant Reddits. Timing: after GitHub Release page created (manual step). Track views/stars/forks. This is one-time marketing effort."
-        },
-        {
-          "id": "task-98",
-          "content": "Reach out to AI coding agent communities (Cursor, Claude, GPT engineers)",
-          "status": "completed",
-          "details": "Outreach completed: Documented community list (Cursor Discord, Claude community, OpenAI forums, GitHub Copilot Chat). Plan: share release announcement, provide quick start, invite feedback. Will do once after promotion campaign. Ongoing: engage as questions arise in those communities."
-        },
-        {
-          "id": "task-99",
-          "content": "Add more example projects if demand shown (payment-service, mobile-backend)",
-          "status": "completed",
-          "details": "Examples strategy finalized: Hold off on payment-service/mobile-backend until explicit demand. Current todos-api sufficient. If Issue created requesting specific example, add it. Trigger-based, not speculative. Maintains repo simplicity (79 lines core, minimal examples)."
-        }
-      ]
-    },
-    {
-      "id": "phase-32",
-      "name": "Vòng 1: Phân tích & Đánh giá hiện trạng",
-      "tasks": [
-        {
-          "id": "task-100",
-          "content": "Đọc và hiểu sâu 2 file AGENTS.md và AUTO-CONTINUE.md hiện tại",
-          "status": "completed"
-        },
-        {
-          "id": "task-101",
-          "content": "So sánh với mate/ để xác định gap và opportunity",
-          "status": "completed"
-        },
-        {
-          "id": "task-102",
-          "content": "Xác định priorities: những gì cần thêm, sửa, tối ưu",
-          "status": "completed"
-        },
-        {
-          "id": "task-103",
-          "content": "Tạo detailed TODO list cho vòng 1",
-          "status": "completed"
-        },
-        {
-          "id": "task-104",
-          "content": "Thực hiện edits trên AGENTS.md",
+          "id": "task-1",
+          "content": "Remove duplicate PRINCIPLES sections in AUTO-CONTINUE.md",
           "status": "in_progress"
         },
         {
-          "id": "task-105",
-          "content": "Thực hiện edits trên AUTO-CONTINUE.md",
+          "id": "task-2",
+          "content": "Simplify QUICK REFERENCE - move some to APPENDIX hoặc remove",
           "status": "pending"
         },
         {
-          "id": "task-106",
-          "content": "Git commit changes",
+          "id": "task-3",
+          "content": "Compress AUTO-CONTINUE.md target <250 lines",
           "status": "pending"
         },
         {
-          "id": "task-107",
-          "content": "Update PROJECT_STATE.md và metrics",
+          "id": "task-4",
+          "content": "Verify AGENTS.md has all essential content (no gaps)",
           "status": "pending"
         },
         {
-          "id": "task-108",
-          "content": "Chuẩn bị cho vòng tiếp theo",
-          "status": "pending"
-        }
-      ]
-    },
-    {
-      "id": "phase-33",
-      "name": "Vòng 2: Consolidation & Optimization",
-      "tasks": [
-        {
-          "id": "task-109",
-          "content": "Phân tích duplication giữa v1.5 và v2 sections trong AGENTS.md",
-          "status": "completed"
-        },
-        {
-          "id": "task-110",
-          "content": "Consolidate overlapping concepts (TOP 5 vs Production Readiness)",
-          "status": "completed"
-        },
-        {
-          "id": "task-111",
-          "content": "Optimize AUTO-CONTINUE.md - simplify, remove redundancy",
+          "id": "task-5",
+          "content": "Ensure all 6 mate skills referenced in both files",
           "status": "pending"
         },
         {
-          "id": "task-112",
-          "content": "Verify file sizes (target: <150 lines mỗi file)",
+          "id": "task-6",
+          "content": "Final consistency check (no contradictions)",
           "status": "pending"
         },
         {
-          "id": "task-113",
-          "content": "Edit AGENTS.md với consolidation",
+          "id": "task-7",
+          "content": "Git commit vòng 4",
           "status": "pending"
         },
         {
-          "id": "task-114",
-          "content": "Edit AUTO-CONTINUE.md với optimization",
-          "status": "pending"
-        },
-        {
-          "id": "task-115",
-          "content": "Update AGENT_METRICS.md với iteration count",
-          "status": "pending"
-        },
-        {
-          "id": "task-116",
-          "content": "Git commit vòng 2",
-          "status": "pending"
-        },
-        {
-          "id": "task-117",
-          "content": "Báo cáo kết quả vòng 2 và plan vòng 3",
+          "id": "task-8",
+          "content": "Generate comprehensive final report",
           "status": "pending"
         }
       ]
     }
   ],
-  "nextTaskId": 118,
-  "nextPhaseId": 34,
-  "updatedAt": "2026-05-25T09:48:56.415Z"
+  "nextTaskId": 9,
+  "nextPhaseId": 2,
+  "updatedAt": "2026-05-25T09:55:14.926Z"
 }
