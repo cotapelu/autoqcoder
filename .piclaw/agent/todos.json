@@ -46,9 +46,96 @@
           "status": "pending"
         }
       ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Vòng 4: hoàn thành",
+      "tasks": [
+        {
+          "id": "task-9",
+          "content": "Compress AGENTS.md và AUTO-CONTINUE.md",
+          "status": "completed"
+        },
+        {
+          "id": "task-10",
+          "content": "Update evolution files with final metrics",
+          "status": "completed"
+        },
+        {
+          "id": "task-11",
+          "content": "Git commit vòng 4",
+          "status": "completed"
+        },
+        {
+          "id": "task-12",
+          "content": "Generate final comprehensive report",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Vòng 5: Real-World Validation & Testing",
+      "tasks": [
+        {
+          "id": "task-13",
+          "content": "Select a real codebase to apply the engine (e.g., todos-api)",
+          "status": "pending"
+        },
+        {
+          "id": "task-14",
+          "content": "Read codebase thoroughly using mental testing approach",
+          "status": "pending"
+        },
+        {
+          "id": "task-15",
+          "content": "Apply AGENTS.md principles to identify issues",
+          "status": "pending"
+        },
+        {
+          "id": "task-16",
+          "content": "Apply skill definitions (backend-db-pattern, code-review)",
+          "status": "pending"
+        },
+        {
+          "id": "task-17",
+          "content": "Implement fixes and improvements according to standards",
+          "status": "pending"
+        },
+        {
+          "id": "task-18",
+          "content": "Verify all functions ≤20 lines, complexity ≤10",
+          "status": "pending"
+        },
+        {
+          "id": "task-19",
+          "content": "Run mental testing checklist (complete coverage)",
+          "status": "pending"
+        },
+        {
+          "id": "task-20",
+          "content": "Update PROJECT_STATE.md with real improvements",
+          "status": "pending"
+        },
+        {
+          "id": "task-21",
+          "content": "Update AGENT_METRICS.md with REAL metrics (not baselines)",
+          "status": "pending"
+        },
+        {
+          "id": "task-22",
+          "content": "Git commit vòng 5",
+          "status": "pending"
+        },
+        {
+          "id": "task-23",
+          "content": "Generate Real-World Validation Report",
+          "status": "pending"
+        }
+      ]
     }
   ],
-  "nextTaskId": 9,
-  "nextPhaseId": 2,
-  "updatedAt": "2026-05-25T09:55:14.926Z"
+  "nextTaskId": 24,
+  "nextPhaseId": 4,
+  "updatedAt": "2026-05-25T10:12:58.269Z"
 }
