@@ -135,9 +135,60 @@
           "status": "pending"
         }
       ]
+    },
+    {
+      "id": "phase-33",
+      "name": "Vòng 2: Consolidation & Optimization",
+      "tasks": [
+        {
+          "id": "task-109",
+          "content": "Phân tích duplication giữa v1.5 và v2 sections trong AGENTS.md",
+          "status": "completed"
+        },
+        {
+          "id": "task-110",
+          "content": "Consolidate overlapping concepts (TOP 5 vs Production Readiness)",
+          "status": "completed"
+        },
+        {
+          "id": "task-111",
+          "content": "Optimize AUTO-CONTINUE.md - simplify, remove redundancy",
+          "status": "pending"
+        },
+        {
+          "id": "task-112",
+          "content": "Verify file sizes (target: <150 lines mỗi file)",
+          "status": "pending"
+        },
+        {
+          "id": "task-113",
+          "content": "Edit AGENTS.md với consolidation",
+          "status": "pending"
+        },
+        {
+          "id": "task-114",
+          "content": "Edit AUTO-CONTINUE.md với optimization",
+          "status": "pending"
+        },
+        {
+          "id": "task-115",
+          "content": "Update AGENT_METRICS.md với iteration count",
+          "status": "pending"
+        },
+        {
+          "id": "task-116",
+          "content": "Git commit vòng 2",
+          "status": "pending"
+        },
+        {
+          "id": "task-117",
+          "content": "Báo cáo kết quả vòng 2 và plan vòng 3",
+          "status": "pending"
+        }
+      ]
     }
   ],
-  "nextTaskId": 109,
-  "nextPhaseId": 33,
-  "updatedAt": "2026-05-25T09:39:04.517Z"
+  "nextTaskId": 118,
+  "nextPhaseId": 34,
+  "updatedAt": "2026-05-25T09:48:56.415Z"
 }

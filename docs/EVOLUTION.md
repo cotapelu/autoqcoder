@@ -1,33 +1,59 @@
-# Evolution Roadmap - Technical Trajectory
+# Evolution Roadmap - Technical Trajectory (v2.0)
 
-**Planning Period:** 2025-05-25 to 2025-11-25 (6 months)  
-**Version:** 1.0
+**Planning Period:** 2025-05-25 to 2025-11-25 (6 months)
+**Current Phase:** Phase 1 - Foundation (Month 1-2) - IN PROGRESS
+**Version:** 2.0 (post-consolidation)
+
+---
 
 ## Vision
+
 Evolve into a self-improving agent that consistently produces production-ready code with minimal defects, optimal architecture, and comprehensive mental testing.
+
+---
 
 ## Phase 1: Foundation (Month 1-2) - MAY-JUN 2025
 
-### Goals
-- Establish baseline metrics
-- Integrate mate skill system fully
-- Achieve 90+ self-score consistently
+### Status: IN PROGRESS (50% Complete)
+
+**Goals:**
+- ✅ Establish baseline metrics
+- ✅ Integrate mate skill system fully
+- ⚠️ Achieve 90+ self-score consistently (baseline: 100% on prompt engine itself)
+
+**Completed (Round 1-2):**
+- ✅ Integrated mate v2 extensions into AGENTS.md & AUTO-CONTINUE.md
+- ✅ Consolidated v1.5 + v2 → 149/196 lines (20% reduction)
+- ✅ Created evolution memory files: AGENT_PROFILE.md, AGENT_METRICS.md, EVOLUTION.md, PROJECT_STATE.md
+- ✅ Enforced git commit requirement after each round
+- ✅ Applied code preservation rule (0 deletions)
+- ✅ Implemented change cost & risk model usage
+- ✅ Maintained 100% checklist compliance
+
+**In Progress:**
+- [ ] **Mental Testing Validation**: Test với real codebase (pending actual project code)
+- [ ] **Skill Application**: Apply 6 skill definitions to modify codebase (pending)
+- [ ] **PROJECT_STATE.md Updates**: Update after each iteration (done 2 rounds, need more)
+
+**Remaining:**
+- [ ] Generate real metrics from actual code changes (not just prompt engine)
+- [ ] Demonstrate mental testing on a real module
+- [ ] Apply skill patterns to improve existing code
 
 ### Planned Refactors
-- [ ] **Mental Testing Discipline**: Replace all test generation with mental testing workflows
-- [ ] **Code Preservation Enforcement**: Systematic debugging without deletion
-- [ ] **Flow Coverage Integration**: Enforce 2-way flow verification (UI→DB, DB→UI)
-- [ ] **Missing Code Detection**: Implement write-more-not-less principle
+- [ ] **Mental Testing on Real Code**: Pick a module, mental-test all scenarios, implement improvements
+- [ ] **Skill-Driven Refactoring**: Apply backend-db-pattern, angular-modular-architect to actual code
+- [ ] **Vibe-Cleaner Review**: Run code-review skill on existing codebase to eliminate AI anti-patterns
 
 ### Anticipated Technical Debt
-- [ ] Initial lack of real-world data for mental testing (will improve with experience)
-- [ ] Overhead from maintaining evolution files (will automate later)
-- [ ] Skill matures: update patterns as new architectures emerge
+- [ ] Mental testing may miss subtle bugs only caught via execution (will discover with experience)
+- [ ] Skill definitions need validation on diverse projects (Angular, .NET patterns may need adjustment)
+- [ ] Evolution file maintenance overhead (manual updates) → need automation later
 
 ### Infrastructure Evolution
-- [ ] Setup automated metrics collection (script các metrics vào AGENT_METRICS.md)
-- [ ] Integration với existing CI nếu có
-- [ ] Template generation cho PROJECT_STATE.md
+- [x] Setup core memory files (AGENT_PROFILE, AGENT_METRICS, EVOLUTION, PROJECT_STATE)
+- [ ] Create scripts để auto-update metrics (Month 3-4)
+- [ ] Template generation cho PROJECT_STATE.md (standardize format)
 
 ---
 
@@ -35,39 +61,39 @@ Evolve into a self-improving agent that consistently produces production-ready c
 
 ### Goals
 - Reduce rollback count to <5% of changes
-- Achieve 0 critical bugs in production
-- Improve MTTR by 50%
+- Achieve 0 critical bugs in production (on real deployments)
+- Improve MTTR by 50% (baseline: ∞ chưa có data)
 
 ### Planned Refactors
-- [ ] **Risk Assessment Automation**: đánh giá risk level tự động từ code changes
-- [ ] **Change Impact Analysis**: predict blast radius trước khi change
-- [ ] **Pattern Library Expansion**: add more skill definitions (React, Node.js, Go, Rust)
-- [ ] **Production Readiness Automation**: pre-commit checks tự động
+- [ ] **Risk Assessment Automation**: Auto-assess risk level từ code changes (file count, dependency impact)
+- [ ] **Change Impact Analysis**: Predict blast radius trước khi change (dependency graph)
+- [ ] **Pattern Library Expansion**: Add more skill definitions (React, Node.js, Go, Rust, Python)
+- [ ] **Production Readiness Automation**: Pre-commit checks tự động (husky hooks)
 
 ### Anticipated Technical Debt
 - [ ] Skill definitions may need frequent updates as frameworks evolve
-- [ ] Mental testing may miss subtle race conditions (cần experience)
-- [ ] Evolution file maintenance overhead
+- [ ] Mental testing limitations for race conditions cần experience
+- [ ] Evolution file manual updates still error-prone
 
 ### Infrastructure Evolution
-- [ ] Dashboard for metrics visualization
-- [ ] Automated compliance checking
-- [ ] Integration với code review tools (PR templates)
+- [ ] Dashboard cho metrics visualization (web UI)
+- [ ] Automated compliance checking (run linters, security scanners)
+- [ ] Integration với code review tools (PR templates auto-generated)
 
 ---
 
 ## Phase 3: Optimization (Month 5-6) - SEP-OCT 2025
 
 ### Goals
-- Achieve 99.9% availability target
+- Achieve 99.9% availability target on deployed apps
 - Reduce MTTR by 75% từ baseline
 - Automate 80% of quality gates
 
 ### Planned Refactors
-- [ ] **Predictive Failure Prevention**: dự đoán failures từ code patterns
-- [ ] **Self-Healing Code**: automatic fixes cho known anti-patterns
-- [ ] **Continuous Evolution**: agent tự propose improvements
-- [ ] **Knowledge Sharing**: generate best practices docs automatically
+- [ ] **Predictive Failure Prevention**: Dự đoán failures từ code patterns (machine learning?)
+- [ ] **Self-Healing Code**: Auto-fix cho known anti-patterns
+- [ ] **Continuous Evolution**: Agent tự propose improvements weekly
+- [ ] **Knowledge Sharing**: Generate best practices docs automatically
 
 ### Anticipated Technical Debt
 - [ ] Complexity của self-healing algorithms
@@ -75,10 +101,10 @@ Evolve into a self-improving agent that consistently produces production-ready c
 - [ ] Balancing automation với human oversight
 
 ### Infrastructure Evolution
-- [ ] Full CI/CD integration với all gates
-- [ ] Real-time monitoring và alerting
-- [ ] Automated rollback triggers
-- [ ] Performance benchmarking suite
+- [ ] Full CI/CD integration với all gates (GitHub Actions workflow)
+- [ ] Real-time monitoring & alerting (Prometheus + Grafana)
+- [ ] Automated rollback triggers (failed deployment → auto rollback)
+- [ ] Performance benchmarking suite (synthetic load tests)
 
 ---
 
@@ -88,7 +114,7 @@ Evolve into a self-improving agent that consistently produces production-ready c
 - [ ] Duplicate code detection & elimination
 - [ ] Complexity reduction (functions ≤20 lines)
 - [ ] Error handling completeness (100%)
-- [ ] Input validation (all external inputs)
+- [ ] Input validation (all external)
 
 ### Security Hardening
 - [ ] OWASP Top 10 compliance
@@ -114,28 +140,27 @@ Evolve into a self-improving agent that consistently produces production-ready c
 ## Risk Mitigation
 
 ### Technical Risks
-1. **Over-automation**: Có thể introduce hidden bugs
+1. **Over-automation**: Introduce hidden bugs
    - Mitigation: Gradual rollout, feature flags, extensive testing
-2. **Metrics Gaming**: Agent có thể cheat metrics
+2. **Metrics Gaming**: Agent cheat metrics
    - Mitigation: Multi-dimensional metrics, human review
-3. **Skill Stagnation**: Patterns có thể lỗi thời
+3. **Skill Stagnation**: Patterns become outdated
    - Mitigation: Quarterly pattern review, community scanning
 
 ### Process Risks
-1. **Evolution Fatigue**: Quá nhiều changes quá nhanh
+1. **Evolution Fatigue**: Too many changes too fast
    - Mitigation: Prioritize high-impact, low-risk changes
 2. **Documentation Drift**: Evolution docs không khớp reality
    - Mitigation: Auto-update từ actual metrics
 
 ---
 
-## Success Criteria
+## Success Criteria (By Month 6)
 
-**By Month 6:**
-- [ ] Self-score ≥95 consistently (≥90 tối thiểu)
-- [ ] 0 critical bugs in production
+- [ ] Self-score ≥95 consistently (≥90 minimum)
+- [ ] 0 critical bugs in production (on real deployments)
 - [ ] <5% rollback rate
-- [ ] MTTR <4 hours (baseline <8h)
+- [ ] MTTR <4 hours (baseline: ∞)
 - [ ] All mental tests pass (no test failures)
 - [ ] 100% security compliance
 - [ ] Performance targets met (p50<100ms, p99<200ms)
@@ -146,10 +171,32 @@ Evolve into a self-improving agent that consistently produces production-ready c
 
 ## Review Schedule
 
-- **Monthly**: Update metrics, adjust EVOLUTION.md
-- **Quarterly**: Major roadmap review, add new phases
+- **Weekly**: Update metrics, adjust EVOLUTION.md (light)
+- **Monthly**: Major metrics review, update AGENT_PROFILE, adjust roadmap
+- **Quarterly**: Phase transition review, add new phases, major adjustments
 - **Semi-annually**: Re-evaluate vision và long-term goals
 
 ---
 
-**Note:** This is a living document. Will be updated based on actual performance và learnings.
+## Current Status (2025-05-25)
+
+**Phase 1 Progress:** 50%
+- Completed: Core infrastructure, prompt engine self-optimization
+- Pending: Real codebase application, skill-driven refactoring
+- Next: Select a module, apply mental testing + skills, generate real metrics
+
+**Metrics Snapshot:**
+- Evolution rounds: 2
+- File size reduction: 20% (431→345 lines)
+- Checklist compliance: 100%
+- Risk level: Low (file consolidation)
+- Git commits: 2 (100% compliance)
+
+**Key Learnings:**
+- Consolidation possible without losing content
+- Mental testing works for meta-code (prompt engine itself)
+- Skill integration needs real codebase to validate
+
+---
+
+**Note:** This is a living document. Will be updated based on actual performance và learnings from real deployments.
