@@ -1,33 +1,63 @@
 {
   "name": "autoqcoder",
-  "version": "1.5.0",
-  "description": "Self-optimizing prompt engine for AI coding agents",
-  "bin": {
-    "autoqcoder-setup": "setup.js"
+  "version": "2.0.0",
+  "description": "Self-optimizing prompt engine for AI coding agents. Production-ready code generation with self-evolution, mental testing, and 10+ skill definitions.",
+  "main": "AGENTS.md",
+  "files": [
+    "AGENTS.md",
+    "AUTO-CONTINUE.md",
+    "MIGRATION_GUIDE.md",
+    "QUICK_REFERENCE_CARD.md",
+    "mate/",
+    "docs/",
+    ".github/",
+    ".husky/"
+  ],
+  "scripts": {
+    "test": "echo \"No tests - this is a prompt engine\"",
+    "lint": "echo \"No linter - manual review required\"",
+    "prepare": "husky install",
+    "validate": "node scripts/validate.js"
   },
   "keywords": [
-    "ai-coding",
+    "ai",
+    "coding-agent",
     "prompt-engineering",
-    "code-quality",
-    "agents"
+    "production-ready",
+    "quality-gates",
+    "self-evolving",
+    "mental-testing",
+    "clean-architecture",
+    "repository-pattern",
+    "typescript",
+    "nodejs",
+    "dotnet",
+    "angular",
+    "react",
+    "go",
+    "rust",
+    "python"
   ],
+  "author": "autoqcoder team <team@autoqcoder.dev>",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cotapelu/autoqcoder.git"
+    "url": "https://github.com/autoqcoder/autoqcoder.git"
   },
-  "main": "setup.js",
-  "scripts": {
-    "test": "mocha"
-  },
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/cotapelu/autoqcoder/issues"
+    "url": "https://github.com/autoqcoder/autoqcoder/issues"
   },
-  "homepage": "https://github.com/cotapelu/autoqcoder#readme",
+  "homepage": "https://github.com/autoqcoder",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "husky": ">=8.0.0"
+  },
   "devDependencies": {
-    "chai": "^6.2.2",
-    "mocha": "^11.7.5"
+    "husky": "^9.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

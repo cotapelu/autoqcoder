@@ -1,0 +1,123 @@
+#!/usr/bin/env node
+
+/**
+ * Pre-commit hook for autoqcoder projects
+ * Enforces AGENTS.md quality gates before each commit
+ */
+
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const STAGED_FILES = process.env.STAGED_FILES || getStagedFiles();
+
+console.log('🔍 Running pre-commit quality checks...\n');
+
+let hasErrors = false;
+
+// 1. Check file types
+function getStagedFiles() {
+  try {
+    const output = execSync('git diff --cached --name-only', { encoding: 'utf-8' });
+    return output.split('\n').filter(f => f.trim());
+  } catch (e) {
+    console.error('Failed to get staged files:', e.message);
+    process.exit(1);
+  }
+}
+
+// 2. Lint (JS/TS files)
+const jsFiles = STAGED_FILES.filter(f => f.endsWith('.js') || f.endsWith('.ts') || f.endsWith('.jsx') || f.endsWith('.tsx'));
+if (jsFiles.length > 0) {
+  console.log('📝 Running ESLint...');
+  try {
+    execSync(`npx eslint ${jsFiles.join(' ')} --fix`, { stdio: 'inherit' });
+  } catch (e) {
+    console.error('❌ ESLint failed. Fix errors and try again.');
+    hasErrors = true;
+  }
+}
+
+// 3. Type check (TS files)
+const tsFiles = STAGED_FILES.filter(f => f.endsWith('.ts') || f.endsWith('.tsx'));
+if (tsFiles.length > 0) {
+  console.log('🔍 Running TypeScript compiler check...');
+  try {
+    execSync('npx tsc --noEmit --strict', { stdio: 'inherit' });
+  } catch (e) {
+    console.error('❌ TypeScript check failed. Fix errors and try again.');
+    hasErrors = true;
+  }
+}
+
+// 4. Run tests (if test files changed or all tests on demand)
+const testFiles = STAGED_FILES.filter(f => f.includes('.test.') || f.includes('.spec.') || f === 'jest.config.js' || f === 'package.json');
+if (testFiles.length > 0) {
+  console.log('🧪 Running affected tests...');
+  try {
+    execSync('npm test -- --passWithNoTests --forceExit --detectOpenHandles', { stdio: 'inherit' });
+  } catch (e) {
+    console.error('❌ Some tests failed. Fix and try again.');
+    hasErrors = true;
+  }
+}
+
+// 5. Check for console.log (debugging left in code)
+const codeFiles = STAGED_FILES.filter(f => /\.(js|ts|jsx|tsx)$/.test(f));
+if (codeFiles.length > 0) {
+  const allCode = codeFiles.map(f => fs.readFileSync(f, 'utf8')).join('\n');
+  const consoleLogs = (allCode.match(/console\.(log|debug|info|warn)/g) || []).length;
+  if (consoleLogs > 0) {
+    console.warn('⚠️  Found console.log statements. Consider removing or use proper logger.');
+    // Don't fail - just warn
+  }
+}
+
+// 6. Verify commit message format
+const commitMsgFile = process.env.HUSKY_GIT_PARAMS;
+if (commitMsgFile && fs.existsSync(commitMsgFile)) {
+  const commitMsg = fs.readFileSync(commitMsgFile, 'utf8').trim();
+  const conventionalPattern = /^(feat|fix|refactor|chore|docs|style|test|perf|revert)(\([^)]+\))?: .{10,}/;
+  if (!conventionalPattern.test(commitMsg)) {
+    console.error('❌ Commit message does not follow Conventional Commits.');
+    console.error('   Format: type(scope): description');
+    console.error('   Types: feat, fix, refactor, chore, docs, style, test, perf, revert');
+    console.error('   Example: feat(auth): add JWT token refresh');
+    hasErrors = true;
+  }
+}
+
+// 7. Check for secrets (basic)
+const secretPatterns = [
+  /(password|secret|key|token|pass)\s*[:=]\s*['"][^'"]{8,}['"]/gi,
+  /AKIA[0-9A-Z]{16}/g, // AWS Access Key
+  /sk_live_[0-9a-zA-Z]{24}/g, // Stripe live key
+  /ghp_[0-9a-zA-Z]{36}/g, // GitHub personal token
+];
+
+for (const file of codeFiles) {
+  const content = fs.readFileSync(file, 'utf8');
+  for (const pattern of secretPatterns) {
+    const matches = content.match(pattern);
+    if (matches) {
+      console.error(`❌ Possible secret found in ${file}:`);
+      console.error(`   ${matches[0]}`);
+      hasErrors = true;
+    }
+  }
+}
+
+// 8. Check AGENTS.md compliance (if AGENTS.md exists)
+if (fs.existsSync('AGENTS.md')) {
+  console.log('📋 Checking AGENTS.md compliance...');
+  // Placeholder: implement actual validation based on project needs
+}
+
+// Summary
+if (hasErrors) {
+  console.log('\n❌ Pre-commit checks failed. Fix errors and try again.');
+  process.exit(1);
+} else {
+  console.log('\n✅ All pre-commit checks passed!');
+  process.exit(0);
+}

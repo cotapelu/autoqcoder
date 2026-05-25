@@ -3,139 +3,62 @@
   "phases": [
     {
       "id": "phase-1",
-      "name": "Vòng 4: Compression & Final Check",
+      "name": "Vòng 6: Expansion & Knowledge Sharing",
       "tasks": [
         {
           "id": "task-1",
-          "content": "Remove duplicate PRINCIPLES sections in AUTO-CONTINUE.md",
-          "status": "in_progress"
+          "content": "Create additional skill definitions (React, Go, Rust, Python)",
+          "status": "completed"
         },
         {
           "id": "task-2",
-          "content": "Simplify QUICK REFERENCE - move some to APPENDIX hoặc remove",
-          "status": "pending"
+          "content": "Create CI/CD integration templates (GitHub Actions, husky hooks)",
+          "status": "in_progress"
         },
         {
           "id": "task-3",
-          "content": "Compress AUTO-CONTINUE.md target <250 lines",
+          "content": "Create MIGRATION_GUIDE.md (v1.5 → v2.0)",
           "status": "pending"
         },
         {
           "id": "task-4",
-          "content": "Verify AGENTS.md has all essential content (no gaps)",
+          "content": "Create QUICK_REFERENCE_CARD.md (one-page summary)",
           "status": "pending"
         },
         {
           "id": "task-5",
-          "content": "Ensure all 6 mate skills referenced in both files",
+          "content": "Prepare npm package setup (package.json, publishing)",
           "status": "pending"
         },
         {
           "id": "task-6",
-          "content": "Final consistency check (no contradictions)",
+          "content": "Create FAQ.md with common questions",
           "status": "pending"
         },
         {
           "id": "task-7",
-          "content": "Git commit vòng 4",
+          "content": "Add more real-world examples (Angular, .NET, Go)",
           "status": "pending"
         },
         {
           "id": "task-8",
-          "content": "Generate comprehensive final report",
+          "content": "Update EVOLUTION.md with Phase 4-6 plans",
           "status": "pending"
-        }
-      ]
-    },
-    {
-      "id": "phase-2",
-      "name": "Vòng 4: hoàn thành",
-      "tasks": [
+        },
         {
           "id": "task-9",
-          "content": "Compress AGENTS.md và AUTO-CONTINUE.md",
-          "status": "completed"
+          "content": "Git commit vòng 6 - all expansions",
+          "status": "pending"
         },
         {
           "id": "task-10",
-          "content": "Update evolution files with final metrics",
-          "status": "completed"
-        },
-        {
-          "id": "task-11",
-          "content": "Git commit vòng 4",
-          "status": "completed"
-        },
-        {
-          "id": "task-12",
-          "content": "Generate final comprehensive report",
-          "status": "completed"
-        }
-      ]
-    },
-    {
-      "id": "phase-3",
-      "name": "Vòng 5: Real-World Validation & Testing",
-      "tasks": [
-        {
-          "id": "task-13",
-          "content": "Select a real codebase to apply the engine (e.g., todos-api)",
-          "status": "pending"
-        },
-        {
-          "id": "task-14",
-          "content": "Read codebase thoroughly using mental testing approach",
-          "status": "pending"
-        },
-        {
-          "id": "task-15",
-          "content": "Apply AGENTS.md principles to identify issues",
-          "status": "pending"
-        },
-        {
-          "id": "task-16",
-          "content": "Apply skill definitions (backend-db-pattern, code-review)",
-          "status": "pending"
-        },
-        {
-          "id": "task-17",
-          "content": "Implement fixes and improvements according to standards",
-          "status": "pending"
-        },
-        {
-          "id": "task-18",
-          "content": "Verify all functions ≤20 lines, complexity ≤10",
-          "status": "pending"
-        },
-        {
-          "id": "task-19",
-          "content": "Run mental testing checklist (complete coverage)",
-          "status": "pending"
-        },
-        {
-          "id": "task-20",
-          "content": "Update PROJECT_STATE.md with real improvements",
-          "status": "pending"
-        },
-        {
-          "id": "task-21",
-          "content": "Update AGENT_METRICS.md with REAL metrics (not baselines)",
-          "status": "pending"
-        },
-        {
-          "id": "task-22",
-          "content": "Git commit vòng 5",
-          "status": "pending"
-        },
-        {
-          "id": "task-23",
-          "content": "Generate Real-World Validation Report",
+          "content": "Generate Deployment Guide",
           "status": "pending"
         }
       ]
     }
   ],
-  "nextTaskId": 24,
-  "nextPhaseId": 4,
-  "updatedAt": "2026-05-25T10:12:58.269Z"
+  "nextTaskId": 11,
+  "nextPhaseId": 2,
+  "updatedAt": "2026-05-25T10:37:41.991Z"
 }
