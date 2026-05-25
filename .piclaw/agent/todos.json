@@ -53,12 +53,68 @@
         {
           "id": "task-10",
           "content": "Generate VÈO CÙNG FINAL REPORT và kết thúc project",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Vòng 8: IDE Integration & Advanced Tooling",
+      "tasks": [
+        {
+          "id": "task-11",
+          "content": "Create VS Code extension with autoqcoder integration",
           "status": "in_progress"
+        },
+        {
+          "id": "task-12",
+          "content": "Create IntelliJ plugin (Java/Kotlin support)",
+          "status": "pending"
+        },
+        {
+          "id": "task-13",
+          "content": "Build metrics dashboard (Grafana panels)",
+          "status": "pending"
+        },
+        {
+          "id": "task-14",
+          "content": "Create auto-fix CLI command (autoqcoder fix)",
+          "status": "pending"
+        },
+        {
+          "id": "task-15",
+          "content": "Add GitHub Action for auto PR reviews",
+          "status": "pending"
+        },
+        {
+          "id": "task-16",
+          "content": "Create web-based validator (autoqcoder.dev/validate)",
+          "status": "pending"
+        },
+        {
+          "id": "task-17",
+          "content": "Add more skill definitions (Mobile: Swift, Kotlin, Flutter)",
+          "status": "pending"
+        },
+        {
+          "id": "task-18",
+          "content": "Create video tutorial series (YouTube)",
+          "status": "pending"
+        },
+        {
+          "id": "task-19",
+          "content": "Build community Discord with bot integration",
+          "status": "pending"
+        },
+        {
+          "id": "task-20",
+          "content": "Git commit vòng 8 - advanced features",
+          "status": "pending"
         }
       ]
     }
   ],
-  "nextTaskId": 11,
-  "nextPhaseId": 2,
-  "updatedAt": "2026-05-25T11:01:29.651Z"
+  "nextTaskId": 21,
+  "nextPhaseId": 3,
+  "updatedAt": "2026-05-25T11:12:43.105Z"
 }

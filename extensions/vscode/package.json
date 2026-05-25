@@ -1,0 +1,157 @@
+{
+  "name": "autoqcoder",
+  "displayName": "AutoQCoder",
+  "description": "Self-optimizing prompt engine integration for VS Code - production-ready code generation with mental testing",
+  "version": "2.0.0",
+  "publisher": "autoqcoder",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Machine Learning",
+    "Programming Tools",
+    "Linters"
+  ],
+  "keywords": [
+    "ai",
+    "coding",
+    "prompt",
+    "quality",
+    "production-ready",
+    "self-optimizing"
+  ],
+  "activationEvents": [
+    "onCommand:autoqcoder.validate",
+    "onCommand:autoqcoder.fix",
+    "onCommand:autoqcoder.mentalTest",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:python",
+    "onLanguage:go",
+    "onLanguage:rust"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "autoqcoder.validate",
+        "title": "AutoQCoder: Validate Current File",
+        "category": "AutoQCoder"
+      },
+      {
+        "command": "autoqcoder.fix",
+        "title": "AutoQCoder: Auto-Fix Issues",
+        "category": "AutoQCoder"
+      },
+      {
+        "command": "autoqcoder.mentalTest",
+        "title": "AutoQCoder: Run Mental Test",
+        "category": "AutoQCoder"
+      },
+      {
+        "command": "autoqcoder.showMetrics",
+        "title": "AutoQCoder: Show Project Metrics",
+        "category": "AutoQCoder"
+      },
+      {
+        "command": "autoqcoder.updateEvolution",
+        "title": "AutoQCoder: Update Evolution Files",
+        "category": "AutoQCoder"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "autoqcoder.validate",
+          "group": "2_modification"
+        },
+        {
+          "command": "autoqcoder.fix",
+          "group": "2_modification"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "autoqcoder.validate"
+        },
+        {
+          "command": "autoqcoder.fix"
+        },
+        {
+          "command": "autoqcoder.mentalTest"
+        },
+        {
+          "command": "autoqcoder.showMetrics"
+        },
+        {
+          "command": "autoqcoder.updateEvolution"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AutoQCoder",
+      "properties": {
+        "autoqcoder.selfScoreTarget": {
+          "type": "number",
+          "default": 90,
+          "description": "Target self-score (0-100)"
+        },
+        "autoqcoder.autoFix": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic fixes"
+        },
+        "autoqcoder.showNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show desktop notifications"
+        },
+        "autoqcoder.pathToAGENTS": {
+          "type": "string",
+          "default": "${workspaceRoot}/AGENTS.md",
+          "description": "Path to AGENTS.md file"
+        },
+        "autoqcoder.pathToAUTO CONTINUE": {
+          "type": "string",
+          "default": "${workspaceRoot}/AUTO-CONTINUE.md",
+          "description": "Path to AUTO-CONTINUE.md file"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.2",
+    "@vscode/test-electron": "^2.3.8"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1",
+    "inquirer": "^8.2.6",
+    "fs-extra": "^11.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/autoqcoder/autoqcoder-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/autoqcoder/autoqcoder-vscode/issues"
+  },
+  "license": "MIT"
+}
