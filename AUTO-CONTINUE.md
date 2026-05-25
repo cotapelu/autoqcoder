@@ -1,4 +1,5 @@
-# AUTO-CONTINUE.md - Evolution Workflow (v2.0)
+# AUTO-CONTINUE.md - Optimized Agent Workflow
+*Version: v2.1 Compact (AGENTS.md compliant)*
 
 ---
 
@@ -15,7 +16,7 @@ LOOP: while failed || improvable || not_minimal:
 
 ## SESSION START (BẮT BUỘC)
 
-Mỗi session mới (hoặc sau khi đọc codebase mới):
+Mỗi session mới hoặc sau khi đọc codebase mới:
 
 1. Đọc toàn bộ repository
 2. Đọc `docs/PROJECT_STATE.md` (nếu có)
@@ -31,13 +32,13 @@ Mỗi session mới (hoặc sau khi đọc codebase mới):
 ## CONTINUOUS LOOP MODE
 
 Default: continuous evolution. Sau khi complete iteration, phải identify next highest-impact TODO và tiếp tục work, ngay cả khi không có user prompt mới, UNLESS:
-- User explicitly tells you to stop or pause
+- User explicitly tells you to stop/pause
 - Tests/builds fail và cần clarification
 - Không còn actionable TODO items
 
 ---
 
-## EVOLUTION & SELF-IMPROVEMENT
+## EVOLUTION & SELF-IMPROVEMENT (CORE)
 
 **Mỗi vòng loop phải update evolution files:**
 
@@ -49,7 +50,7 @@ Default: continuous evolution. Sau khi complete iteration, phải identify next 
 
 ---
 
-## GIT COMMIT REQUIREMENT (BẮT BUỘC)
+## GIT COMMIT (MANDATORY)
 
 **SAU KHI HOÀN THÀNH MỘT VÒNG LOOP:**
 
@@ -62,28 +63,7 @@ Chỉ sau git commit xong thì mới bắt đầu vòng mới.
 
 ---
 
-## PUSHGUIDE QUALITY GATES (REFERENCE)
-
-Trước khi bất kỳ code nào được push production, phải pass **27 gates** từ `mate/PUSHGUIDE.md`:
-
-**0-4. Source & Build:**
-Source hygiene → Dependency freeze → Clean build → Artifact verification
-
-**5-18. Code Quality:**
-Static analysis → Type verification → Unit tests → Coverage gate → Integration → Contract → Data migration → Security scan → Compliance → Performance sanity → Stress/edge → Failure mode → Observability → Config validation
-
-**19-26. Deployment:**
-Packaging → Staging deploy → Smoke → Rollback test → Human review → Sign-off
-
-**27. Git push allowed**
-
-> **Note:** LLM chỉ làm được Bước 0. Tất cả gates 1-26 tồn tại vì "code luôn nói dối cho đến khi bị chứng minh là đúng."
-
----
-
-## MENTAL TESTING MODE
-
-**KHÔNG viết test code.** Thay vào đó, mental-test mọi scenarios:
+## MENTAL TESTING (KHÔNG VIẾT CODE)
 
 - Tưởng tượng valid/invalid/null/edge cases
 - Từng nhánh logic được cover?
@@ -93,72 +73,71 @@ Packaging → Staging deploy → Smoke → Rollback test → Human review → Si
 
 ---
 
-## CODE PRESERVATION RULE
-
-**KHÔNG XÓA CODE** - giải pháp cuối cùng.
+## CODE PRESERVATION (KHÔNG XÓA)
 
 **Debug bắt buộc:**
 1. Đọc toàn bộ file (không chỉ đoạn suspected)
 2. Hiểu context: dependencies, structure, related logic
 3. Tìm root cause: check braces, imports, async/sync, lifetimes
-4. Incremental debugging: add debug prints, isolate sections, test hypotheses từng bước
+4. Incremental: add debug prints, isolate sections, test hypotheses từng bước
 5. Systematic: Read → Understand → Isolate → Test → Verify
 
-**Nếu vẫn failed:** Consult team, review git history, pair programming, disable feature tạm thời thay vì xóa code, luôn có plan restore.
+**Nếu vẫn fail:** Consult team, review git history, pair programming, disable feature tạm thời thay vì xóa code, luôn có plan restore.
 
 **Cấm tuyệt đối:** Xóa code để pass test, "vá áo" fix tạm thời, chấp nhận degradation.
 
 ---
 
-## CHANGE COST & RISK ASSESSMENT
+## CHANGE COST & RISK
 
 **Mỗi Feature/Refactor/Migration phải assess:**
 - Engineering cost (hours/days)
-- Risk level: **Low** / **Medium** / **High**
+- Risk: **Low** / **Medium** / **High**
 - Estimated rollback time
 
-**Prefer:** Low-risk, high-impact changes over high-risk, aesthetic/speculative.
+**Prefer:** Low-risk, high-impact > high-risk, aesthetic/speculative.
 
 ---
 
 ## MISSING CODE = WRITE MORE
 
-**QUAN TRỌNG:**
-- Nếu phát hiện thiếu feature, API, logic, edge case handling → **VIẾT THÊM**
+- Nếu thiếu feature, API, logic, edge case → **VIẾT THÊM**
 - KHÔNG skip vì "không yêu cầu"
 - KHÔNG remove code để simplify
 - KHÔNG pass nhanh bằng cách giảm scope
-- **App phải ngày càng hoàn thiện**, khôngLessComplete
+- **App phải ngày càng hoàn thiện**, không less complete
 
 ---
 
-## SKILL INTEGRATION
+## SKILL INTEGRATION (6+ REQUIRED)
 
-Khi review code, apply relevant skill từ `mate/skill/`:
+Đọc skill file trước khi modify:
 
 | Skill | Use Case |
 |-------|----------|
-| `angular-modular-architect` | Angular feature-based SPA |
-| `backend-db-pattern` | Database access (4 steps) |
-| `code-review` | Vibe-cleaner cleanup |
-| `dotnet-modular-architect` | .NET modular monolith |
-| `erp-architect` | Fullstack ERP system |
-| `iam-platform-layer` | Authentication/Authorization |
-
-**Bắt buộc:** Đọc skill file tương ứng trước khi modify.
+| `angular-modular-architect` | Angular SPA |
+| `backend-db-pattern` | Database (4 steps) |
+| `code-review` | Cleanup |
+| `dotnet-modular-architect` | .NET monolith |
+| `erp-architect` | Fullstack ERP |
+| `iam-platform-layer` | Auth/Security |
+| `go-architect` | Go services |
+| `python-architect` | Python apps |
+| `react-architect` | React apps |
+| `rust-architect` | Rust systems |
 
 ---
 
-## DEBUGGING CHECKLIST (from code-review skill)
+## DEBUGGING CHECKLIST
 
-**Systematic Debugging Process:**
-1. Read entire file (mọi dòng, imports, dependencies)
+**Systematic Process:**
+1. Read entire file (mọi dòng, imports)
 2. Understand context (structure, related logic)
-3. Isolate problem (reproduction case, minimal code)
+3. Isolate problem (reproduction case)
 4. Test hypotheses (debug prints, unit tests)
 5. Verify fix (no regression)
 
-**Per-file Debugging:**
+**Per-file:**
 - [ ] Đọc toàn bộ file trước khi modify
 - [ ] Identify root cause (không skip)
 - [ ] Check braces, parentheses, indentation
@@ -176,14 +155,12 @@ Khi review code, apply relevant skill từ `mate/skill/`:
 
 ---
 
-## QUICK REFERENCE (Cheat Sheet)
+## QUICK REFERENCE
 
-### Mental Testing Prompt (self-ask)
-```
-Inputs/Outputs/Branches/Errors/DataFlow(UI↔DB)/Security/Performance/Concurrency/State/Observability
-```
+**Mental Test Prompt:**
+`Inputs/Outputs/Branches/Errors/DataFlow(UI↔DB)/Security/Performance/Concurrency/State/Observability`
 
-### Quality Gate Checklist (before output)
+**Quality Gate Checklist:**
 ```
 [✔] Funcs≤20 | Comp≤10 | No dup5 | 100% ErrHnd | 100% Val | No secrets | Testable
 [✔] Cov≥80% | Tests pass | No 12 anti-patterns | Devil's advocate | Mental test done
@@ -191,20 +168,12 @@ Inputs/Outputs/Branches/Errors/DataFlow(UI↔DB)/Security/Performance/Concurrenc
 [✔] Risk assessed (Low/Med/High) | Git committed
 ```
 
-### When to Apply Skills
-- Angular project → `angular-modular-architect`
-- .NET backend → `dotnet-modular-architect`
-- Database changes → `backend-db-pattern` (4 steps)
-- Code cleanup → `code-review` (vibe-cleaner)
-- Fullstack ERP → `erp-architect`
-- Auth/Security → `iam-platform-layer`
+**Risk Levels:**
+- **Low**: Docs, refactor same module, add tests, fix typos
+- **Medium**: Add feature, modify API, change DB schema
+- **High**: Rewrite core, change architecture, security fix
 
-### Risk Levels
-- **Low**: Documentation, refactor same module, add tests, fix typos
-- **Medium**: Add feature, modify API, change DB schema, cross-module impact
-- **High**: Rewrite core, change architecture, security fix, data migration
-
-### Git Commit Message Format
+**Git Commit Format:**
 ```
 feat: <description>
 fix: <description>
@@ -214,7 +183,7 @@ chore: evolution round - <description>
 
 ---
 
-## CORE REMINDERS
+## PRINCIPLES & SCOPE & TARGETS
 
 **Principles:**
 - Simplicity-first (200→50 lines)
@@ -227,16 +196,26 @@ chore: evolution round - <description>
 - **In:** Security, Testing, Bug Fix, Code Quality, Performance, Scalability
 
 **Targets:**
-- Coverage ≥80%, Functions ≤20, Complexity ≤10
-- Security 100%, Self-Score ≥90
-- Evolution Metrics: improving trend
-
-**DONE:**
-- Requirements met, Tests 100% pass
-- Minimal & clear code, No hidden assumptions, No regression
-
-**ANTI-SLOP (STRICT):** Bloat, abstraction, side effects, duplication, premature optimization = FORBIDDEN
+- Coverage ≥80%
+- Functions ≤20 lines
+- Complexity ≤10
+- Security 100%
+- Self-Score ≥90
 
 ---
 
-*v2.0: ~120 lines target. Evolution-focused workflow.*
+## DONE & ANTI-SLOP
+
+**DONE:**
+- Requirements met
+- Tests 100% pass
+- Minimal & clear code
+- No hidden assumptions
+- No regression
+
+**ANTI-SLOP (STRICT):**
+Bloat, abstraction, side effects, duplication, premature optimization = FORBIDDEN
+
+---
+
+*v2.1 Compact: ~135 lines. Evolution-focused workflow with all critical features.*
