@@ -69,6 +69,225 @@ Check 12 patterns. If any → refactor, repeat.
 
 **OUTPUT GATE**: ALL must pass. Else revise.
 
+## SELF-EVOLUTION & METRICS (NEW)
+**Agent phải tự cải thiện qua thời gian.**
+
+Maintain 3 memory files:
+- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
+- `docs/AGENT_PROFILE.md`: Tasks thường fail, weak languages/stacks, fragile modules, known weaknesses
+- `docs/EVOLUTION.md`: 3-6 month roadmap, planned refactors, anticipated debt, infrastructure evolution
+
+**After every meaningful change:**
+1. Update `AGENT_METRICS.md` with actual numbers
+2. Reflect in `AGENT_PROFILE.md` (exposed new weaknesses?)
+3. Adjust `EVOLUTION.md` if trajectory changed
+
+**Meta-Goal:** Evolve into system that:
+- Breaks less
+- Fixes faster
+- Plans further ahead
+- Makes fewer repeated mistakes
+- Steadily improves both codebase và agent itself
+
+## CHANGE COST & RISK MODEL
+**Mỗi Feature/Refactor/Migration phải kèm:**
+- Engineering cost estimate (hours/days)
+- Risk level (Low / Medium / High)
+- Estimated rollback time
+
+**Prefer:** Low-risk, high-impact changes over high-risk, aesthetic/speculative.
+
+## PRODUCTION READINESS ENFORCER (BẮT BUỘC)
+**Nguyên tắc vàng:**
+- **KHÔNG VIẾT TEST CODE** - Tưởng tượng và kiểm tra trong đầu
+- **KHÔNG CHECK BẰNG TOOL** - Tưởng tượng mọi tình huống, mọi luồng
+- **NẾU THIẾU THÌ VIẾT THÊM** - Không bỏ bớt, không skip
+- **APP NGÀY CÀNG HOÀN THIỆN** - Mỗi lần review = thêm code, thêm tính năng
+
+### 1️⃣ Mental Testing - Test trong tưởng tượng
+Thay vì viết test code, tưởng tượng và verify tất cả:
+
+**Component/Function Testing:**
+- Input: valid, invalid, null, empty, boundary
+- Output: đúng?
+- Logic: mọi nhánh if/else/switch được cover?
+- Edge cases: corner cases, boundary values, null handling
+- Error paths: exception handling, error messages
+
+**Service/Logic Testing:**
+- Business logic: mọi rule được validate?
+- Dependencies: mocked services hoạt động đúng?
+- State management: state transitions đúng?
+- Concurrency: race conditions?
+
+**API/Data Testing:**
+- HTTP methods: GET/POST/PUT/DELETE đúng?
+- Status codes: 200/400/401/403/404/500 đúng?
+- Data flow: Input → Process → Output đúng?
+- Persistence: data saved/retrieved correctly?
+
+### 2️⃣ Mental Checking - Check trong tưởng tượng
+Thay vì dùng linter/tool, tưởng tượng và verify:
+
+**Code Quality:**
+- Naming: tên biến/hàm/class rõ nghĩa?
+- Structure: code organization hợp lý?
+- Duplication: logic trùng lặp?
+- Complexity: hàm quá dài/phức tạp?
+
+**Security:**
+- Authentication: ai có quyền gọi API này?
+- Authorization: RBAC/permissions đúng?
+- Input validation: SQL injection, XSS, CSRF?
+- Secrets: hardcoded keys/passwords?
+
+**Performance:**
+- N+1 queries: có vấn đề gì?
+- Caching: cache strategy hợp lý?
+- Memory: leaks, unnecessary allocations?
+- Latency: response time chấp nhận được?
+
+### 3️⃣ Scenario Coverage - Mọi tình huống
+Tưởng tượng và cover TẤT CẢ scenarios:
+
+**User Scenarios:**
+- Happy path: user làm đúng flow
+- Error path: user nhập sai, click nhầm
+- Edge cases: user làm điều không expected
+- Recovery: user muốn undo, retry
+- Parallel: user mở nhiều tabs, nhiều requests
+
+**Business Scenarios:**
+- Normal operation: ngày thường
+- Peak load: giờ cao điểm
+- Failure: service down, network fail
+- Recovery: failover, data restoration
+- Compliance: audit trails, logging
+
+**Technical Scenarios:**
+- Network issues: timeout, disconnect
+- Database: connection fail, deadlock
+- External services: third-party API down
+- Data: large data, migration, backup
+
+### 4️⃣ Flow Coverage - Mọi luồng (BẮT BUỘC)
+Kiểm tra CẢ HAI CHIỀU, không được thiếu:
+
+**🔽 Top-Down (UI → Backend → DB):**
+```
+User Action
+  → UI Component
+    → State Change
+      → API Call
+        → Backend Processing
+          → Database
+            → Response
+              → UI Update
+                → User Feedback
+```
+
+**🔼 Bottom-Up (DB → Backend → UI):**
+```
+Data Changed
+  → Event Emission
+    → State Update
+      → Real-time Sync
+        → UI Re-render
+          → User Notification
+```
+
+Từng bước verify cả hai chiều.
+
+### 5️⃣ Missing Code = VIẾT THÊM
+**QUAN TRỌNG NHẤT:**
+- NẾU PHÁT HIỆN THIẾU → VIẾT THÊM CODE
+- NẾU THẤY CHƯA HOÀN CHỈNH → IMPLEMENT TIẾP
+- NẾU MISSING FEATURE → THÊM VÀO
+- NẾU API CHƯA ĐỦ → EXPAND API
+
+**KHÔNG ĐƯỢC:**
+- ❌ Skip vì "không yêu cầu"
+- ❌ Remove code vì "không cần"
+- ❌ Simplify bằng cách bỏ tính năng
+- ❌ Pass nhanh bằng cách giảm scope
+
+### 6️⃣ Industry Standards - Chuẩn công nghiệp
+Verify code đạt chuẩn production:
+
+**API Design:**
+- RESTful conventions (URL, HTTP methods, status codes)
+- Versioning (v1, v2)
+- Documentation (OpenAPI/Swagger)
+- Rate limiting, pagination, filtering
+
+**Code Quality:**
+- SOLID principles
+- Clean Architecture
+- Design patterns phù hợp
+- Error handling patterns
+
+**Security:**
+- OWASP guidelines
+- Authentication (JWT, OAuth2)
+- Encryption (TLS, at-rest)
+- Audit logging
+
+**Operations:**
+- Monitoring (metrics, logs)
+- Alerting (thresholds, escalation)
+- Health checks
+- Graceful degradation
+
+**Documentation:**
+- API docs updated
+- README complete
+- Comments meaningful
+- Architecture diagrams
+
+### 7️⃣ Production Readiness Checklist
+Trước khi kết thúc review, verify:
+- [ ] Tất cả functions có mental tests passed
+- [ ] Tất cả APIs có contract verified
+- [ ] Tất cả flows (UI→DB và DB→UI) verified
+- [ ] Tất cả edge cases được cover
+- [ ] Tất cả error paths được handle
+- [ ] Security vulnerabilities none
+- [ ] Performance acceptable
+- [ ] Code đạt chuẩn industry
+- [ ] Documentation updated
+- [ ] Missing code = VIẾT THÊM (không bỏ bớt)
+
+**Cấm:**
+- ❌ Nói "không cần test" mà không mental test
+- ❌ Bỏ sót flow direction (chỉ check 1 chiều)
+- ❌ Skip edge case
+- ❌ Remove code thay vì thêm code
+- ❌ Nói "đã đủ" khi thực tế chưa đủ
+
+## CODE PRESERVATION RULE (CRITICAL)
+**KHÔNG XÓA CODE** - Đó là giải pháp cuối cùng, vi phạm nguyên tắc.
+
+**Quy trình debug bắt buộc:**
+1. Đọc toàn bộ file (không chỉ đoạn suspected)
+2. Hiểu context: dependencies, structure, related logic
+3. Tìm root cause: check braces, imports, async/sync, lifetimes
+4. Incremental debugging: add debug prints, isolate sections, test hypotheses từng bước
+5. Systematic: Read → Understand → Isolate → Test → Verify
+
+**Nếu vẫn failed:**
+- Consult team
+- Review git history
+- Pair programming
+- Disable feature tạm thời thay vì xóa code
+- Luôn có plan restore code từ git
+
+**Cấm tuyệt đối:**
+- Xóa code để pass test
+- "Vá áo" - fix tạm thời dẫn đến nhiều bug hơn
+- Chấp nhận degradation
+
+**Đọc lại bắt buộc:** Nếu chưa hiểu rõ code, PHẢI ĐỌC LẠI cho đến khi nắm vững hoàn toàn mọi dòng code.
+
 ## TEST GENERATION
 Mock external deps; test pure logic only; tests <100ms; deterministic. Include: valid, null/undefined, boundaries, malformed. Verify effects and side effects. Coverage: CI branch ≥80%. All error paths covered. Each public API ≥1 test. Structure: `describe` → `it` (AAA). Unit=business logic; Integration=service contracts; E2E <10%.
 
