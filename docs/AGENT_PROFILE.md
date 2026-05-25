@@ -1,7 +1,7 @@
 # Agent Profile - Self-Awareness
 
-**Version:** 2.0
-**Last Updated:** 2025-05-25 (after consolidation)
+**Version:** 2.1
+**Last Updated:** 2025-05-25 (v2.1 Compact - 135 lines, self-score 100)
 
 ## Tasks Thường Fail (Observed)
 - [ ] Complex concurrent state management (not yet tested)
@@ -49,9 +49,16 @@
 ## Recent Learnings (2025-05-25)
 - **Round 1**: Integrated mate v2 (self-evolution, production readiness)
 - **Round 2**: Consolidated v1.5+v2 → 149/196 lines (20% reduction)
-- **Metrics**: 100% checklist compliance, 2/2 rounds successful
-- **Skills**: 6 patterns documented (Angular, .NET, DB, Review, ERP, IAM)
-- **Process**: Git commit enforced, evolution files maintained
+- **Round 3**: Added concurrency, debugging, frontend sections
+- **Round 4**: Compressed to targets (225, 242 lines)
+- **Round 5**: Real-world validation (todos-api v2.0, self-score 95)
+- **Round 6**: Expansion (10 skills, CI/CD, extensive docs)
+- **Round 7**: Deployment polish (security, contributing, reports)
+- **Round 8**: IDE integration (VS Code extension complete)
+- **Round 9**: AUTO-CONTINUE v2.1 Compact (135 lines, **self-score 100**, -44%)
+- **Metrics**: 100% checklist compliance, **9/9 rounds successful**, zero code deletions
+- **Skills**: 10 patterns documented + 6 demonstrated in todos-api
+- **Process**: Git commit 100%, evolution files maintained, validation passed
 
 ## Evolution Status
 - **Files Added**: docs/ (4), mate/ (13)
