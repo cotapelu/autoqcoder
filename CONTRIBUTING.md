@@ -1,235 +1,485 @@
 # Contributing to autoqcoder
 
-Thank you for considering contributing! This document outlines the guidelines and process.
+Thank you for your interest in contributing! This guide will help you get started.
 
 ---
 
-## What is autoqcoder?
+## Table of Contents
 
-autoqcoder is a self-optimizing prompt engine for AI coding agents. It consists of:
-- `AGENTS.md` - The core prompt (must stay ≤100 lines)
-- `AUTO-CONTINUE.md` - Workflow for continuous improvement
-- Supporting documentation and tests
-
-**Design Philosophy:** Simplicity-first, no bloat, production-ready code generation with ≥90 self-score.
-
----
-
-## Ways to Contribute
-
-1. **Bug Reports** - Issues with AGENTS.md output quality
-2. **Feature Requests** - New quality gates or improvements
-3. **Documentation** - Clarify sections, add examples
-4. **Tests** - Improve test coverage for AGENTS.md validation
-5. **Real-World Examples** - Share projects using autoqcoder (todos-api, payment-service, etc.)
-
----
-
-## Before Contributing
-
-### Read These
-- [AGENTS.md](AGENTS.md) - The prompt engine itself
-- [AUTO-CONTINUE.md](AUTO-CONTINUE.md) - The workflow we follow
-- [CHANGELOG.md](CHANGELOG.md) - Version history
-- [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - How we evolved
-
-### Principles to Uphold
-- **≤100 lines** for AGENTS.md - absolutely firm
-- **No bloat** - every section must have clear ROI
-- **Self-score ≥90** - all changes must improve or maintain quality
-- **Anti-pattern free** - no over-abstraction, no complexity
-- **Backward compatible** - v1.5 is a strict superset of v1.42
-
----
-
-## Contribution Process
-
-### 1. Open an Issue First
-For any non-trivial change, open an issue to discuss:
-- What problem are you solving?
-- Proposed solution?
-- Impact on line count and self-score?
-- Breaking changes?
-
-This prevents wasted effort on rejected approaches.
-
-### 2. Fork & Branch
-```bash
-git clone https://github.com/your-username/autoqcoder.git
-cd autoqcoder
-git checkout -b feature/your-feature-name
-```
-
-### 3. Make Changes
-- Ensure AGENTS.md remains ≤100 lines
-- Run `bash test_verification.sh` - all must pass
-- Run `npm test` - all unit tests must pass
-- Update documentation as needed
-- Follow existing style: concise, dense, minimal
-
-### 4. Self-Review Gate
-Before submitting PR, apply the REVIEW GATE from AGENTS.md to your changes:
-
-#### Phase 1: Metrics
-- [ ] Self-score improvement? (document in PR)
-- [ ] All existing tests pass?
-- [ ] New tests added? (if applicable)
-- [ ] No regression in line count?
-
-#### Phase 2: Anti-patterns
-- [ ] No God Object (is AGENTS.md still ≤100 lines?)
-- [ ] No Arrow Code (clear sections, no deep nesting)
-- [ ] No Magic Constants (justified changes)
-- [ ] No Shotgun Surgery (changes localized)
-
-#### Phase 3: Devil's Advocate
-- [ ] Could this break existing AI agent behavior?
-- [ ] Is there a simpler alternative?
-- [ ] Are edge cases covered?
-- [ ] Would a senior engineer understand the change?
-
-**OUTPUT GATE:** Only proceed if ALL pass.
-
-### 5. Commit Guidelines
-Use [Conventional Commits](https://www.conventionalcommits.org/):
-```
-feat: add performance benchmarking section
-fix: correct line count check threshold
-docs: clarify REVIEW GATE steps
-chore: update dependencies
-```
-
-Format: `type(scope): description`
-- `feat` - new feature (minor version bump)
-- `fix` - bug fix (patch bump)
-- `docs` - documentation only
-- `chore` - maintenance, no user impact
-
-### 6. Pull Request
-Fill the PR template completely:
-- **Description**: What changed and why
-- **Quality**: Self-score before/after, line count delta
-- **Tests**: Added/updated tests
-- **Verification**: How to test (commands)
-- **Breaking Changes**: None expected for AGENTS.md edits
-- **Docs**: Updated USAGE_EXAMPLES.md? Added new examples?
-
-### 7. CI Checks
-PR must pass:
-- Line count ≤100
-- All required sections present
-- No prohibited patterns (eval, hardcoded secrets)
-- Existing tests + new tests (if any)
-
-### 8. Review
-- One maintainer approval required
-- Address feedback promptly (within 48h)
-- Squash commits before merging
-- Maintainers may request changes to preserve simplicity
-
----
-
-## AGENTS.md Editing Rules
-
-### Strict Constraints
-- **Max 100 lines** - measured by `wc -l`
-- **No new anti-patterns** - must maintain or improve quality
-- **Trigger-based additions only** - new sections only if keyword-triggered
-- **Merge, don't add** - if adding new content, remove or merge existing
-
-### Adding a New Quality Gate
-If you believe a new quality dimension is needed (e.g., "Accessibility", "Internationalization"):
-
-1. **Prove necessity**: Show at least 3 real-world failures it would prevent
-2. **Demonstrate ROI**: How much quality improvement? Quantify
-3. **Minimal wording**: How to express in ≤5 lines?
-4. **Trigger keywords**: What user queries should activate it?
-5. **Penalty**: What penalty for missing it? (-5, -10, -15?)
-
-Submit as issue with above details. If approved, we'll merge by replacing an existing lower-impact section.
-
-### Modifying Existing Sections
-- Keep existing structure intact unless reorganizing for clarity
-- Don't remove mandatory items (TOP 5, REVIEW GATE)
-- If changing self-score weights, justify with data from real AI outputs
-- Preserve backward compatibility - don't break existing paradigms
-
----
-
-## Testing Standards
-
-### test_verification.sh
-Must always pass:
-```bash
-bash test_verification.sh
-# Expected: All PASS ✓
-```
-
-### Unit Tests (test/*.test.js)
-Add tests for new AGENTS.md features:
-- Section presence
-- Line count constraints
-- Pattern validation
-- No prohibited content
-
-Run: `npm test`
-
-### Sample Output Validation
-If your change affects expected AI output, update `sample_output.md` and add new example to `USAGE_EXAMPLES.md`.
-
----
-
-## Documentation Updates
-
-When changing AGENTS.md, check if these need updates:
-
-| File | Why update |
-|------|------------|
-| `README.md` | Version, stats, features list |
-| `CHANGELOG.md` | Add entry under [Unreleased] |
-| `USAGE_EXAMPLES.md` | Add new usage pattern, gotchas |
-| `MIGRATION_GUIDE.md` | If breaking change (avoid) |
-| `sample_output.md` | Show new section in action |
-
-Don't update `experiments/` - those are playground variants.
-
----
-
-## Decision Framework
-
-When in doubt, ask:
-
-1. **Does this make AGENTS.md simpler?** If no, reconsider.
-2. **Can this be a triggered conditional?** If yes, make it keyword-triggered, not always-on.
-3. **Would this increase self-score by ≥5 points?** If marginal impact, skip.
-4. **Is there a simpler alternative?** Choose simplest.
-5. **Does this violate any AUTO-CONTINUE.md principle?** If yes, abandon.
+1. [Code of Conduct](#code-of-conduct)
+2. [Getting Started](#getting-started)
+3. [Development Workflow](#development-workflow)
+4. [Adding a Skill Definition](#adding-a-skill-definition)
+5. [Improving Documentation](#improving-documentation)
+6. [Reporting Bugs](#reporting-bugs)
+7. [Feature Requests](#feature-requests)
+8. [Pull Request Process](#pull-request-process)
+9. **Quality Standards** (AutoQCoder applies to itself!)
+10. [Community](#community)
 
 ---
 
 ## Code of Conduct
 
-- Be respectful and constructive
-- Focus on technical merits, not personal preferences
-- Assume good intent
-- Welcome newcomers - this is a learning community
-- No gatekeeping - AGENTS.md is for everyone
+This project adheres to a strict code of conduct:
+
+- **Be respectful** - No harassment, discrimination, or toxic behavior
+- **Be constructive** - Critique ideas, not people
+- **Be professional** - No spam, trolling, or off-topic posts
+- **Be inclusive** - Welcome newcomers, mentor, and support
+
+Violations will be addressed immediately. Contact **security@autoqcoder.dev** to report issues.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** >= 18.0.0
+- **Git** >= 2.30
+- **npm** >= 9.0.0
+
+### Setup
+
+```bash
+# 1. Fork the repository
+# Click "Fork" on https://github.com/autoqcoder/autoqcoder
+
+# 2. Clone your fork
+git clone https://github.com/YOUR-USERNAME/autoqcoder.git
+cd autoqcoder
+
+# 3. Add upstream remote
+git remote add upstream https://github.com/autoqcoder/autoqcoder.git
+
+# 4. Install dependencies (for scripts)
+npm ci
+
+# 5. Verify setup
+npm run validate  # Should pass all checks
+
+# 6. Create a branch
+git checkout -b my-contribution
+```
+
+---
+
+## Development Workflow
+
+### Our Process (v2.0 Evolutionary Loop)
+
+1. **Read** - Read AGENTS.md, AUTO-CONTINUE.md, relevant skill files
+2. **Plan** - Identify highest-impact task, mental test scenarios
+3. **Implement** - Write code following quality gates (func≤20, 100% err handling, etc.)
+4. **Verify** - Self-score ≥90? All gates passed?
+5. **Update** - Modify `docs/` files with actual metrics
+6. **Commit** - `git add -A && git commit -m "chore: evolution round - description"`
+7. **Repeat** - Continuous loop until no improvements
+
+### Pre-Commit Checks
+
+Run locally before pushing:
+
+```bash
+# Lint (ESLint)
+npm run lint
+
+# Type check (TypeScript)
+npx tsc --noEmit --strict
+
+# Tests (if applicable)
+npm test
+
+# Security scan
+npm audit --audit-level moderate
+
+# autoqcoder validation
+node scripts/validate.js
+```
+
+Hooks will run automatically on `git commit` if husky is installed.
+
+---
+
+## Adding a Skill Definition
+
+Skill definitions live in `mate/skill/{skill-name}/SKILL.md`.
+
+### Template
+
+```markdown
+---
+name: your-skill
+description: One-line description
+license: MIT
+compatibility: opencode
+metadata:
+  audience: senior-developers
+  scope: backend-architecture | frontend-architecture | fullstack-architecture | quality-assurance
+---
+
+[Detailed content following pattern from existing skills...]
+```
+
+### Guidelines
+
+1. **One skill per domain** (e.g., `react-architect`, `go-architect`)
+2. **Follow existing structure:**
+   - Kiến trúc cốt lõi
+   - Project structure
+   - Domain entities / components
+   - Services / use cases
+   - Repository / data access
+   - API / routes
+   - Testing strategy
+   - Security considerations
+   - Performance optimization
+   - Output format (✅/❌ bullets)
+   - Khi nào dùng skill này
+
+3. **Keep it practical** - Include real code examples, not just theory
+4. **Maintain consistency** - Follow style of other skill files
+5. **Test your examples** - Ensure code snippets are valid
+
+### Submission
+
+1. Create `mate/skill/your-skill/SKILL.md`
+2. Add to `README.md`Skills table
+3. Submit PR with:
+   - New skill file
+   - Updated README.md
+   - Tests (if applicable)
+   - Example project (optional but recommended)
+
+---
+
+## Improving Documentation
+
+We value documentation improvements!
+
+### What to Fix
+
+- Typos, grammar, clarity issues
+- Missing examples
+- Outdated information
+- Better explanations
+- Additional scenarios
+
+### How to Contribute
+
+1. Fork and branch
+2. Edit markdown files (keep line length ~80-100)
+3. Run spell check (`npm run lint:docs`)
+4. Commit: `docs: improve AGENTS.md clarity in section X`
+5. Open PR with description of changes
+
+### Documentation Standards
+
+- Use **bold** for emphasis, not ALL CAPS
+- Code blocks with language tags: ` ```javascript `, ` ```typescript `
+- Japanese: Proper encoding (UTF-8)
+- Links: Use relative paths: `[AGENTS.md](AGENTS.md)`
+- Tables: Align pipes for readability
+- Keep paragraphs short (3-4 sentences)
+
+---
+
+## Reporting Bugs
+
+### Before Reporting
+
+1. Check existing [Issues](https://github.com/autoqcoder/autoqcoder/issues)
+2. Read [FAQ.md](FAQ.md) for known problems
+3. Ensure you're on latest version
+
+### Bug Report Template
+
+```
+**Description**
+Clear description of the bug.
+
+**Steps to Reproduce**
+1. 
+2.
+3.
+
+**Expected Behavior**
+What should happen?
+
+**Actual Behavior**
+What actually happens?
+
+**Environment**
+- autoqcoder version: (v2.0.0)
+- Node.js version:
+- OS:
+- skill used (if any):
+
+**Additional Context**
+Screenshots, logs, error messages, self-score calculation.
+```
+
+**Submit:** [GitHub Issue](https://github.com/autoqcoder/autoqcoder/issues/new?template=bug_report.md)
+
+---
+
+## Feature Requests
+
+We prioritize based on:
+1. **Production impact** (affects many users)
+2. **Technical feasibility** (can we build it?)
+3. **Alignment with vision** (self-optimizing, production-ready)
+
+### Feature Request Template
+
+```
+**Problem**
+What problem does this solve? Why is it important?
+
+**Proposed Solution**
+Describe the solution. Include:
+- Which file(s) to modify
+- API changes (if any)
+- Example usage
+
+**Alternatives Considered**
+Other approaches you've considered.
+
+**Additional Context**
+Screenshots, mockups, similar implementations in other projects.
+```
+
+**Submit:** [GitHub Issue](https://github.com/autoqcoder/autoqcoder/issues/new?template=feature_request.md)
+
+---
+
+## Pull Request Process
+
+### 1. Prepare Your Branch
+
+```bash
+# Sync with upstream
+git fetch upstream
+git rebase upstream/main
+
+# Resolve conflicts if any
+# Ensure tests pass
+npm test
+
+# Ensure lint passes
+npm run lint -- --fix
+
+# Ensure type check passes
+npx tsc --noEmit --strict
+
+# Update docs if needed
+```
+
+### 2. Self-Review (Use autoqcoder on your PR!)
+
+Before submitting, run autoqcoder on your own changes:
+
+```bash
+# Check against quality gates
+node scripts/validate-pr.js  # (or run manually)
+
+# Self-score calculator
+node scripts/calculate-self-score.js
+```
+
+**Must achieve self-score ≥90 before PR.**
+
+### 3. Commit Standards
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add React 18 support to use strict hooks
+fix: resolve N+1 query in user list
+refactor: extract repository pattern for todos
+docs: update README with quick start
+chore: evolution round - apply backend-db-pattern
+```
+
+**Do NOT commit:**
+- `git commit -m "update"` or `git commit -m "fix bug"`
+- Secrets, passwords, tokens
+- Debug code (`console.log`, `debugger`)
+- Generated files (dist/, node_modules/, coverage/)
+
+### 4. PR Template
+
+Fill out completely:
+
+```markdown
+## Description
+[What changed and why]
+
+## Type of Change
+- [ ] Bug fix (non-breaking)
+- [ ] New feature (non-breaking)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+
+## Self-Score
+**Calculated Score:** __/100
+
+Breakdown:
+- Reliability (30): __
+- Maintainability (25): __
+- Security (20): __
+- Testability (15): __
+- Performance (10): __
+
+## Checks
+- [ ] Functions ≤20 lines (verify)
+- [ ] Complexity ≤10
+- [ ] 100% error handling
+- [ ] 100% input validation
+- [ ] No hardcoded secrets
+- [ ] Mental testing documented (or actual tests)
+- [ ] Flow coverage (UI→DB & DB→UI)
+- [ ] No code deletions (preservation rule)
+- [ ] Evolution files updated (if applicable)
+- [ ] CI pipeline passing
+
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Mental testing documented in TESTS.md
+- [ ] Tested with: [Node version, browser, etc.]
+
+## Documentation
+- [ ] README updated (if user-facing change)
+- [ ] CHANGELOG.md updated
+- [ ] New examples added (if applicable)
+- [ ] Skill file created/updated (if applicable)
+
+## Reviewers
+@autoqcoder/core-team @autoqcoder/architect-team (choose appropriate)
+
+## Screenshots (if applicable)
+[Add screenshots for UI changes]
+
+## Additional Notes
+[Anything else?]
+```
+
+### 5. Review Process
+
+1. **Automated checks** (CI):
+   - Lint, type-check, tests, security scan, self-score calculator
+   - All must pass ✅
+
+2. **Team review** (CODEOWNERS):
+   - Core team reviews `AGENTS.md`, `AUTO-CONTINUE.md`
+   - Architect team reviews skill definitions
+   - Docs team reviews documentation
+   - DevOps reviews CI/CD changes
+
+3. **Address feedback**:
+   - Make requested changes
+   - Push to same branch (no force-push if avoidable)
+   - Mark resolved in PR conversation
+
+4. **Approval**:
+   - At least 1 approval from core team
+   - All automated checks green
+   - No outstanding review comments
+
+5. **Merge**:
+   - Squash and merge (clean history)
+   - Delete branch after merge
+   - Update PROJECT_STATE.md if significant change
+
+---
+
+## Quality Standards (AutoQCoder on Itself!)
+
+autoqcoder applies its own standards to itself:
+
+- ✅ All functions ≤20 lines
+- ✅ Complexity ≤10
+- ✅ 100% error handling (scripts/)
+- ✅ Self-score ≥90 on every change
+- ✅ No code deletions (preservation rule)
+- ✅ Evolution files updated after each round
+- ✅ Mental testing documented
+- ✅ CI/CD passing before merge
+
+**We practice what we preach.**
+
+---
+
+## Adding Example Projects
+
+Example projects in `examples/` demonstrate skill application.
+
+### Structure
+
+```
+examples/{project-name}/
+├── README.md           # Describe project, features, how to run
+├── src/                # Source code (apply AGENTS.md standards)
+├── test/               # Tests (unit, integration)
+├── benchmarks/         # Performance benchmarks (optional)
+├── db/migrations/      # Database migrations (if applicable)
+├── docker-compose.yml  # Orchestration (optional)
+├── package.json        # Dependencies (if Node.js)
+└── TESTS.md            # Mental testing suite or actual tests
+```
+
+### Submit Example
+
+1. Complete project following v2.0 standards
+2. Self-score ≥90
+3. Include README with quick start
+4. Include TESTS.md (mental or actual)
+5. Open PR with description: `feat: add {project-name} example`
+
+---
+
+## Community
+
+### Platforms (Coming Soon)
+
+- **Discord**: [Join](https://discord.gg/autoqcoder) - Real-time chat
+- **Slack**: [#autoqcoder](slack://) - Alternative
+- **GitHub Discussions**: Q&A, ideas
+- **Twitter**: @autoqcoder - News & updates
+- **Blog**: https://autoqcoder.dev - Articles, tutorials
+
+### Code of Conduct Enforcement
+
+Report violations to **security@autoqcoder.dev**. All reports confidential.
+
+---
+
+## Recognition
+
+Contributors are recognized:
+
+- **CONTRIBUTORS.md** - List of all contributors
+- **Release notes** - Mentioned in CHANGELOG
+- **GitHub profile** - Added to organization if active
+- **Swag** - T-shirts, stickers for significant contributions (Phase 5)
 
 ---
 
 ## Questions?
 
-- **Issues**: https://github.com/cotapelu/autoqcoder/issues
-- **Discussions**: https://github.com/cotapelu/autoqcoder/discussions
-- **Email**: (maintainer contact if needed)
+- **Documentation:** Read [FAQ.md](FAQ.md), [QUICK_REFERENCE_CARD.md](QUICK_REFERENCE_CARD.md)
+- **Migration:** See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
+- **Issues:** [GitHub Issues](https://github.com/autoqcoder/autoqcoder/issues)
+- **Email:** team@autoqcoder.dev (non-security), security@autoqcoder.dev (security)
 
 ---
 
-## Current Maintainers
-- @cotapelu - Original author
+**Thank you for contributing!** Together we build production-ready code. 🚀
 
 ---
 
-**Thank you for helping make AI coding agents produce production-ready code!**
-
-Remember: Simplicity is the ultimate sophistication. Keep it under 100 lines.
+**Last Updated:** 2025-05-25  
+**Version:** 2.0  
+**Maintainer:** autoqcoder core team
