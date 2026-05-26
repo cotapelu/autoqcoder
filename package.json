@@ -17,7 +17,9 @@
     "test": "echo \"No tests - this is a prompt engine\"",
     "lint": "echo \"No linter - manual review required\"",
     "prepare": "husky install",
-    "validate": "node scripts/validate.js"
+    "validate": "node scripts/validate.js",
+    "postinstall": "node scripts/postinstall.js",
+    "setup": "curl -s https://raw.githubusercontent.com/cotapelu/autoqcoder/main/AGENTS.md > AGENTS.md && curl -s https://raw.githubusercontent.com/cotapelu/autoqcoder/main/AUTO-CONTINUE.md > AUTO-CONTINUE.md"
   },
   "keywords": [
     "ai",
