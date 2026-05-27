@@ -318,7 +318,7 @@ STRUCTURE: TL;DR, Code, Tests, Verification, Gotchas.
 Current date: 2026-05-27
 Current working directory: /home/quangtynu/Qcoder/autoqcoder
 
---- CONVERSATION (283 messages) ---
+--- CONVERSATION (285 messages) ---
 --- Message 0 (USER, 2026-05-27T02:24:18.772Z) ---
 xem scan và đọc toàn bộ thư mục mate xem có gì chưa đưa vào 2 file AGENTS.md và AUTO-CONTINUE.md không?
 
@@ -15403,6 +15403,20 @@ Cập nhật `package.json` với `bin` entry:
 --- Message 282 (TOOL_RESULT, 2026-05-27T05:46:59.884Z) ---
 Successfully replaced 1 block(s) in /home/quangtynu/Qcoder/autoqcoder/package.json.
 
+--- Message 283 (ASSISTANT, 2026-05-27T05:46:59.891Z) ---
+ậy là xong. Bây giờ user có thể chạy `npx autoqcoder copy` sau khi install để copy file.
+
+Tôi commit và push rồi hướng dẫn user dùng lệnh này.
+</think>
+Commit:
+[toolCall]
+
+--- Message 284 (TOOL_RESULT, 2026-05-27T05:47:24.083Z) ---
+[main e8fd86d] feat: add CLI command 📦 Copying AGENTS.md and AUTO-CONTINUE.md to current directory...
+ 3 files changed, 295 insertions(+), 2 deletions(-)
+ create mode 100644 bin/autoqcoder.js
+
+
 --- AVAILABLE TOOLS (9) ---
 • read: Read the contents of a file. Supports text files and images (jpg, png, gif, webp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.
   Parameters: {
@@ -15577,4 +15591,4 @@ Successfully replaced 1 block(s) in /home/quangtynu/Qcoder/autoqcoder/package.js
   ]
 }
 
-=== END CONTEXT LOG (2026-05-27T05:46:59.888Z) ===
+=== END CONTEXT LOG (2026-05-27T05:47:24.086Z) ===
