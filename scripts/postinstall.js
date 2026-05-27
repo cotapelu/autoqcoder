@@ -13,8 +13,12 @@ const packageRoot = path.join(__dirname, '..');
 const agentsSrc = path.join(packageRoot, 'AGENTS.md');
 const autoContinueSrc = path.join(packageRoot, 'AUTO-CONTINUE.md');
 
-// Destination (project root - one level up from node_modules)
-const projectRoot = path.join(__dirname, '..', '..');
+// Destination (project root - THREE levels up from scripts/)
+// __dirname = node_modules/autoqcoder/scripts
+// .. = node_modules/autoqcoder
+// .. = node_modules
+// .. = project root
+const projectRoot = path.join(__dirname, '..', '..', '..');
 
 function copyFile(src, dest, filename) {
   try {
