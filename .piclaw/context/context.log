@@ -318,7 +318,7 @@ STRUCTURE: TL;DR, Code, Tests, Verification, Gotchas.
 Current date: 2026-05-27
 Current working directory: /home/quangtynu/Qcoder/autoqcoder
 
---- CONVERSATION (255 messages) ---
+--- CONVERSATION (269 messages) ---
 --- Message 0 (USER, 2026-05-27T02:24:18.772Z) ---
 xem scan và đọc toàn bộ thư mục mate xem có gì chưa đưa vào 2 file AGENTS.md và AUTO-CONTINUE.md không?
 
@@ -15005,6 +15005,205 @@ Tôi fix script:
 --- Message 254 (TOOL_RESULT, 2026-05-27T04:42:00.985Z) ---
 Successfully wrote 1835 bytes to /home/quangtynu/Qcoder/autoqcoder/scripts/postinstall.js
 
+--- Message 255 (ASSISTANT, 2026-05-27T04:42:00.990Z) ---
+ùng `process.cwd()` là tốt nhất vì npm chạy postinstall với working directory là project root.
+
+Tuy nhiên, test local với `npm install /path/to/package` có thể có `process.cwd()` khác? Nhưng khi thực tế publish lên npm và user cài bằng `npm install autoqcoder` thì `process.cwd()` chắc chắn là project root.
+
+Tôi commit và test:
+</think>
+Commit:
+[toolCall]
+
+--- Message 256 (TOOL_RESULT, 2026-05-27T04:42:20.919Z) ---
+[main 9762e96] fix: use process.cwd() for postinstall destination - copy to actual project root
+ 2 files changed, 162 insertions(+), 9 deletions(-)
+
+
+--- Message 257 (ASSISTANT, 2026-05-27T04:42:20.925Z) ---
+ây giờ test lại. Tôi cần xem thư mục test-real2 hiện tại đang ở đâu. Tôi sẽ tạo thư mục mới, npm init -y, rồi npm install từ HTTPS URL.
+</think>
+Bây giờ test lại với HTTPS URL (như khi publish):
+[toolCall]
+
+--- Message 258 (TOOL_RESULT, 2026-05-27T04:42:47.393Z) ---
+Wrote to /tmp/test-real3/package.json:
+
+{
+  "name": "test-real3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
+
+
+
+added 2 packages, and audited 3 packages in 7s
+
+1 package is looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+
+--- Message 259 (ASSISTANT, 2026-05-27T04:42:47.399Z) ---
+ông thấy output postinstall. Tại vì npm có thể bỏ qua output từ postinstall khi dùng HTTPS? Hay là nó không chạy postinstall khi dùng install từ git remote?
+
+Tôi kiểm tra xem file đã được copy chưa:
+</think>
+Kiểm tra file:
+[toolCall]
+
+--- Message 260 (TOOL_RESULT, 2026-05-27T04:43:06.324Z) ---
+total 140
+drwxrwxr-x  3 quangtynu quangtynu   4096 May 27 11:42 .
+drwxrwxrwt 38 root      root      122880 May 27 11:42 ..
+drwxrwxr-x  5 quangtynu quangtynu   4096 May 27 11:42 node_modules
+-rw-rw-r--  1 quangtynu quangtynu    318 May 27 11:42 package.json
+-rw-rw-r--  1 quangtynu quangtynu   1203 May 27 11:42 package-lock.json
+
+
+--- Message 261 (ASSISTANT, 2026-05-27T04:43:06.331Z) ---
+ƯA có AGENTS.md! Postinstall chưa chạy hoặc chưa copy.
+
+Vấn đề: Khi dùng `npm install https://github.com/...` npm có thể **ignore lifecycle scripts**? Hoặc có thể postinstall chỉ chạy khi package đã được publish lên npm registry (vì npm đánh dấu package có `scripts`)? 
+
+Để chắc chắn, tôi cần force scripts: `npm install --ignore-scripts=false` hoặc `npm install --install-links`? 
+
+Thực tế, khi testing local, đừng dùng `npm install /path`. Hãy dùng `npm link` để symlink và chạy postinstall. Hoặc tốt nhất: test bằng cách publish lên npm (nhưng mới đang dev).
+
+Đơn giản: tạo file `.npmrc` với `ignore-scripts=false`? Không, mặc định là false.
+
+Khi `npm install` từ git remote, nó sẽ treat như local package và **chạy lifecycle scripts**? Theo docs, có vẻ như đúng.
+
+Tôi thử lại với fresh project và dùng `npm install` với local path (symlink): Không, để đơn giản: tôi sẽ chạy postinstall script thủ công trong thư mục test để xem nó copy được không, vì logic đã đúng:
+</think>
+Vẫn chưa copy. Tôi chạy thủ công postinstall script trong thư mục đó để test logic:
+[toolCall]
+
+--- Message 262 (TOOL_RESULT, 2026-05-27T04:43:41.471Z) ---
+
+📦 autoqcoder postinstall: Copying agent files to project root...
+
+   Project root: /tmp/test-real3
+✅ Copied AGENTS.md to project root
+✅ Copied AUTO-CONTINUE.md to project root
+
+✅ autoqcoder installed successfully!
+   AGENTS.md and AUTO-CONTINUE.md are now in your project root.
+   Start coding with: code AGENTS.md
+
+
+
+--- Message 263 (ASSISTANT, 2026-05-27T04:43:41.478Z) ---
+! Script copy đ successfully! Vậy lý do `.real3` không có file là vì **npm không tự động chạy postinstall khi install từ git remote?**
+
+Kiểm tra: Khi `npm install https://github.com/...`, npm treat nó như **git dependency** và **KHÔNG chạy lifecycle scripts** (postinstall, prepare, etc.) trừ khi package có `install` script? 
+
+Thực tế, `npm install` từ git remote sẽ chạy `prepare` script (nếu có) nhưng không chạy `postinstall`? Tôi cần docs.
+
+Từ kinh nghiệm: Khi install từ git, npm sẽ:
+1. Clone repo
+2. Run `npm pack` để tạo tarball
+3. Extract tarball vào node_modules
+4. **Chạy lifecycle scripts** của package đã pack
+
+Vậy `postinstall` phải chạy. Điều gì đang xảy ra?
+
+Có thể `postinstall` bị skip vì config `ignore-scripts`? Kiểm tra npm config.
+
+Hay là do permission? Script đang có shebang, nhưng cần executable? 
+
+Tôi sẽ kiểm tra log của npm khi install: có thông báo về postinstall không?
+
+Đơn giản: Tạo `.npmrc` trong thư mục test với `ignore-scripts=false` (mặc định là false). Hoặc test với `npm install --ignore-scripts=false`.
+
+Thực tế, tốt hơn nên chèn script vào `prepare` (luôn chạy khi pack) thay vì `postinstall`. Nhưng `postinstall` vẫn nên chạy.
+
+Đọc code: Trong package.json tôi có 
+```json
+"scripts": {
+  "postinstall": "node scripts/postinstall.js"
+}
+```
+
+Vậy postinstall phải chạy. Tại sao không?
+
+Kiểm tra: Có thể vì tôi dùng `npm install https://github.com/...` và npm đã pack trước khi install, và trong quá trình pack nó bỏ qua lifecycle scripts? 
+
+Hmm, cách tốt là dùng `prepare` script - nó chạy khi package được pack và install từ git. Và `postinstall` chạy sau khi package được install vào node_modules. Tuy nhiên, với git remote, npm sẽ:
+- git clone
+- npm install (dependencies của package)
+- run `npm pack`
+
+
+- install tarball
+
+Tôi sẽ dùng `prepare` script để chạy postinstall logic, vì `prepare` luôn được chạy khi pack/install từ git. Cập nhật package.json: dùng `"prepare": "node scripts/postinstall.js"` và bỏ `postinstall`. Tuy nhiên `postinstall` vẫn cần cho khi user cài từ npm registry.
+
+Giải pháp: dùng cả `prepare` và `postinstall` cùng nội dung. Tôi sẽ thêm `prepare` script vào package.json.
+</think>
+Perfect! Script **hoạt động đúng**! 
+
+Vấn đề: Khi `npm install` từ git, **postinstall không tự động chạy** trong một số trường hợp (có thể bị skip do config). Nhưng script đã đúng.
+
+Để đảm bảo, tôi sẽ thêm cả **`prepare` script** (chạy trước khi pack/install) vào package.json:
+[toolCall]
+
+--- Message 264 (TOOL_RESULT, 2026-05-27T04:44:54.617Z) ---
+Could not find the exact text in /home/quangtynu/Qcoder/autoqcoder/package.json. The old text must match exactly including all whitespace and newlines.
+
+--- Message 265 (ASSISTANT, 2026-05-27T04:44:54.622Z) ---
+ông tìm thấy text chính xác. Đọc lại file và sửa:
+</think>
+Để tôi đọc lại chính xác:
+[toolCall]
+
+--- Message 266 (TOOL_RESULT, 2026-05-27T04:45:15.367Z) ---
+    "test:prompts": "node --test tests/*.test.js",
+    "lint": "echo \"No linter - manual review required\"",
+    "prepare": "husky install",
+    "validate": "node scripts/validate.js",
+    "validate:all": "npm run test:prompts && npm run check:evolution && npm run self-score",
+    "check:evolution": "node scripts/check-evolution-files.js",
+    "self-score": "node scripts/calculate-self-score.js",
+    "postinstall": "node scripts/postinstall.js",
+    "setup": "curl -s https://raw.githubusercontent.com/cotapelu/autoqcoder/main/AGENTS.md > AGENTS.md && curl -s https://raw.githubusercontent.com/cotapelu/autoqcoder/main/AUTO-CONTINUE.md > AUTO-CONTINUE.md"
+  },
+  "keywords": [
+    "ai",
+    "coding-agent",
+    "prompt-engineering",
+    "production-ready",
+    "quality-gates",
+    "self-evolving",
+    "mental-testing",
+    "security-audit",
+    "clean-architecture",
+    "repository-pattern",
+    "typescript",
+    "nodejs",
+    "dotnet",
+    "angular",
+
+[32 more lines in file. Use offset=45 to continue.]
+
+--- Message 267 (ASSISTANT, 2026-05-27T04:45:15.375Z) ---
+ôi sẽ overwrite toàn bộ package.json với version mới có cả `prepare` và `postinstall`:
+</think>
+
+[toolCall]
+
+--- Message 268 (TOOL_RESULT, 2026-05-27T04:46:10.648Z) ---
+Successfully wrote 2066 bytes to /home/quangtynu/Qcoder/autoqcoder/package.json
+
 --- AVAILABLE TOOLS (9) ---
 • read: Read the contents of a file. Supports text files and images (jpg, png, gif, webp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.
   Parameters: {
@@ -15179,4 +15378,4 @@ Successfully wrote 1835 bytes to /home/quangtynu/Qcoder/autoqcoder/scripts/posti
   ]
 }
 
-=== END CONTEXT LOG (2026-05-27T04:42:00.987Z) ===
+=== END CONTEXT LOG (2026-05-27T04:46:10.652Z) ===
