@@ -205,11 +205,316 @@ Mock external deps; test pure logic only; tests <100ms; deterministic. Include: 
 
 ---
 
-## COMPLIANCE & COST (if applicable)
+## SYSTEM AUDIT & SECURITY REVIEW
+
+**Khi audit codebase (trước khi merge/production), phải kiểm tra TẤT CẢ 10 dimensions sau:**
+
+### 1️⃣ Business Logic Integrity
+- [ ] Có thể bypass validation không? (client-side only, hidden fields, parameter tampering)
+- [ ] Có thể thao túng input từ client không? (negative, SQL code, XSS)
+- [ ] Edge case logic sai? (boundary, null, empty, extreme)
+- [ ] Assumption nguy hiểm? ("always positive", "never null")
+- [ ] Implicit dependency? (timezone, locale)
+- [ ] **Phải mô tả exploit nếu có vulnerability**
+
+### 2️⃣ End-to-End Flow Audit
+Phân tích flow:
+```\nClient → API → Service → DB → Cache → Queue → Worker → External → Response\n```
+Tìm:
+- [ ] Flow ngắt giữa chừng (no compensation)
+- [ ] Không rollback (partial success)
+- [ ] Silent failure (error swallowed)
+- [ ] Missing error handling
+- [ ] Resource leak (connection, handle)
+
+### 3️⃣ Concurrency & Race Condition
+Giả lập:
+- [ ] 2 request cùng lúc (double submit)
+- [ ] 100 request song song (shared state)
+- [ ] Multi-tab (same user)
+- [ ] Retry (duplicate)
+- [ ] Background job song song
+
+Xác định:
+- [ ] Lost update? (no optimistic locking)
+- [ ] Double execution? (no idempotency key)
+- [ ] Dirty write? (no isolation)
+- [ ] Non-atomic? (RMW without lock)
+- [ ] Lock thiếu?
+
+### 4️⃣ Database & Data Integrity
+- [ ] Dùng transaction? (ACID)
+- [ ] Isolation level phù hợp?
+- [ ] Risk deadlock?
+- [ ] Unique constraint đủ?
+- [ ] Foreign key đầy đủ?
+- [ ] Orphan data có thể tạo?
+- [ ] Inconsistent state?
+
+### 5️⃣ Caching & Consistency
+- [ ] Cache invalidation đúng? (on write/delete)
+- [ ] Stale cache? (TTL dài)
+- [ ] Cache stampede? (thundering herd)
+- [ ] Distributed inconsistency? (no coherence)
+- [ ] Cache update trước DB commit?
+
+### 6️⃣ Idempotency
+- [ ] Endpoint idempotent? (safe retry)
+- [ ] Retry gây double? (no key)
+- [ ] Webhook 2 lần? (no dedup)
+- [ ] Background job trùng? (no exactly-once)
+
+**Implement**: Idempotency key header, unique constraint on operation_id.
+
+### 7️⃣ Failure Scenarios
+Giả lập:
+- [ ] DB crash giữa transaction
+- [ ] External API timeout
+- [ ] Worker crash
+- [ ] Network partition
+- [ ] Disk full
+- [ ] Memory spike
+- [ ] CPU spike
+- [ ] Queue backlog
+
+**Mô tả**:
+- [ ] Hệ thống phản ứng?
+- [ ] Auto recovery?
+- [ ] Data corruption?
+- [ ] Fallback/degraded mode?
+
+### 8️⃣ Security Audit
+- [ ] Input validation? (type, length, format, sanitize)
+- [ ] Output encoding? (XSS prevent)
+- [ ] SQL injection? (parameterized only)
+- [ ] NoSQL injection? (query builders)
+- [ ] CSRF? (tokens, SameSite)
+- [ ] SSRF? (whitelist URLs)
+- [ ] Broken access control? (RBAC every endpoint)
+- [ ] JWT verification? (signature, expiry, RS256)
+- [ ] Webhook signature? (HMAC)
+- [ ] Replay attack? (nonce, timestamp)
+- [ ] Secrets hardcoded? (none)
+- [ ] PII in logs? (redacted)
+
+**THREAT MODEL**: DREAD ≥7 → fix immediately.
+
+### 9️⃣ Scalability Analysis
+- [ ] O(n) ở đâu? (nested loops, N+1)
+- [ ] Memory leak? (unbounded cache)
+- [ ] Blocking I/O? (sync in async)
+- [ ] Thread starvation? (pool exhaustion)
+- [ ] Event loop blocking?
+- [ ] Horizontal scale an toàn? (stateless)
+- [ ] Shared state thread-safe?
+
+**Benchmark**: p50 < 100ms, p99 < 200ms.
+
+### 🔟 Observability & Monitoring
+- [ ] Log đầy đủ? (JSON structured)
+- [ ] Log chứa PII? (redact)
+- [ ] Có metric quan trọng? (latency, errors, throughput)
+- [ ] Có alert khi failure? (SLO breaches)
+- [ ] Có health check? (/health, /ready, /live)
+- [ ] Có correlation ID? (X-Request-ID)
+- [ ] Có distributed tracing? (OpenTelemetry)
+
+### 🧪 BẮT BUỘC TẠO TEST CASE
+Cho mỗi vấn đề phát hiện:
+- [ ] Load test (concurrent, sustained)
+- [ ] Concurrency test (race, lost update)
+- [ ] Retry test (idempotency)
+- [ ] Chaos test (failure injection)
+- [ ] Edge case input (boundary, malformed)
+- [ ] Malicious input (SQLi, XSS, SSRF)
+- [ ] Boundary value (max, empty, null)
+- [ ] Stress test (resource exhaustion)
+- [ ] Memory leak simulation
+- [ ] Integration test (full E2E)
+
+**Test structure**: `describe` → `it` (AAA). Mock external only.
+
+### 📋 AUDIT REPORT TEMPLATE
+
+```markdown\n# System Audit Report\n\n## Executive Summary\n- Overall Risk: [LOW/MEDIUM/HIGH/CRITICAL]\n- Critical Issues: [count]\n- High Issues: [count]\n- Medium Issues: [count]\n- Low Issues: [count]\n- Estimated Fix Time: [X days]\n\n## Detailed Findings\n\n### 🔥 [SEVERITY] Issue Title\n- **Location**: [flow/module/function]\n- **Exploit**: [how to trigger]\n- **Impact**: [data loss, financial, security]\n- **Root Cause**: [technical deep-dive]\n- **Fix**: [code change, config]\n- **Test Case**: [concrete test]\n- **Priority**: [P0/P1/P2]\n\n[... repeat ...]\n\n## Compliance Check\n- [ ] GDPR: [compliant/gap]\n- [ ] PCI-DSS: [compliant/gap]\n- [ ] SOC2: [compliant/gap]\n\n## Observability Gaps\n- Missing logs: [list]\n- Missing metrics: [list]\n- Missing alerts: [list]\n\n## Recommendations (Prioritized)\n1. [P0] Fix critical immediately\n2. [P1] Address high this sprint\n3. [P2] Schedule medium next quarter\n4. [P3] Low - monitor\n\n## Sign-off\n- [ ] Security Team\n- [ ] SRE Team\n- [ ] Tech Lead\n```
+
+### 🛠️ FIX PRIORITY MATRIX
+
+| Severity | Ease | Priority |
+|----------|------|----------|
+| Critical | Easy | **P0 - Immediate** |
+| Critical | Hard | **P0 - Plan** |
+| High | Easy | **P1 - This Sprint** |
+| High | Hard | **P1 - Next Sprint** |
+| Medium | - | **P2 - Backlog** |
+| Low | - | **P3 - Optional** |
+
+### 📊 AUDIT CHECKLIST (Self-Score ≥90 Required)
+
+- [ ] All 10 dimensions audited
+- [ ] All critical findings documented
+- [ ] All high findings have fix plan
+- [ ] All test cases written
+- [ ] All security threats modeled (STRIDE)
+- [ ] All failure scenarios tested
+- [ ] All race conditions identified
+- [ ] All data integrity risks assessed
+- [ ] All caching issues resolved
+- [ ] All idempotency gaps fixed
+- [ ] All scalability bottlenecks addressed
+- [ ] All observability gaps filled
+- [ ] Report signed off by required teams
+
+**Penalty -30** if audit incomplete OR critical issue missed.
+
+---
+
+## COMPLIANCE, COST & LEGACY (if applicable)
 
 **Compliance** (GDPR/HIPAA/PCI/SOX/COPPA/audited): Require COMPLIANCE section with Standards, Status (✅ Compliant/⚠️ Non-compliant), Controls ([x]/[ ]), Gaps with remediation plan, Evidence links, Next Audit date. Penalty -25 if missing.
 
 **Cost Optimization** (cloud/AWS/GCP/Azure/scale/cost): Right-size (60-70% CPU), spot/preemptible, reserved (1-3y, 30-50% off), S3 Intelligent-Tiering, lifecycle, read replicas, auto-scaling, minimize transfer, serverless for spiky, budget alerts, tagging. Penalty -15 if missing.
+
+**Legacy System Integration** (legacy/monolith/migration/strangler): Patterns: Strangler Fig (gradual routing), dual writes with data validation, API versioning (/api/v1/), technical debt assessment (debt ratio >30% → refactor). Requirement: add tests + document legacy risks addressed. Penalty -10 if missing.
+
+---
+
+## SELF-EVALUATION QUESTIONS
+
+### Code Output Quality
+- SOLID principles?
+- Testable without mocks for external deps?
+- Edge cases and errors gracefully handled?
+- Names clear, functions appropriately sized, single responsibility?
+- Complexity low (cyclomatic <10, nesting <3)?
+- Security vulnerabilities (injection, auth bypass, XSS, CSRF)?
+- Performance issues (O(n²), blocking I/O, memory leaks)?
+- Would this pass code review at a major tech company (Google, Amazon, Microsoft)?
+- Can another dev understand it in 5 minutes?
+
+### Prompt Effectiveness
+- Did the prompt produce high-quality code? What metrics?
+- Where did output fall short? What missing?
+- Which instructions unclear or ignored?
+- Did output match user intent? Misinterpretations?
+- Patterns emerged that should be codified?
+- Should prompt emphasize certain quality attributes more?
+- Domain-specific best practices missing?
+
+### Learning from Feedback
+- Code smells repeated?
+- Edge cases consistently missed?
+- User corrections? Patterns?
+- Would previous code fail in production? Why?
+- Trade-offs poorly explained/omitted?
+
+---
+
+## PROJECT PROFILE (Auto-Detect)
+
+Based on query analysis, detect:
+
+| Profile | Detection Keywords | Adjustments |
+|---------|-------------------|-------------|
+| **Size** | "small project", "prototype", "POC" → Small (<10k LOC)<br>"medium", "app" → Medium (10-100k)<br>"large", "enterprise", "scale" → Large (>100k) | Small: simplify Tier 2<br>Large: full rigor |
+| **Risk** | "internal tool", "admin panel" → Low<br>"public API", "customer-facing" → Medium<br>"payment", "health", "GDPR", "PII" → High | High: all tiers + compliance |
+| **Deployment** | "cloud", "AWS", "GCP", "Azure" → Cloud<br>"on-prem", "datacenter" → On-prem<br>"hybrid" → Hybrid | Cloud: cost optimization applies |
+| **Team** | "solo", "1 dev" → Solo<br>"team", "2-10 devs" → Small team<br>"org", "multiple teams" → Large team | Large team: full process (PR templates, CODEOWNERS, SLA) |
+
+**Default**: Medium risk, Medium size, assume Cloud, Small team → Full Tier 1 + Tier 2.
+
+---
+
+## DOMAIN-SPECIFIC EDGE CASES
+
+**Web/Frontend**: SPA navigation, offline/online, cookie blocked, screenreader, CORS preflight, hydration errors.
+
+**Backend API**: DB pool exhaustion, deadlock, circuit breaker open, rate limit (429), payload size (413), TLS handshake, DNS failure, file descriptor limit, memory pressure, timezone/DST.
+
+**Mobile**: background kill, low battery, permission interruption, airplane mode, deep linking, push notification taps.
+
+**Data/ML**: data drift, missing values, model version mismatch, feature store outage, training-serving skew, concept drift, feedback delay, schema evolution.
+
+**Embedded**: watchdog timeout, heap corruption, power loss, sensor drift, network partition, real-time deadline miss.
+
+**Requirement**: "For your domain, explicitly list applicable edge cases and show how code handles each."
+
+---
+
+## API DEPRECATION
+
+**When using external libraries/platform APIs**:
+- Identify: CHANGELOG, linter warnings, IDE hints, runtime warnings.
+- Fallback: old API only → polyfill; both → feature detection. Fallback same contract.
+- Log: dev warnings, telemetry count, alert if usage > threshold.
+- Migration: TODO comments with deadline, backlog tickets, test both paths in CI.
+- Version pinning: lock to non-deprecated versions, `npm outdated`, test next major before upgrade.
+
+**Require API COMPATIBILITY section**:
+```markdown
+## API Compatibility
+- APIs Used: [list + versions]
+- Deprecation Status: [None/Some deprecated]
+- Fallback Strategy: [polyfill/feature detection/none]
+- Migration Plan: [issues, deadlines]
+- Version Pinning: [lockfile committed, update schedule]
+```
+
+Penalties: -10 if no section; -20 if deprecated without fallback.
+
+---
+
+## COVERAGE REFACTORING TRIGGERS
+
+**Thresholds**:
+- Branch <70% → REFACTOR.
+- 0% coverage → DEAD CODE or UNTESTED.
+- Error handling <80% → HIGH PRIORITY.
+- Conditionals not fully covered → missing branches or dead code.
+
+**Priorities**: dead code first, then untested error paths, then complex functions, then public API <80%.
+
+**If coverage <80%**: Output COVERAGE IMPROVEMENT PLAN:
+```markdown
+## Coverage Improvement Plan
+- File: src/service.js
+- Current: 65% branch
+- Low coverage: processOrder() 40% (missing payment failure, inventory shortage)
+- Root causes: complex nested conditionals, missing edge tests
+- Refactor: extract payment failure branch, add error branch tests, consider splitting processOrder
+```
+
+Penalty -10 if no plan.
+
+---
+
+## FINAL OPTIMIZATION & META-LEARNING
+
+After multiple rounds, this section enables self-tuning:
+
+### Meta-Optimization Process
+1. **Effectiveness Analysis**: Which sections most improved self-scores? Track delta before/after per section. Merge sections with <2% avg improvement.
+2. **Redundancy Reduction**: Combine similar checklists.
+3. **Penalty Tuning**: Adjust penalty amounts based on observed violation frequency.
+4. **Weight Recalibration**: Refine domain metric weights using actual self-score data.
+
+### Prompt Compression Goals
+- Reduce cognitive load: target 15-20 sections.
+- Keep only high-impact sections (≥10% quality lift).
+
+### Self-Tuning Mechanism
+After each round, log metrics. After 5 rounds: auto-merge sections with <2% avg improvement.
+
+### Validation Suite for Prompt Itself
+Test cases to verify prompt compliance (like unit tests for the prompt). Run on every prompt rewrite; fail if any expected section missing.
+
+---
+
+## VERSION HISTORY (Cumulative)
+
+v2.0 (This version): Unified production-ready engine with 24 sections, tiered requirements, auto-profile detection, CI enforcement, SLOs. Streamlined from 28 sections v1.28 → 24 effective. Target: 90+ score in enterprise projects.
+
+**Key improvements over v1.28**: Tiered (Critical/Important/Contextual), Function length realistic (Business ≤20, UI ≤50), CI-measured coverage ≥80%, Conditional compliance/cost/legacy, Explicit SLOs, Concrete observability samples, Danger.js + Makefile examples, Project profile auto-detection.
 
 ---
 
