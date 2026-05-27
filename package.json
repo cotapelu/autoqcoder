@@ -1,7 +1,7 @@
 {
   "name": "autoqcoder",
-  "version": "2.0.0",
-  "description": "Self-optimizing prompt engine for AI coding agents. Production-ready code generation with self-evolution, mental testing, and 10+ skill definitions.",
+  "version": "2.1.0",
+  "description": "Self-optimizing prompt engine for AI coding agents. Production-ready code generation with self-evolution, mental testing, 10+ skills, and comprehensive security audit framework.",
   "main": "AGENTS.md",
   "files": [
     "AGENTS.md",
@@ -11,13 +11,19 @@
     "mate/",
     "docs/",
     ".github/",
-    ".husky/"
+    ".husky/",
+    "tests/",
+    "scripts/"
   ],
   "scripts": {
     "test": "echo \"No tests - this is a prompt engine\"",
+    "test:prompts": "node --test tests/*.test.js",
     "lint": "echo \"No linter - manual review required\"",
     "prepare": "husky install",
     "validate": "node scripts/validate.js",
+    "validate:all": "npm run test:prompts && npm run check:evolution && npm run self-score",
+    "check:evolution": "node scripts/check-evolution-files.js",
+    "self-score": "node scripts/calculate-self-score.js",
     "postinstall": "node scripts/postinstall.js",
     "setup": "curl -s https://raw.githubusercontent.com/cotapelu/autoqcoder/main/AGENTS.md > AGENTS.md && curl -s https://raw.githubusercontent.com/cotapelu/autoqcoder/main/AUTO-CONTINUE.md > AUTO-CONTINUE.md"
   },
@@ -29,6 +35,7 @@
     "quality-gates",
     "self-evolving",
     "mental-testing",
+    "security-audit",
     "clean-architecture",
     "repository-pattern",
     "typescript",
