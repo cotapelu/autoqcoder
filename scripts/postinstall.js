@@ -13,12 +13,9 @@ const packageRoot = path.join(__dirname, '..');
 const agentsSrc = path.join(packageRoot, 'AGENTS.md');
 const autoContinueSrc = path.join(packageRoot, 'AUTO-CONTINUE.md');
 
-// Destination (project root - THREE levels up from scripts/)
-// __dirname = node_modules/autoqcoder/scripts
-// .. = node_modules/autoqcoder
-// .. = node_modules
-// .. = project root
-const projectRoot = path.join(__dirname, '..', '..', '..');
+// Destination: project root (where user's package.json is)
+// npm runs postinstall with CWD = project root
+const projectRoot = process.cwd();
 
 function copyFile(src, dest, filename) {
   try {
@@ -31,7 +28,7 @@ function copyFile(src, dest, filename) {
 
     // Check if destination already exists
     if (fs.existsSync(destPath)) {
-      console.log(`⏭️  ${filename} already exists in project root. Skipping.`);
+      console.log(`⏭️  ${filename} already exists. Skipping.`);
       return true;
     }
 
@@ -45,6 +42,7 @@ function copyFile(src, dest, filename) {
 }
 
 console.log('\n📦 autoqcoder postinstall: Copying agent files to project root...\n');
+console.log(`   Project root: ${projectRoot}`);
 
 const ok1 = copyFile(agentsSrc, projectRoot, 'AGENTS.md');
 const ok2 = copyFile(autoContinueSrc, projectRoot, 'AUTO-CONTINUE.md');
