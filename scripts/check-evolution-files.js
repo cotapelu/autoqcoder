@@ -57,10 +57,16 @@ function checkContentSync(promptPath, docPath, promptName, docName) {
 
   // Check for key new sections that should be documented
   const keyNewSections = [
-    'SYSTEM AUDIT & SECURITY REVIEW',
+    'SYSTEM AUDIT FRAMEWORK',
     'AUDIT framework',
     '10 audit dimensions',
-    'Production Testing Pipeline'
+    'Production Testing Pipeline',
+    'BEHAVIORAL GUIDELINES',
+    'CLAUDE',
+    'Think Before Coding',
+    'Simplicity First',
+    'Surgical Changes',
+    'Goal-Driven Execution'
   ];
 
   keyNewSections.forEach(section => {

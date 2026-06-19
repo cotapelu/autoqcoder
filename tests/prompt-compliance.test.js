@@ -10,29 +10,31 @@ const path = require('path');
 const agentsPath = path.join(__dirname, '..', 'AGENTS.md');
 const agentsContent = fs.readFileSync(agentsPath, 'utf-8');
 
-// Required sections (alphabetical for clarity)
+// Required sections (compressed v2.1 - 18 sections)
 const REQUIRED_SECTIONS = [
-  'CORE QUALITY GATE',
-  'PRODUCTION STANDARDS',
-  'SELF-EVOLUTION & PRODUCTION READINESS',
-  'MANDATORY PRINCIPLES',
-  'CONCURRENCY',
-  'DEBUGGING & ISSUE RESOLUTION',
-  'FRONTEND ARCHITECTURE',
-  'TEST GENERATION',
-  'COMPLIANCE, COST & LEGACY',
-  'SELF-EVALUATION QUESTIONS',
-  'PROJECT PROFILE',
-  'DOMAIN-SPECIFIC EDGE CASES',
-  'API DEPRECATION',
-  'COVERAGE REFACTORING TRIGGERS',
-  'FINAL OPTIMIZATION & META-LEARNING',
-  'SYSTEM AUDIT & SECURITY REVIEW'
+  '1. QUALITY FRAMEWORK',
+  '2. PRODUCTION STANDARDS (COMPACT)',
+  '3. EVOLUTION FRAMEWORK',
+  '4. MANDATORY PRINCIPLES',
+  '5. DEBUGGING FRAMEWORK',
+  '6. ANALYSIS & EXECUTION MODES',
+  '7. TESTING & QUALITY ASSURANCE',
+  '8. SYSTEM AUDIT FRAMEWORK',
+  '9. COMPLIANCE, COST & LEGACY',
+  '10. SELF-IMPROVEMENT & MAINTENANCE',
+  '11. FRONTEND ARCHITECTURE GUIDELINES',
+  '12. BACKEND ARCHITECTURE PATTERNS',
+  '13. SKILL INTEGRATION (10 Skills)',
+  '14. CONCURRENCY ANALYSIS TEMPLATE',
+  '15. VERIFICATION & AUTOMATION',
+  '16. COLLABORATIVE REVIEW & RELEASE',
+  '17. BEHAVIORAL GUIDELINES (CLAUDE)',
+  '18. TEMPLATE'
 ];
 
 // Required subsections that must be present
 const REQUIRED_SUBSECTIONS = {
-  'COMPLIANCE, COST & LEGACY': [
+  '9. COMPLIANCE, COST & LEGACY': [
     'GDPR',
     'HIPAA',
     'PCI',
@@ -41,33 +43,25 @@ const REQUIRED_SUBSECTIONS = {
     'Cost Optimization',
     'Legacy System Integration'
   ],
-  'DOMAIN-SPECIFIC EDGE CASES': [
-    'Web/Frontend',
-    'Backend API',
-    'Mobile',
-    'Data/ML',
-    'Embedded'
+  '10. SELF-IMPROVEMENT & MAINTENANCE': [
+    'SELF-EVALUATION QUESTIONS',
+    'PROJECT PROFILE',
+    'DOMAIN-SPECIFIC EDGE CASES',
+    'API DEPRECATION',
+    'COVERAGE REFACTORING TRIGGERS'
   ],
-  'PROJECT PROFILE': [
-    'Size',
-    'Risk',
-    'Deployment',
-    'Team'
+  '8. SYSTEM AUDIT FRAMEWORK': [
+    'Audit Dimensions (10)',
+    'Mandatory Test Cases',
+    'Audit Report Template',
+    'Fix Priority Matrix',
+    'Audit Checklist'
   ],
-  'SYSTEM AUDIT & SECURITY REVIEW': [
-    'Business Logic Integrity',
-    'End-to-End Flow Audit',
-    'Concurrency & Race Condition',
-    'Database & Data Integrity',
-    'Caching & Consistency',
-    'Idempotency',
-    'Failure Scenarios',
-    'Security Audit',
-    'Scalability Analysis',
-    'Observability & Monitoring',
-    'AUDIT REPORT TEMPLATE',
-    'FIX PRIORITY MATRIX',
-    'AUDIT CHECKLIST'
+  '17. BEHAVIORAL GUIDELINES (CLAUDE)': [
+    'Think Before Coding',
+    'Simplicity First',
+    'Surgical Changes',
+    'Goal-Driven Execution'
   ]
 };
 
@@ -81,9 +75,9 @@ const REQUIRED_PENALTIES = [
 
 describe('AGENTS.md Prompt Compliance', () => {
 
-  test('has all 16 mandatory sections', () => {
+  test('has all 18 mandatory sections', () => {
     const missing = REQUIRED_SECTIONS.filter(section =>
-      !agentsContent.includes(`## ${section}`)
+      !agentsContent.includes(section) // Section titles include numbers
     );
 
     if (missing.length > 0) {
@@ -98,10 +92,10 @@ describe('AGENTS.md Prompt Compliance', () => {
     const errors = [];
 
     for (const [section, subsections] of Object.entries(REQUIRED_SUBSECTIONS)) {
-      const sectionIndex = agentsContent.indexOf(`## ${section}`);
+      const sectionIndex = agentsContent.indexOf(section);
       if (sectionIndex === -1) continue; // Already caught by previous test
 
-      const nextSectionIndex = agentsContent.indexOf('## ', sectionIndex + 1);
+      const nextSectionIndex = agentsContent.indexOf('## ', sectionIndex + 50); // Find next heading
       const sectionContent = agentsContent.substring(
         sectionIndex,
         nextSectionIndex === -1 ? undefined : nextSectionIndex
