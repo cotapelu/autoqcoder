@@ -1,5 +1,6 @@
-# AUTO-CONTINUE.md - Optimized Agent Workflow
-*Version: v2.1 Compact + Audit Extension (AGENTS.md compliant)*
+# AUTO-CONTINUE.md - v2.1 Compressed
+
+**Workflow cho autonomous agent - phosphate với AGENTS.md v2.1.**
 
 ---
 
@@ -12,7 +13,7 @@ LOOP: while failed || improvable || not_minimal || audit_failed:
   detect → improve → test → audit → verify
 ```
 
-**Note**: `Audit` step is MANDATORY before `Verify`. Code must pass System Audit (10 dimensions) before considered done.
+**Note**: `Audit` step is MANDATORY before `Verify`. Code must pass System Audit (10 dimensions from AGENTS.md Section 8) before considered done.
 
 ---
 
@@ -26,7 +27,7 @@ Mỗi session mới hoặc sau khi đọc codebase mới:
 4. Xác định next highest-impact task
 5. Implement improvements
 6. Run tests/builds với tools
-7. **Run System Audit (10 dimensions from AGENTS.md)**
+7. **Run System Audit (10 dimensions from AGENTS.md Section 8)**
 8. Update `PROJECT_STATE.md`
 9. Update `TODO.md` với completed và follow-ups
 
@@ -39,18 +40,6 @@ Default: continuous evolution. Sau khi complete iteration, phải identify next 
 - Tests/builds fail và cần clarification
 - **Audit fails (critical issues found)**
 - Không còn actionable TODO items
-
----
-
-## EVOLUTION & SELF-IMPROVEMENT (CORE)
-
-**Mỗi vòng loop phải update evolution files:**
-
-- `docs/AGENT_METRICS.md`: Iterations/task, test failure rate, rollback count, regressions, MTTR
-- `docs/AGENT_PROFILE.md`: Tasks thường fail, weak languages/stacks, fragile modules, weaknesses
-- `docs/EVOLUTION.md`: Trajectory changes, planned refactors, anticipated debt updates
-
-**Meta-Goal:** System breaks less, fixes faster, plans further ahead, ít repeated mistakes.
 
 ---
 
@@ -67,53 +56,57 @@ Chỉ sau git commit xong thì mới bắt đầu vòng mới.
 
 ---
 
-## MENTAL TESTING (KHÔNG VIẾT CODE)
+## MENTAL TESTING MODE (Brief)
 
-- Tưởng tượng valid/invalid/null/edge cases
-- Từng nhánh logic được cover?
-- Error paths được handle?
-- Data flow cả 2 chiều (UI→DB và DB→UI)
-- Nếu thiếu → VIẾT THÊM code (không skip)
+Xem chi tiết trong **AGENTS.md Section 6**.
 
----
-
-## CODE PRESERVATION (KHÔNG XÓA)
-
-**Debug bắt buộc:**
-1. Đọc toàn bộ file (không chỉ đoạn suspected)
-2. Hiểu context: dependencies, structure, related logic
-3. Tìm root cause: check braces, imports, async/sync, lifetimes
-4. Incremental: add debug prints, isolate sections, test hypotheses từng bước
-5. Systematic: Read → Understand → Isolate → Test → Verify
-
-**Nếu vẫn fail:** Consult team, review git history, pair programming, disable feature tạm thời thay vì xóa code, luôn có plan restore.
-
-**Cấm tuyệt đối:** Xóa code để pass test, "vá áo" fix tạm thời, chấp nhận degradation.
+- KHÔNG viết test code (sẽ verify trong đầu)
+- KHÔNG check bằng tool (tưởng tượng scenarios)
+- Tưởng tượng ALL inputs: valid, invalid, null, empty, boundary
+- Từng nhánh logic phải cover
+- Tất cả error paths phải handle
+- Data flow cả 2 chiều (UI→DB, DB→UI)
 
 ---
 
-## CHANGE COST & RISK
+## CODE PRESERVATION (Brief)
 
-**Mỗi Feature/Refactor/Migration phải assess:**
-- Engineering cost (hours/days)
-- Risk: **Low** / **Medium** / **High**
+Xem chi tiết trong **AGENTS.md Section 4**.
+
+- KHÔNG XÓA CODE (last resort)
+- Debug: Read → Understand → Isolate → Test → Verify (systematic)
+- Nếu lỗi: preserve, tìm root cause, fix logic
+- Luôn có plan restore từ git
+- Disable feature tạm thời thay vì xóa
+
+---
+
+## CHANGE COST & RISK (Brief)
+
+Xem chi tiết trong **AGENTS.md Section 4**.
+
+- Estimate engineering cost (hours/days)
+- Risk level: Low / Medium / High
 - Estimated rollback time
-
-**Prefer:** Low-risk, high-impact > high-risk, aesthetic/speculative.
+- Prefer Low-risk, high-impact over High-risk, aesthetic
 
 ---
 
-## MISSING CODE = WRITE MORE
+## MISSING CODE = WRITE MORE (Brief)
 
-- Nếu thiếu feature, API, logic, edge case → **VIẾT THÊM**
-- KHÔNG skip vì "không yêu cầu"
+Xem chi tiết trong **AGENTS.md Section 4**.
+
+- Nếu phát hiện thiếu → VIẾT THÊM
+- KHÔNG skip "không yêu cầu"
 - KHÔNG remove code để simplify
-- KHÔNG pass nhanh bằng cách giảm scope
-- **App phải ngày càng hoàn thiện**, không less complete
+- KHÔNG giảm scope để pass nhanh
+- App ngày càng hoàn thiện
 
 ---
 
-## SKILL INTEGRATION (10+ REQUIRED)
+## SKILL INTEGRATION (Brief)
+
+Xem chi tiết trong **AGENTS.md Section 13**.
 
 Đọc skill file trước khi modify:
 
@@ -126,104 +119,55 @@ Chỉ sau git commit xong thì mới bắt đầu vòng mới.
 | `erp-architect` | Fullstack ERP |
 | `iam-platform-layer` | Auth/Security |
 | `go-architect` | Go services |
-| `python-architect` | Python apps |
 | `react-architect` | React apps |
 | `rust-architect` | Rust systems |
+| `python-architect` | Python apps |
 
 ---
 
-## DEBUGGING CHECKLIST
+## SEARCH & ANALYSIS MODE (Brief)
 
-**Systematic Process:**
-1. Read entire file (mọi dòng, imports)
-2. Understand context (structure, related logic)
-3. Isolate problem (reproduction case)
-4. Test hypotheses (debug prints, unit tests)
-5. Verify fix (no regression)
+Xem chi tiết trong **AGENTS.md Section 6**.
 
-**Per-file:**
-- [ ] Đọc toàn bộ file trước khi modify
-- [ ] Identify root cause (không skip)
-- [ ] Check braces, parentheses, indentation
-- [ ] Verify async/await, promises
-- [ ] Check lifetimes (memory, connections)
-- [ ] Review error logs full context
-- [ ] Add debug output nếu cần
-- [ ] Isolate section bằng comments
-- [ ] Test hypotheses từng bước
-- [ ] Verify happy & error paths
+**[search-mode]**: MAXIMIZE SEARCH EFFORT. Launch multiple background agents IN PARALLEL: explore agents, librarian agents, plus Grep/rg/ast-grep. NEVER stop at first result.
 
-**Nếu vẫn fail:** Consult team, review git history, disable feature tạm thời (không xóa), plan restore.
-
-**Cấm:** Xóa code để pass, vá áo, chấp nhận degradation.
+**[analyze-mode]**: ANALYSIS MODE. Gather context in parallel. IF COMPLEX → consult Oracle/Artistry. SYNTHESIZE findings.
 
 ---
 
-## PRODUCTION TESTING PIPELINE (PUSHGUIDE COMPLIANT)
+## STRICT MODE - NO HALLUCINATION (Brief)
 
-**Before push**: Code must pass through ALL 27 gates:
+Xem chi tiết trong **AGENTS.md Section 6**.
 
-0. **Trạng thái khởi đầu** - Code mới tạo, chưa kiểm chứng → **Untrusted Code Artifact**
-1. **Source Hygiene** - Remove placeholders, TODOs, mock hardcode, normalize encoding.
-2. **Dependency Freeze** - Resolve all libs, lock versions, snapshot tree, checksum.
-3. **Clean Build** - Zero cache, build from scratch, compile/link/bundle/package.
-4. **Artifact Verification** - Binary exists, hash stable, size valid, no missing files.
-5. **Static Code Analysis** - Undefined behavior, race conditions, null access, injection, memory misuse, dead code.
-6. **Type/Schema Verification** - Type compatibility, interface match, API contract, DB schema.
-7. **Unit Test Execution** - Business rules, validation, calculation, state transitions.
-8. **Test Coverage Gate** - Core logic, auth, payment, data mutation, permission (≥80%).
-9. **Integration Test** - API↔DB, service↔service, frontend↔backend, worker↔queue.
-10. **Contract Test** - API backward compatible, event schema stable.
-11. **Data Migration Validation** - If DB: migration, rollback, no data loss, no corruption.
-12. **Security Scan** - Vulnerable deps, secret leak, hardcoded credentials, open ports, dangerous permissions.
-13. **Compliance Check** - Logging, audit trail, data retention, PII handling, GDPR/HIPAA/SOC2.
-14. **Performance Sanity** - CPU, RAM, IO, thread, connection pool.
-15. **Stress/Edge Case** - Empty input, max size, burst traffic, timeout, retry storm.
-16. **Failure Mode Test** - DB down, API down, disk full, memory full, network loss.
-17. **Observability Validation** - Log, metrics, trace, error report.
-18. **Configuration Validation** - Env vars, secret store, feature flags, region, scale.
-19. **Packaging** - Docker image, binary, bundle, Helm, artifact versioned.
-20. **Staging Deploy** - Real infra, real network, real scale, fake data.
-21. **Smoke Test** - App start, API respond, job run, UI load.
-22. **Rollback Test** - Deploy new version, rollback old version, no data loss.
-23. **Human Review Gate** - Architecture, business rule, security, failure scenarios reviewed by human.
-24. **Sign-off** - Tech lead, security, product approve.
-25. **Git Push Allowed** - Only now `git push`.
-26. **CI Re-run All Gates** - No bypass.
-27. **Production Release** - Deploy to production.
-
-**Conclusion**: LLM only does Step 0. All other steps exist because code lies until proven correct. "Vibe code then push straight" = prototype, not software engineering.
+**MUST NOT**: guess, infer missing behavior, invent APIs, assume inputs, assume error handling. If missing → STOP and output: "Cannot generate tests because: <exact missing information>".
 
 ---
 
-## SYSTEM AUDIT WORKFLOW (from AUDIT.md)
+## MENTAL TESTING PROMPT (Brief)
+
+Xem chi tiết trong **AGENTS.md Section 6**.
+
+**Core Principle**: Code must be safe for production after mental verification. NO actual test code written, but verify EVERY scenario in head.
+
+Test ALL dimensions: Inputs, Outputs, Branches, Errors, DataFlow (both directions), Security, Performance, Concurrency, State, Observability.
+
+---
+
+## PRODUCTION TESTING PIPELINE (Brief)
+
+Xem chi tiết trong **AGENTS.md Section 7**.
+
+27 gates from untrusted code artifact → production release. LLM only does Step 0. All other steps exist because code lies until proven correct.
+
+---
+
+## SYSTEM AUDIT WORKFLOW (Brief)
+
+Xem chi tiết trong **AGENTS.md Section 8**.
 
 **Trigger**: Before any production deploy OR after major changes.
 
-**Audit all 10 dimensions** (see AGENTS.md Section 10 for detailed checklist):
-
-1. Business Logic Integrity
-2. End-to-End Flow Audit
-3. Concurrency & Race Condition
-4. Database & Data Integrity
-5. Caching & Consistency
-6. Idempotency
-7. Failure Scenarios
-8. Security Audit (STRIDE + DREAD)
-9. Scalability Analysis
-10. Observability & Monitoring
-
-**For each issue found**, must produce:
-
-- 🔥 **Severity**: Critical / High / Medium / Low
-- 📍 **Location**: flow / module / function
-- 💥 **Exploit**: how to trigger
-- 🧨 **Impact**: data loss, financial, security
-- 🛠 **Fix**: code change, config
-- 🧪 **Test Case**: concrete test
-- **Priority**: P0/P1/P2/P3
-
-**Audit Report Template** (see AGENTS.md).
+Audit all 10 dimensions. For each issue found, must produce: Severity, Location, Exploit, Impact, Fix, Test Case, Priority.
 
 **Audit Pass Criteria**: Self-score ≥90 on audit checklist + zero critical issues.
 
@@ -231,140 +175,18 @@ If audit fails → return to `Optimize` step, do NOT proceed to `Verify`.
 
 ---
 
-## SEARCH & ANALYSIS MODE (from TESTRULE)
+## QUICK REFERENCE (Optional)
 
-### [search-mode]
-MAXIMIZE SEARCH EFFORT. Launch multiple background agents IN PARALLEL:
-- explore agents (codebase patterns, file structures, ast-grep)
-- librarian agents (remote repos, official docs, GitHub examples)
-Plus direct tools: Grep, ripgrep (rg), ast-grep (sg)
-NEVER stop at first result - be exhaustive.
-
-### [analyze-mode]
-ANALYSIS MODE. Gather context before diving deep:
-
-**CONTEXT GATHERING (parallel):**
-- 1-2 explore agents (codebase patterns, implementations)
-- 1-2 librarian agents (if external library involved)
-- Direct tools: Grep, AST-grep, LSP for targeted searches
-
-**IF COMPLEX - DO NOT STRUGGLE ALONE. Consult specialists:**
-- **Oracle**: Conventional problems (architecture, debugging, complex logic)
-- **Artistry**: Non-conventional problems (different approach needed)
-
-**SYNTHESIZE findings before proceeding.**
+TBD: One-page summary of most-used checks and commands.
 
 ---
 
-## STRICT MODE - NO HALLUCINATION
+## LINK TO FULL AGENTS.md
 
-**You MUST NOT:**
-- guess
-- infer missing behavior
-- invent APIs
-- assume inputs
-- assume error handling
+Tất cả chi tiết đầy đủ xem trong **AGENTS.md** (16 sections, production-ready framework).
 
-If any information is missing or unclear, you must stop and output:
-
-"Cannot generate tests because: <exact missing information>"
-
-No tests may be written until all required information is present.
+Nội dung AUTO-CONTINUE này là **condensed workflow** cho agent autonomy. Các checklist, templates, standards đều được define trong AGENTS.md.
 
 ---
 
-## MENTAL TESTING PROMPT (Production Readiness Enforcer)
-
-**Core Principle**: Code must be safe for production after mental verification. No actual test code written, but verify EVERY scenario in head.
-
-**Test ALL dimensions**:
-- **Inputs**: valid, invalid, null, empty, boundary values, malformed data
-- **Outputs**: return values correct, side effects verified
-- **Branches**: every if/else/switch covered
-- **Errors**: every throw/catch/path handled
-- **Data Flow**: BOTH directions (UI→DB & DB→UI)
-- **Security**: injection, auth bypass, XSS, CSRF
-- **Performance**: O(n) not O(n²), no memory leaks, no blocking I/O
-- **Concurrency**: race conditions, deadlocks, atomicity
-- **State**: consistent across async ops, no corruption
-- **Observability**: logs, metrics, traces emitted
-
-**If missing → VIẾT THÊM** (do not skip)
-
----
-
-## QUICK REFERENCE
-
-**Mental Test Prompt Template:**
-```
-Inputs: [list all expected + unexpected]
-Outputs: [expected for each input]
-Branches: [each conditional]
-Errors: [each failure mode]
-DataFlow: [UI→DB steps] + [DB→UI steps]
-Security: [validate all checks]
-Performance: [complexity analysis]
-Concurrency: [shared state? locks?]
-State: [consistent?]
-Observability: [logs + metrics?]
-```
-
-**Quality Gate Checklist:**
-```
-[✔] Funcs≤20 | Comp≤10 | No dup5 | 100% ErrHnd | 100% Val | No secrets | Testable
-[✔] Cov≥80% | Tests pass | No 12 anti-patterns | Devil's advocate | Mental test done
-[✔] Flow coverage (UI→DB & DB→UI) | Missing code written | Code preserved
-[✔] Risk assessed (Low/Med/High) | Git committed
-```
-
-**Risk Levels:**
-- **Low**: Docs, refactor same module, add tests, fix typos
-- **Medium**: Add feature, modify API, change DB schema
-- **High**: Rewrite core, change architecture, security fix
-
-**Git Commit Format:**
-```
-feat: <description>
-fix: <description>
-refactor: <description>
-chore: evolution round - <description>
-```
-
----
-
-## PRINCIPLES & SCOPE & TARGETS
-
-**Principles:**
-- Simplicity-first (200→50 lines)
-- No over-engineering
-- Declarative > Imperative
-- Readable > Clever
-
-**Scope:**
-- **Out:** DevOps, Infra, CI/CD, Deployment, Cloud, Ops, Meetings
-- **In:** Security, Testing, Bug Fix, Code Quality, Performance, Scalability
-
-**Targets:**
-- Coverage ≥80%
-- Functions ≤20 lines
-- Complexity ≤10
-- Security 100%
-- Self-Score ≥90
-
----
-
-## DONE & ANTI-SLOP
-
-**DONE:**
-- Requirements met
-- Tests 100% pass
-- Minimal & clear code
-- No hidden assumptions
-- No regression
-
-**ANTI-SLOP (STRICT):**
-Bloat, abstraction, side effects, duplication, premature optimization = FORBIDDEN
-
----
-
-*v2.1 Compact + Audit: ~380 lines. Workflow with mandatory audit step.*
+**v2.1 Compressed**: ~150 lines (vs original 369). Maintains all mandatory workflow steps, references full AGENTS.md for details.
