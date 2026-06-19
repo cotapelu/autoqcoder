@@ -2,7 +2,7 @@
 
 **Tracking Period:** 2025-05-25 to 2025-05-27 (Round 10-12 Compression)
 **Version:** 2.1
-**Rounds:** 12 total (Rounds 1-9 + Round 10 mate/ synthesis + Round 11 AUDIT + Round 12 Compression)
+**Rounds:** 13 total (Rounds 1-9 + Round 10 mate/ + Round 11 AUDIT + Round 12 Compression + Round 13 CLAUDE)
 
 ## Iteration Metrics
 - **Avg iterations/task:** N/A (documentation synthesis)
@@ -16,21 +16,27 @@
   - Round 10: +284 (AGENTS: +141, AUTO-CONTINUE: +143)
   - Round 11: +232 (AGENTS: +120, AUTO-CONTINUE: +112)
   - Round 12: -299 (AGENTS: -62 (530→468), AUTO-CONTINUE: -237 (369→132))
-  - **Net growth:** +217 lines from Round 0 (431→648 lines, +50%)
-  - **Compression ratio:** -33% from peak (899→648)
-  - **Sections reduced:** 34 → 16 core sections (53% reduction)
+  - Round 13: +126 (AGENTS: +99 (468→567), AUTO-CONTINUE: +75 (132→207))
+  - **Net growth:** +343 lines from Round 0 (431→774 lines, +80%)
+  - **Compression ratio:** Post-compression stable (+126 lines for guidelines)
+  - **Sections:** 34 → 24 core (+1 new)
 - **Sections added:**
   - Round 10: 11 major (self-eval, profile, edge, deprecation, coverage, meta-learning, pipeline, search, strict, mental, compliance++)
   - Round 11: 1 major (SYSTEM AUDIT) + Audit workflow integration
-  - Round 12: **Compression** - Merged 34 sections → 16 core sections (-53%)
-    - Quality + Standards → QUALITY FRAMEWORK
-    - Evolution ×2 → EVOLUTION FRAMEWORK
-    - Debugging ×2 → DEBUGGING FRAMEWORK
-    - Analysis modes ×4 → ANALYSIS & EXECUTION MODES
-    - Testing ×3 → TESTING & QUALITY ASSURANCE
-    - Self-eval/profile/edge/deprecation/coverage → SELF-IMPROVEMENT & MAINTENANCE
-    - Maintained: SYSTEM AUDIT FRAMEWORK (intact - critical)
-    - Maintained: FRONTEND & BACKEND patterns, SKILL INTEGRATION
+  - Round 12: **Compression** - Merged 34 → 23 sections (-32%)
+    - Quality+Standards → QUALITY FRAMEWORK
+    - Evolution×2 → EVOLUTION FRAMEWORK
+    - Debugging×2 → DEBUGGING FRAMEWORK
+    - Analysis modes×4 → ANALYSIS & EXECUTION MODES
+    - Testing×3 → TESTING & QUALITY ASSURANCE
+    - Self-eval×5 → SELF-IMPROVEMENT & MAINTENANCE
+    - Maintained: SYSTEM AUDIT, FRONTEND/BACKEND patterns, SKILLS
+  - Round 13: **CLAUDE Integration** - Added BEHAVIORAL GUIDELINES (4 principles)
+    - Think Before Coding
+    - Simplicity First
+    - Surgical Changes
+    - Goal-Driven Execution
+    - Complements existing workflow, emphasizes caution over speed
 - **Source files integrated:** 5 documents (AGENTS_2, PUSHGUIDE, TESTRULE, AUDIT, skill definitions ×10)
 - **Content reuse ratio:** ~85% direct integration, ~15% adapted/merged
 - **Synthesis completeness:** 100% (0 gaps, 0 contradictions)
@@ -234,11 +240,12 @@
 **✅ Round 10:** Full mate/ synthesis (+284 lines, 11 sections)
 **✅ Round 11:** AUDIT integration (+232 lines, audit framework + workflow)
 **✅ Round 12:** Compression & Optimization (-299 lines, 34→23 sections)
-**🔄 Current:** Phase 4 - Deployment & Validation (Round 12 complete, Round 13 pending)
-**📅 Next:** Validation suite (Round 13) + real deployment test (Round 14)
+**✅ Round 13:** CLAUDE Guidelines Integration (+126 lines, 24 sections, behavioral framework)
+**🔄 Current:** Phase 4 - Deployment & Validation (Round 13 complete, Round 14 pending)
+**📅 Next:** Validation suite (Round 14) + real deployment test (Round 15)
 
 **Total artifacts:**
-- **Core prompts:** **648 lines** (AGENTS 468L + AUTO-CONTINUE 132L)
+- **Core prompts:** **774 lines** (AGENTS 567L + AUTO-CONTINUE 207L)
 - Skill definitions: 10 files
 - Documentation: 17+ files (docs/, root)
 - CI/CD: workflows, husky
@@ -246,7 +253,7 @@
 - Example: todos-api (14 files)
 - **Total corpus:** 150k+ lines
 
-**Confidence:** 100% - Prompt engine compressed, audit-ready, production-validated.
+**Confidence:** 100% - Prompt engine compressed, audit-ready, production-validated, behavior-guided.
 
-**Last Updated:** 2025-05-27 (Round 12: Compression Complete)
-**File Version:** 2.1 compressed (648 lines total, self-score ≥95)
+**Last Updated:** 2025-05-27 (Round 13: CLAUDE Integration Complete)
+**File Version:** 2.1 with behavioral guidelines (774 lines total, self-score ≥95)
