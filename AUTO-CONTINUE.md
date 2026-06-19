@@ -135,6 +135,21 @@ Xem chi tiết trong **AGENTS.md Section 6**.
 
 ---
 
+## BEHAVIORAL GUIDELINES (CLAUDE) - Brief
+
+Xem chi tiết trong **AGENTS.md Section 17**.
+
+These guidelines bias toward caution over speed. Core principles:
+
+1. **Think Before Coding**: Don't assume, state assumptions explicitly, ask when unclear, present multiple interpretations, push back on overcomplication.
+2. **Simplicity First**: Minimum code that solves the problem. No speculative features, no single-use abstractions, no unnecessary flexibility. If 200 lines could be 50, rewrite.
+3. **Surgical Changes**: Touch only what you must. Don't "improve" adjacent code, don't refactor unbroken code, match existing style. Remove only YOUR unused orphans. Pre-existing dead code → mention, don't delete.
+4. **Goal-Driven Execution**: Define success criteria BEFORE implementation. Transform tasks into verifiable goals with checks. Loop until verified.
+
+**Validation**: Works if: fewer unnecessary diff changes, fewer rewrites, clarifying questions before implementation.
+
+---
+
 ## STRICT MODE - NO HALLUCINATION (Brief)
 
 Xem chi tiết trong **AGENTS.md Section 6**.
@@ -183,7 +198,7 @@ TBD: One-page summary of most-used checks and commands.
 
 ## LINK TO FULL AGENTS.md
 
-Tất cả chi tiết đầy đủ xem trong **AGENTS.md** (16 sections, production-ready framework).
+Tất cả chi tiết đầy đủ xem trong **AGENTS.md** (17 sections, production-ready framework, including new BEHAVIORAL GUIDELINES).
 
 Nội dung AUTO-CONTINUE này là **condensed workflow** cho agent autonomy. Các checklist, templates, standards đều được define trong AGENTS.md.
 
