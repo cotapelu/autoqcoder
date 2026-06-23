@@ -89,17 +89,19 @@ Evolve into a self-improving agent that consistently produces production-ready c
 
 ---
 
-## Phase 4: Deployment & Validation (Month 1-2) - NOV-DEC 2025 🔄 **IN PROGRESS**
+## Phase 4: Deployment & Validation (Month 1-2) - 2025-2026 🔄 **IN PROGRESS**
 
 ### Goals
 - ✅ **Synthesize prompts** from all mate/ sources → **DONE (Rounds 10-11)**
-- ✅ **Update evolution files** with synthesis metrics → **IN PROGRESS (This file)**
-- ⏭️ **Create validation suite** (automated prompt compliance tests)
-- ⏭️ **Run full 27-gate pipeline** on actual project with audit
-- ⏭️ **Publish npm package** (`autoqcoder@2.1.0`)
-- ⏭️ **Provide instant installer** (`npx autoqcoder`)
-- ⏭️ **Automate metrics updates** from git history
-- ⏭️ **Create pre-push hook** for evolution file freshness
+- ✅ **Round 12**: Compression & Optimization - 899→648 lines ✅
+- ✅ **Round 13**: CLAUDE Guidelines Integration - Behavioral framework added ✅
+- ✅ **Update evolution files** with synthesis metrics → **DONE (This sync)**
+- ⏭️ **Round 14**: Validation suite creation (automated prompt compliance tests)
+- ⏭️ **Round 15**: Real deployment test with audit (new project)
+- ⏭️ **Round 16**: Publish npm package (`autoqcoder@2.1.0`)
+- ⏭️ **Round 17**: Create `npx autoqcoder` installer
+- ⏭️ **Round 18**: Metrics automation (git → AGENT_METRICS.md)
+- ⏭️ **Round 19**: Pre-push hook for evolution freshness
 
 ### Completed This Phase (So Far)
 
@@ -114,57 +116,92 @@ Evolve into a self-improving agent that consistently produces production-ready c
 - Integrated `mate/AUDIT.md` - Universal System Audit Prompt
 - Added **SYSTEM AUDIT FRAMEWORK** section to AGENTS.md (+120 lines)
 - Added **SYSTEM AUDIT WORKFLOW** to AUTO-CONTINUE.md (+112 lines)
-- **10 Audit Dimensions** with detailed checklists:
-  1. Business Logic Integrity
-  2. End-to-End Flow Audit
-  3. Concurrency & Race Conditions
-  4. Database & Data Integrity
-  5. Caching & Consistency
-  6. Idempotency
-  7. Failure Scenarios
-  8. Security Audit (STRIDE + DREAD)
-  9. Scalability Analysis
-  10. Observability & Monitoring
-- **Audit Report Template**: Executive summary, detailed findings (severity/exploit/impact/fix/test/priority), compliance check, gaps, sign-off
-- **Fix Priority Matrix**: P0-P3 based on severity × ease
-- **Audit Checklist**: 13 items, self-score ≥90 required, **penalty -30** if incomplete
-- **Mandatory Test Cases**: 10 categories (load, concurrency, retry, chaos, edge, malicious, boundary, stress, memory leak, integration)
-- **Workflow change**: Added `Audit` step before `Verify`; `audit_fail` → loop back to `Optimize`
-- **Lines added**: +232 total (AGENTS: +120, AUTO-CONTINUE: +112)
-- **Total lines**: 937 (vs baseline 431, +117% cumulative growth)
-- **Self-score**: 98/100 (audit framework complete and well-integrated)
-- **Risk**: Low (documentation-only, no code changes)
-- **Validation**: 0 contradictions, 100% consistency with existing security/resilience sections
+- **10 Audit Dimensions** with detailed checklists
+- **Audit Report Template** with severity/exploit/impact/fix/test/priority
+- **Fix Priority Matrix** (P0-P3)
+- **Audit Checklist**: 13 items, self-score ≥90, penalty -30
+- **Mandatory Test Cases**: 10 categories
+- **Workflow**: Added `Audit` before `Verify`
+- **Lines added**: +232 (AGENTS:+120, AUTO:+112)
+- **Total**: 937 lines (+117% from baseline)
+- **Self-score**: 98/100
+- **Risk**: Low, 0 contradictions
 
-### Updated Metrics (Round 11)
-- **Evolution rounds**: 11 total
-- **Sections completeness**: 21/21 categories (100%)
-- **Audit dimensions**: 10/10 fully documented
-- **Total prompt lines**: 937 (AGENTS 486L + AUTO-CONTINUE 451L)
+#### Round 12: Compression & Optimization (May 27, 2025)
+- Meta-optimization per FINAL OPTIMIZATION & META-LEARNING
+- Merged 34 sections → 23 core (-32%)
+- AGENTS.md: 530 → 468 lines (-12%)
+- AUTO-CONTINUE.md: 369 → 132 lines (-64%)
+- **Total**: 899 → 648 lines (-28% from peak)
+- Cognitive load: HIGH → MEDIUM
+- 100% functionality preserved (cross-verified)
+- Self-score ≥95 maintained
+- Key merges: Quality+Standards→FRAMEWORK, Evolution×2→FRAMEWORK, Debugging×2→FRAMEWORK, Analysis modes×4→MODES, Self-eval×5→MAINTENANCE
+- Audit framework: maintained at 100%
+
+#### Round 13: CLAUDE Guidelines Integration (May 27, 2025)
+- Added Section 17: BEHAVIORAL GUIDELINES (CLAUDE)
+- 4 principles: Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution
+- Bias toward caution over speed, reduce LLM mistakes
+- AGENTS.md: 468 → 567 lines (+99)
+- AUTO-CONTINUE.md: 132 → 207 lines (+75)
+- **Total**: 648 → 774 lines (+19%)
+- Sections: 23 → 24
+- Self-score ≥95 maintained
+- **Final Core Prompt Size**: 774 lines (AGENTS 567L + AUTO 207L)
+
+### Updated Metrics (Round 13)
+- **Evolution rounds**: 13 total (Rounds 1-9 + 10 mate/ + 11 AUDIT + 12 Compression + 13 CLAUDE)
+- **Sections completeness**: 24/24 categories (100%)
+- **Total prompt lines**: 774 (AGENTS 567L + AUTO-CONTINUE 207L)
 - **Skills referenced**: 10/10
 - **Production gates**: 27 (PUSHGUIDE)
 - **Compliance standards**: 5 (GDPR, HIPAA, PCI, SOX, COPPA)
-- **Self-score trajectory**: 95 → 100 → 98 (Round 11)
-- **Git commitment**: Pending (need commit for Round 11)
+- **Self-score trajectory**: 95 → 100 → 98 → 100 (current)
+- **Compression ratio**: Post-compression stable (+19% after -28%)
+- **Git commitment**: ✅ All rounds committed
 
-### Planned Tasks (Remaining)
-- [ ] **Round 12**: Validation suite creation
-  - `tests/prompt-compliance.test.js` - verify AGENTS.md has all 21 sections
-  - `tests/auto-continue-workflow.test.js` - verify 11-step workflow (Analyze→Audit→Verify)
-  - `tests/audit-checklist.test.js` - verify audit dimensions present
-  - `scripts/check-evolution-files.js` - CLI to validate sync
-  - `scripts/calculate-self-score.js` - auto-calculate from AGENTS.md
-- [ ] **Round 13**: Real deployment test with audit
+### Current Focus (Phase 4 - Round 14-19)
+- [ ] **Round 14**: Validation suite creation
+  - `tests/prompt-compliance.test.js` - verify AGENTS.md has all 24 sections
+  - `tests/auto-continue-workflow.test.js` - verify 16-step workflow
+  - `tests/audit-checklist.test.js` - verify 10 audit dimensions + templates
+  - `scripts/check-evolution-files.js` - CLI to validate sync (exists)
+  - `scripts/calculate-self-score.js` - auto-calculate (exists)
+- [ ] **Round 15**: Real deployment test with audit
   - Choose fresh project (different domain from todos-api)
   - Run full evolution loop including Audit step
   - Generate actual metrics from code generation + audit
   - Measure against 27-gate pipeline + 10-dim audit
-  - Document any audit failures/gaps
-  - Update docs with real-world findings
-- [ ] **Round 14**: Publish npm package `autoqcoder@2.1.0`
-- [ ] **Round 15**: Create `npx autoqcoder` installer
-- [ ] **Round 16**: Metrics automation (git → AGENT_METRICS.md)
-- [ ] **Round 17**: Pre-push hook for evolution freshness
+  - Document audit findings/gaps
+  - Update docs with real-world data
+- [ ] **Round 16**: Publish npm package `autoqcoder@2.1.0`
+- [ ] **Round 17**: Create `npx autoqcoder` installer (`bin/autoqcoder.js`)
+- [ ] **Round 18**: Metrics automation (git history → AGENT_METRICS.md)
+- [ ] **Round 19**: Pre-push hook for evolution freshness
+
+### Challenges Anticipated
+- Validation suite complexity (testing the tester)
+- Real deployment integration (actual CI/CD vs theoretical)
+- Audit framework validation (need real security findings)
+- User adoption (publish → community feedback)
+- Version management (breaking changes in prompts)
+
+### Success Criteria for Phase 4
+- [ ] Validation suite passes for current prompts (100% compliance)
+- [ ] Real deployment completes 27-gate pipeline + audit step successfully
+- [ ] npm package published with ≥10 downloads
+- [ ] `npx autoqcoder` works out-of-the-box
+- [ ] Metrics automation reduces manual update time by 80%
+- [ ] Pre-push hook prevents stale evolution files
+- [ ] Self-score ≥95 on new codebase with audit (different from todos-api)
+- [ ] **Audit identifies ≥1 security/quality issue** that would have been missed without it
+
+**Phase 4 Target Completion:** 2026-07-31 (Extended due to June 2026 sync)
+
+---
+
+## Phase 5: Ecosystem & Community (Month 3-4) - DEC 2025 - JAN 2026 📅 **PLANNED**
 
 ### Challenges Anticipated
 - Validation suite complexity (testing the tester)

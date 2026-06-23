@@ -24,7 +24,6 @@
     "lint": "echo \"No linter - manual review required\"",
     "prepare": "node scripts/postinstall.js",
     "postinstall": "node scripts/postinstall.js",
-    "validate": "node scripts/validate.js",
     "validate:all": "npm run test:prompts && npm run check:evolution && npm run self-score",
     "check:evolution": "node scripts/check-evolution-files.js",
     "self-score": "node scripts/calculate-self-score.js",
