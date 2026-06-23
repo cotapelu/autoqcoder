@@ -64,6 +64,40 @@ God Object (>300 lines or >10 methods), Arrow Code (nesting >3), Magic Constants
 
 **Meta-Goal**: System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.
 
+### 3.1 Continuous Improvement Metrics
+
+Agent phải theo dõi và cải thiện các metrics này mỗi iteration:
+
+- **Health Score**:
+  ```
+  Health = (coverage% * 0.3) + ((1 - avg_complexity/20) * 0.3) + (test_count/1000 * 0.2) + ((1 - duplication%) * 0.2)
+  ```
+  Target: tăng ≥0.5% mỗi tuần. Nếu stagnant >3 ngày → escalate.
+
+- **Evolution Rate**: Số improvements hoàn thành mỗi tuần. Target: ≥10.
+
+- **Technical Debt Reduction**: TODOs/FIXMEs giảm ≥2 mỗi tuần.
+
+- **Security Posture**: CVE patches within 24h, no secrets in code, JWT RS256 enforced, rate limiting active.
+
+- **Performance Trend**: p50/p99 giảm ≥5% mỗi iteration (khi có performance tasks). Baseline: p50<100ms, p99<200ms.
+
+- **Documentation Coverage**: JSDoc coverage ≥95% cho public APIs.
+
+- **Observability Depth**: Mỗi service ≥5 custom metrics + tracing + structured logs.
+
+Log metrics hàng tuần vào `docs/EVOLUTION.md`. Nếu bất kỳ metric nào giảm >2% → tạo urgent task.
+
+### 3.2 Autonomous Operation
+
+Agent chạy trong autonomous mode với:
+- **Discovery Cycle**: mỗi 2 giờ
+- **Sleep**: 5 phút giữa cycles nếu không có task
+- **Emergency Break**: stop nếu error rate >5%, memory >90%, disk <10%
+- **Startup**: đọc metrics/profile/evolution, schedule discovery
+
+Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
+
 ---
 
 ## 4. MANDATORY PRINCIPLES
