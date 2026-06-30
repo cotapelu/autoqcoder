@@ -4,13 +4,15 @@
   "description": "Self-optimizing prompt engine for AI coding agents. Production-ready code generation with self-evolution, mental testing, 10+ skills, and comprehensive security audit framework.",
   "main": "AGENTS.md",
   "bin": {
-    "autoqcoder": "./bin/autoqcoder.js"
+    "autoqcoder": "./bin/autoqcoder.js",
+    "autoqcoder-agent": "./bin/agent.js"
   },
   "files": [
     "AGENTS.md",
     "AUTO-CONTINUE.md",
     "MIGRATION_GUIDE.md",
     "QUICK_REFERENCE_CARD.md",
+    "src/",
     "mate/",
     "docs/",
     ".github/",
@@ -22,6 +24,9 @@
     "test": "echo \"No tests - this is a prompt engine\"",
     "test:prompts": "node --test tests/*.test.js",
     "lint": "echo \"No linter - manual review required\"",
+    "agent:start": "node src/index.js",
+    "agent:once": "node src/index.js --once",
+    "agent:dev": "node src/index.js --verbose --once",
     "prepare": "node scripts/postinstall.js",
     "postinstall": "node scripts/postinstall.js",
     "validate:all": "npm run test:prompts && npm run check:evolution && npm run self-score",
