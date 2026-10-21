@@ -142,6 +142,15 @@ Mỗi improvement task phải thuộc một type từ catalog (ưu tiên theo th
 **Format Task**: `[TYPE] Module: Action (Expected Impact)`
 Ví dụ: `[R] userService: Split validateInput() (complexity 12→6, improve testability)`
 
+**Task Metadata** (bắt buộc cho mọi task):
+- Type: R/P/S/T/D/O/C/U/M
+- Module: module name
+- Action: specific action
+- Expected Impact: measurable outcome
+- Estimated Duration: ≤30 phút
+- Verify Command: command to verify completion
+- Rollback Plan: how to revert if failed
+
 ---
 
 ## PHASE 2: PLANNING
@@ -232,8 +241,10 @@ Sau mỗi task:
 ## PHASE 5: SCHEDULING
 
 ### 8.1 Cycle Timing
+- Max tasks per cycle: 3 (tránh overload)
 - Discovery Phase: ngay khi start (no delay)
 - Task Execution: nối tiếp, tối đa 3 tasks mỗi cycle
+- Task timeout: 30 phút per task
 - Sleep: 5 phút nếu Task Queue rỗng
 - Next Discovery: sau 2h từ start của cycle trước
 

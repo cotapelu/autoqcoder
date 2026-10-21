@@ -1,3 +1,13 @@
+---
+name: backend-db-pattern
+description: Backend Development Pattern - 4 Steps to Database
+license: MIT
+compatibility: opencode
+metadata:
+  audience: senior-developers
+  scope: backend-architecture
+---
+
 # Backend Development Pattern - 4 Steps to Database
 
 ## Tổng quan

@@ -127,6 +127,23 @@ Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
 - Data flow BOTH directions (UI→DB, DB→UI)
 - If missing → VIẾT THÊM (do NOT skip)
 
+### 4.1 Mental Testing Dimensions
+
+| Dimension | What to Verify |
+|-----------|----------------|
+| Inputs | valid, invalid, null, empty, boundary, malformed |
+| Outputs | return values correct, side effects verified |
+| Branches | every if/else/switch covered |
+| Errors | every throw/catch/path handled |
+| Data Flow | UI→DB AND DB→UI |
+| Security | injection, auth bypass, XSS, CSRF |
+| Performance | O(n) not O(n²), no memory leaks, no blocking I/O |
+| Concurrency | race conditions, deadlocks, atomicity |
+| State | consistent across async ops, no corruption |
+| Observability | logs, metrics, traces emitted |
+
+**If missing → VIẾT THÊM** (do not skip).
+
 ---
 
 ## 5. DEBUGGING FRAMEWORK
@@ -430,6 +447,40 @@ Based on query analysis:
 ```
 **Penalties**: -10 if no section; -20 if deprecated without fallback.
 
+### 10.5 CONTINUOUS IMPROVEMENT METRICS
+
+Agent phải theo dõi và cải thiện các metrics này mỗi iteration:
+
+- **Health Score**:
+  ```
+  Health = (coverage% * 0.3) + ((1 - avg_complexity/20) * 0.3) + (test_count/1000 * 0.2) + ((1 - duplication%) * 0.2)
+  ```
+  Target: tăng ≥0.5% mỗi tuần. Nếu stagnant >3 ngày → escalate.
+
+- **Evolution Rate**: Số improvements hoàn thành mỗi tuần. Target: ≥10.
+
+- **Technical Debt Reduction**: TODOs/FIXMEs giảm ≥2 mỗi tuần.
+
+- **Security Posture**: CVE patches within 24h, no secrets in code, JWT RS256 enforced, rate limiting active.
+
+- **Performance Trend**: p50/p99 giảm ≥5% mỗi iteration (khi có performance tasks). Baseline: p50<100ms, p99<200ms.
+
+- **Documentation Coverage**: JSDoc coverage ≥95% cho public APIs.
+
+- **Observability Depth**: Mỗi service ≥5 custom metrics + tracing + structured logs.
+
+Log metrics hàng tuần vào `docs/EVOLUTION.md`. Nếu bất kỳ metric nào giảm >2% → tạo urgent task.
+
+### 10.6 AUTONOMOUS OPERATION
+
+Agent chạy trong autonomous mode với:
+- **Discovery Cycle**: mỗi 2 giờ
+- **Sleep**: 5 phút giữa cycles nếu không có task
+- **Emergency Break**: stop nếu error rate >5%, memory >90%, disk <10%
+- **Startup**: đọc metrics/profile/evolution, schedule discovery
+
+Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
+
 ---
 
 ## 11. FRONTEND ARCHITECTURE GUIDELINES
@@ -493,18 +544,50 @@ frontend/
 
 **Use each skill when appropriate**. Output formats trong từng skill file.
 
+### 13.1 Skill ↔ AGENTS.md Cross-Reference
+
+| AGENTS.md Section | Skill File | Integration Point |
+|-------------------|------------|-------------------|
+| Section 12 (Backend Patterns) | `go-architect`, `python-architect`, `rust-architect`, `dotnet-modular-architect` | Backend architecture reference |
+| Section 11 (Frontend Patterns) | `angular-modular-architect`, `react-architect` | Frontend architecture reference |
+| Section 8 (System Audit) | `code-review` | Vibe code detection & cleanup |
+| Section 9 (Compliance/Cost/Legacy) | `iam-platform-layer` | IAM, MDM, Eventing, Config |
+| Section 7 (Testing) | `backend-db-pattern` | 4 Steps to Database pattern |
+| Section 16 (Collaborative Review) | `code-review` | Code review checklist |
+| Fullstack ERP | `erp-architect` | End-to-end ERP architecture |
+
+**Skill Selection Rule**: Khi modify code trong domain nào, phải đọc skill file tương ứng trước.
+
+**Skill Metadata Consistency**: Mọi SKILL.md phải có:
+- `name`, `description`, `license`, `compatibility`, `metadata` (audience, scope)
+- Output format section
+- Khi nào dùng section
+
+**Missing Code = Write More**: Nếu skill thiếu section bắt buộc → VIẾT THÊM, không skip.
+
 ---
 
 ## 14. CONCURRENCY ANALYSIS TEMPLATE
 
 Khi code có shared state/parallelism, **phải cung cấp**:
 
-1. **Shared Variables**: List tất cả shared state (global, static, caches)
+1. **Shared Variables**: List tất cả shared state (global, static, caches, singletons)
 2. **Synchronization**: Mutex/lock/atomic/queue used?
-3. **Safety Proof**: Happens-before relation, memory barriers
-4. **Deadlock Avoidance**: Lock ordering, timeout, lock-free design
-5. **Performance**: Contention points, lock-free alternatives
-6. **Async Safety**: Handle all rejections, no callback+promise mix
+3. **Safety Proof**: Happens-before relation, memory barriers, happens-before graph
+4. **Deadlock Avoidance**: Lock ordering, timeout, lock-free design, try-lock with backoff
+5. **Performance**: Contention points, lock-free alternatives, read-write lock ratio
+6. **Async Safety**: Handle all rejections, no callback+promise mix, Promise.all for parallel
+
+**Output Format**:
+```markdown
+## Concurrency Analysis
+- Shared variables: [list]
+- Synchronization: [mutex/lock/atomic/Channel]
+- Safety proof: [happens-before graph]
+- Deadlock avoidance: [lock ordering / timeout / lock-free]
+- Performance: [contention analysis, lock-free alternatives]
+- Async safety: [all rejections handled, no callback+promise mix]
+```
 
 **Prevent**: race conditions, deadlocks, memory consistency errors.
 
@@ -520,7 +603,39 @@ Khi code có shared state/parallelism, **phải cung cấp**:
 
 **Makefile**: `make quality` target runs all checks.
 
-**Provide VERIFICATION_STEPS.md** with commands to run locally.
+**VERIFICATION_STEPS.md** (commands to run locally):
+```bash
+# 1. Lint
+npm run lint
+
+# 2. Type check
+npm run type-check
+
+# 3. Tests with coverage
+npm test -- --coverage
+
+# 4. Build
+npm run build
+
+# 5. Security scan
+npm audit
+
+# 6. Quality gate (all checks)
+make quality
+```
+
+**Quality Gate (non-negotiable)**:
+- Functions ≤20 lines (business), ≤50 lines (UI)
+- Complexity ≤10
+- No 5+ duplicate lines
+- 100% error handling (public API)
+- 100% input validation (external)
+- No hardcoded secrets
+- Testable (no direct DB/network in business logic)
+- Coverage ≥80% (CI-measured)
+- All tests pass
+
+If ANY fail → reject commit, auto-revert.
 
 ---
 
