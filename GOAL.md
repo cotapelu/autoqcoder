@@ -1,19 +1,23 @@
-# GOAL.md - Mục tiêu Tự Tiến Hóa (v3.1)
+# GOAL.md - Mục tiêu Tự Tiến Hóa (v3.2)
 
 ## 1. MỤC TIÊU TỔ QUAN
 
 **Mục tiêu chính**: Tự động tiến hóa toàn bộ hệ thống hướng dẫn (prompt engine) trong dự án `autoqcoder` để đạt chất lượng production-grade, tự cải thiện liên tục mà không cần can thiệp thủ công.
 
-**Nguyên cốt**: Hệ thống tiến hóa chạy hoàn toàn trên các file `.md`. LLM đọc các file này làm nguồn sự thật duy nhất. **Không cần file test JS, không cần script kiểm tra bổ sung**.
+**Nguyên cốt**: Hệ thống tiến hóa chạy hoàn toàn trên các file `.md`. LLM đọc các file này làm nguồn sự thật duy nhất. **Không cần file test JS, không cần script kiểm tra bổ sung**. Mọi vòng tiến hóa phải ghi chép đủ thông tin vào chính các file `.md` này.
 
-**Phạm vi**:
+**Phạm vi bắt buộc tiến hóa mỗi vòng (Full Cycle)**:
 - `AGENTS.md` - Self-Optimizing Prompt Engine (văn bản luật chính)
 - `AUTO-CONTINUE.md` - Autonomous Continuous Improvement Workflow
 - `GOAL.md` - File này (mục tiêu và kế hoạch tiến hóa)
 - `skills/**/*.md` - Tất cả skill definitions
-- `mate/**/*.md` - Reference files (chỉ đọc, dùng làm tham khảo)
+- `docs/AGENT_METRICS.md` - Cập nhật số liệu, health score, evolution rate
+- `docs/AGENT_PROFILE.md` - Cập nhật weaknesses, fragile modules, risk register
+- `docs/EVOLUTION.md` - Cập nhật roadmap, trajectory, phase status
 
-**Không tiến hóa**: `docs/AGENT_METRICS.md`, `docs/AGENT_PROFILE.md`, `docs/EVOLUTION.md` (cập nhật sau mỗi vòng, không tiến hóa cấu trúc)
+**Không tiến hóa cấu trúc**: `docs/AGENT_METRICS.md`, `docs/AGENT_PROFILE.md`, `docs/EVOLUTION.md` (chỉ cập nhật số liệu sau mỗi vòng, không đổi cấu trúc file)
+
+**Tất cả 7 file trên phải được xử lý trong mỗi vòng. Không được skip bất kỳ file nào trừ khi đã đạt ceiling (xem Section 3.4).**
 
 ---
 
@@ -26,15 +30,16 @@
 - Tất cả 16 core sections phải được bảo toàn
 - Thêm integration với skills/ (mapping 1-1)
 - Thêm concurrency analysis template chi tiết (Section 14)
-- Thêm SYSTEM AUDIT FRAMEWORK (10 dimensions, đã có Section 8)
+- Thêm SYSTEM AUDIT FRAMEWORK (10 dimensions, Section 8)
+- Thêm API Compatibility section (Section 10.4)
+- Thêm Verification & Automation steps (Section 15)
 - Self-score ≥90/100 trên mọi quality gate
 - Không có hardcoded secrets, không có assumptions
 
 **Điểm cần cải tiến**:
 - Đồng bộ terminology với skills/ files
 - Thêm cross-references giữa AGENTS.md và skills/
-- Thêm "API Compatibility" section chi tiết (Section 10.4)
-- Thêm "Verification & Automation" steps chi tiết (Section 15)
+- Cập nhật version tham chiếu (hiện tại: v3.0.0)
 
 ### 2.2 AUTO-CONTINUE.md (Autonomous Workflow)
 
@@ -58,6 +63,8 @@
 - Success criteria có thể đo lường được
 - Timeline và milestone
 - Quality gates cho mỗi file
+
+**Quy tắc bắt buộc**: Mọi LLM đọc file này phải hiểu đủ quy trình để tự chạy vòng tiến hóa mà không cần clarification thêm.
 
 ### 2.4 SKILLS/ REQUIREMENT (Bắt buộc đọc và tiến hóa)
 
@@ -88,51 +95,75 @@
 
 ## 3. VÒNG TIẾN HÓA (EVOLUTION ROUNDS)
 
-### Mỗi vòng tiến hóa (Full Cycle)
-Mỗi vòng phải **tiến hóa toàn bộ** các file sau, không chia tách theo vòng:
+### 3.1 Mỗi vòng tiến hóa (Full Cycle)
 
-1. `GOAL.md` - Định nghĩa mục tiêu, success criteria, timeline
-2. `AGENTS.md` - Prompt engine chính, skill integration, concurrency template, audit framework
-3. `AUTO-CONTINUE.md` - Autonomous workflow, improvement catalog, emergency break, quality gate
-4. `skills/**/*.md` - Tất cả SKILL.md: YAML frontmatter, Output Format, Khi nào dùng, cross-reference
-5. `docs/AGENT_METRICS.md` - Cập nhật số liệu, health score, evolution rate
-6. `docs/AGENT_PROFILE.md` - Cập nhật weaknesses, fragile modules, risk register
-7. `docs/EVOLUTION.md` - Cập nhật roadmap, trajectory, phase status
+Mỗi vòng phải **tiến hóa toàn bộ** 7 file sau, không chia tách theo vòng:
 
-**Checklist mỗi vòng (bắt buộc):**
-- [ ] Đọc FULL tất cả file skill trong `skills/*/` trước khi bắt đầu
-- [ ] Đồng sync terminology giữa AGENTS.md và skills/
-- [ ] **Cập nhật nội dung AGENTS.md** (refine terminology, sync skills, version v3.0.0, cross-reference) — KHÔNG được skip lặng lẽ
-- [ ] **Cập nhật nội dung AUTO-CONTINUE.md** (refine, sync với AGENTS.md, cycle timing, improvement catalog) — KHÔNG được skip lặng lẽ
-- [ ] Cập nhật YAML metadata frontmatter cho mọi SKILL.md còn thiếu
-- [ ] Đảm bảo mọi SKILL.md có section Output Format và Khi nào dùng
-- [ ] Thêm cross-reference table AGENTS.md Section 13.1 → skills/
-- [ ] Tiến hóa skill files cũ/thiếu/không khớp với AGENTS.md/AUTO-CONTINUE.md
-- [ ] Cập nhật docs/AGENT_METRICS.md với số liệu thực sau vòng
-- [ ] Cập nhật docs/AGENT_PROFILE.md với weaknesses mới (nếu có)
-- [ ] Cập nhật docs/EVOLUTION.md với trajectory thay đổi (nếu có)
-- [ ] Verify quality gate ≥90 cho AGENTS.md và AUTO-CONTINUE.md
-- [ ] Verify skills metadata consistency 100%
-- [ ] Nếu file đã đạt ceiling (AGENTS.md ≥700 lines hoặc ≥20 sections; AUTO-CONTINUE.md ≥400 lines): ghi chú lý do skip vào báo cáo vòng, KHÔNG được skip mà không ghi lý do
-- [ ] git add -A, git commit sau khi vòng hoàn thành
-- [ ] Đưa ra báo cáo và khuyến nghị tiếp theo
+| STT | File | Mục tiêu trong vòng |
+|-----|------|---------------------|
+| 1 | `GOAL.md` | Định nghĩa mục tiêu, success criteria, timeline |
+| 2 | `AGENTS.md` | Prompt engine chính, skill integration, concurrency template, audit framework |
+| 3 | `AUTO-CONTINUE.md` | Autonomous workflow, improvement catalog, emergency break, quality gate |
+| 4 | `skills/**/*.md` | Tất cả SKILL.md: YAML frontmatter, Output Format, Khi nào dùng, cross-reference |
+| 5 | `docs/AGENT_METRICS.md` | Cập nhật số liệu, health score, evolution rate |
+| 6 | `docs/AGENT_PROFILE.md` | Cập nhật weaknesses, fragile modules, risk register |
+| 7 | `docs/EVOLUTION.md` | Cập nhật roadmap, trajectory, phase status |
 
-### GIT COMMIT RULE (sau mỗi vòng full cycle)
-**Trước khi commit**, LLM phải tự verify:
-1. Đã xử lý đủ tất cả 7 file trong danh sách trên (hoặc ghi lý do skip cho file đạt ceiling)
-2. AGENTS.md ≤700 lines, ≤20 sections
-3. AUTO-CONTINUE.md ≤400 lines
-4. Không có hardcoded secrets trong bất kỳ file .md nào
-5. Terminology đồng bộ giữa AGENTS.md và skills/
+### 3.2 Checklist mỗi vòng (BẮT BUỘC, không được bỏ nào)
 
-Sau khi verify xong:
+Trước khi commit, LLM phải check toàn bộ:
+
+- [ ] Đã đọc FULL tất cả file skill trong `skills/*/`
+- [ ] Đã đồng sync terminology giữa AGENTS.md và skills/
+- [ ] Đã cập nhật nội dung `AGENTS.md` (refine terminology, sync skills, version, cross-reference)
+- [ ] Đã cập nhật nội dung `AUTO-CONTINUE.md` (refine, sync với AGENTS.md, cycle timing, improvement catalog)
+- [ ] Đã cập nhật YAML metadata frontmatter cho mọi SKILL.md còn thiếu
+- [ ] Đã đảm bảo mọi SKILL.md có section Output Format và Khi nào dùng
+- [ ] Đã thêm cross-reference table AGENTS.md Section 13.1 → skills/
+- [ ] Đã tiến hóa skill files cũ/thiếu/không khớp với AGENTS.md/AUTO-CONTINUE.md
+- [ ] Đã cập nhật docs/AGENT_METRICS.md với số liệu thực sau vòng
+- [ ] Đã cập nhật docs/AGENT_PROFILE.md với weaknesses mới (nếu có)
+- [ ] Đã cập nhật docs/EVOLUTION.md với trajectory thay đổi (nếu có)
+- [ ] Đã verify quality gate ≥90/100 cho AGENTS.md và AUTO-CONTINUE.md
+- [ ] Đã verify skills metadata consistency 100%
+- [ ] Đã check không có hardcoded secrets trong bất kỳ file .md nào
+
+### 3.3 Quy tắc ceiling (khi nào được skip cập nhật nội dung file)
+
+Nếu file đã đạt giới hạn tối đa sau vòng này, LLM được phép **không thêm nội dung mới** vào file đó, nhưng **phải ghi chú lý do skip** vào báo cáo vòng:
+
+- `AGENTS.md`: ≥700 lines HOẶC ≥20 sections → skip thêm nội dung, ghi lý do
+- `AUTO-CONTINUE.md`: ≥400 lines → skip thêm nội dung, ghi lý do
+- Mọi file skill: đã đầy đủ YAML frontmatter + Output Format + Khi nào dùng → skip, ghi lý do
+
+**Quy tắc quan trọng**: Không được skip mà không ghi lý do. Mọi skip không ghi lý do là vi phạm quy tắc, phải revert và làm lại.
+
+### 3.4 Pre-commit self-check (BẮT BUỘC trước mỗi commit)
+
+Trước khi chạy `git add -A && git commit`, LLM phải tự verify:
+
+1. Đã xử lý đủ tất cả 7 file trong Section 3.1 (hoặc ghi lý do skip cho file đạt ceiling theo Section 3.3)
+2. `AGENTS.md` ≤700 lines, ≤20 sections
+3. `AUTO-CONTINUE.md` ≤400 lines
+4. Không có hardcoded secrets trong bất kỳ file `.md` nào (password, secret, api_key, token, private_key)
+5. Terminology đồng bộ giữa `AGENTS.md` và `skills/` files
+6. Mọi `SKILL.md` có đầy đủ YAML frontmatter (name, description, license, compatibility, metadata)
+7. Mọi `SKILL.md` có section Output Format và Khi nào dùng
+
+Nếu bất kỳ mục nào fail → KHÔNG được commit, phải sửa trước.
+
+### 3.5 GIT COMMIT RULE (sau mỗi vòng full cycle)
+
+Sau khi verify đầy đủ pre-commit self-check Section 3.4:
 
 ```bash
 git add -A
 git commit -m "chore: evolution round N - <brief description>"
 ```
 
-Chỉ sau commit xong thì mới bắt đầu vòng mới. Nếu commit thiếu file bắt buộc mà không ghi lý do → vi phạm quy tắc, phải revert và làm lại.
+Chỉ sau commit xong thì mới bắt đầu vòng mới.
+
+Nếu commit thiếu file bắt buộc mà không ghi lý do skip → vi phạm quy tắc, phải revert và làm lại.
 
 ---
 
@@ -140,13 +171,15 @@ Chỉ sau commit xong thì mới bắt đầu vòng mới. Nếu commit thiếu 
 
 | Tiêu chí | Ngưỡng | Cách đo |
 |----------|--------|---------|
-| AGENTS.md sections | ≤20 | Count sections |
+| AGENTS.md sections | ≤20 | Count `^## ` lines |
 | AGENTS.md lines | ≤700 | `wc -l AGENTS.md` |
 | AUTO-CONTINUE.md lines | ≤400 | `wc -l AUTO-CONTINUE.md` |
-| Self-score AGENTS.md | ≥90/100 | Internal checklist |
-| Self-score AUTO-CONTINUE.md | ≥90/100 | Internal checklist |
+| Self-score AGENTS.md | ≥90/100 | Internal checklist (Section 3.4) |
+| Self-score AUTO-CONTINUE.md | ≥90/100 | Internal checklist (Section 3.4) |
 | Skills metadata consistency | 100% | All SKILL.md have name, description, license, compatibility, metadata |
-| No hardcoded secrets | 0 | `security.scan` |
+| Skills Output Format | 100% | All SKILL.md have Output Format section |
+| Skills Khi nào dùng | 100% | All SKILL.md have Khi nào dùng section |
+| No hardcoded secrets | 0 | `security.scan` hoặc grep manual |
 | All tests pass | 100% | `npm test` (nếu có) |
 | Audit dimensions covered | 10/10 | Section 8 of AGENTS.md |
 
@@ -183,9 +216,9 @@ Trước khi commit bất kỳ file .md nào, phải pass:
 
 ## 6. GIT COMMIT RULE
 
-Tham khảo Section 3 (Checklist mỗi vòng) và Section 5.2 (Quality Gate cho .md). 
+Tham khảo Section 3.2 (Checklist mỗi vòng) và Section 3.4 (Pre-commit self-check).
 
-Sau khi verify đầy đủ checklist Section 3 và quality gate Section 5.2:
+Sau khi verify đầy đủ:
 
 ```bash
 git add -A
@@ -198,7 +231,7 @@ Chỉ sau commit xong thì mới bắt đầu vòng mới. Nếu commit thiếu 
 
 ## 7. KHUYẾN NGHỊ TIẾP THEO
 
-Sau khi hoàn thành tất cả 6 vòng:
+Sau khi hoàn thành các vòng tiến hóa:
 
 1. **Cập nhật full mọi file .md**: Đảm bảo mọi file markdown đều tự chứa đủ thông tin, LLM đọc xong tự chạy vòng tiến hóa mà không cần code JS kiểm tra bổ sung.
 2. **Real deployment**: Áp dụng full evolution loop vào một project thực tế (khác todos-api)
@@ -213,8 +246,8 @@ Sau khi hoàn thành tất cả 6 vòng:
 
 Mục tiêu của GOAL.md là định nghĩa bản thiết kế cho việc tự tiến hóa của hệ thống prompt engine. Mỗi vòng phải có kết quả cụ thể, có thể đo lường, và phải commit trước khi chuyển sang vòng tiếp theo.
 
-**Vấn đề đã phát hiện (Round 19):** Round 19 đã commit nhưng KHÔNG cập nhật nội dung `AGENTS.md` và `AUTO-CONTINUE.md` — vi phạm Section 3 quy tắc "tiến hóa toàn bộ các file". Nguyên nhân: GOAL.md cũ không ràng buộc đủ chặt (chỉ yêu cầu "verify quality gate", không bắt buộc "cập nhật nội dung"). Đã sửa trong bản này.
+**Lịch sử sửa đổi**:
+- v3.1: Round 19 đã commit nhưng KHÔNG cập nhật nội dung `AGENTS.md` và `AUTO-CONTINUE.md` — vi phạm Section 3 quy tắc "tiến hóa toàn bộ các file".
+- v3.2: Viết lại toàn bộ GOAL.md để ràng buộc chặt chẽ hơn: bắt buộc cập nhật AGENTS.md và AUTO-CONTINUE.md mỗi vòng, thêm pre-commit self-check, thêm quy tắc ceiling, tách Quality Gate theo loại file.
 
-**Trạng thái hiện tại:** GOAL.md đã được refine để ràng buộc chặt chẽ hơn. Round 19 cần được làm lại (hoặc coi Round 20 là bù đắp) với việc cập nhật đầy đủ `AGENTS.md` và `AUTO-CONTINUE.md`.
-
-**Trạng thái:** Sẵn sàng cho Vòng 20 (Real Deployment + Audit) sau khi Round 19 được bù đắp đầy đủ.
+**Trạng thái**: Sẵn sàng cho Vòng 20. Mọi vòng tiếp theo phải tuân thủ v3.2.
