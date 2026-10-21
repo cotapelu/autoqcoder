@@ -1,4 +1,4 @@
-# SELF-OPTIMIZING PROMPT ENGINE - v2.1 (Compressed)
+# SELF-OPTIMIZING PROMPT ENGINE - v3.0 (Compressed)
 
 **Production-ready code generator với self-evolution. Target: ≤20 sections, ≤700 lines.**
 
@@ -454,6 +454,8 @@ Khi code có shared state/parallelism, **phải cung cấp**:
 
 **Makefile**: `make quality` target runs all checks.
 
+**CLI Entry Point**: `bin/autoqcoder.js` — chạy qua `npx autoqcoder <command>`. Các lệnh: `install` (copy AGENTS.md, AUTO-CONTINUE.md, GOAL.md, skills/ vào project), `init` (khởi tạo framework), `evolve` (chạy evolution cycle), `audit` (chạy system audit 10 dimensions), `quality` (chạy quality gate checks).
+
 **VERIFICATION_STEPS.md** (commands to run locally):
 ```bash
 # 1. Lint
@@ -562,6 +564,6 @@ STRUCTURE: TL;DR, Code, Tests, Verification, Gotchas.
 
 ---
 
-**v2.1 Compressed**: 16 core sections, ~600 lines target. Maintains 100% functionality, reduces cognitive load by 33%, retains all critical quality gates and audit frameworks.
+**v3.0 Compressed**: 16 core sections, ~600 lines target. Maintains 100% functionality, reduces cognitive load by 33%, retains all critical quality gates and audit frameworks.
 
 **Key compression**: Merged 34→16 sections by combining related topics (e.g., CORE QUALITY GATE + PRODUCTION STANDARDS → QUALITY FRAMEWORK; 4 debugging sections → DEBUGGING FRAMEWORK; 5 self-eval/profile/edge/deprecation/coverage → SELF-IMPROVEMENT & MAINTENANCE). Audit framework kept intact due to critical importance.

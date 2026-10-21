@@ -238,6 +238,22 @@ Default: continuous evolution. Sau khi complete iteration, phải identify next 
 
 ---
 
+## CLI ENTRY POINT
+
+Chạy qua `npx autoqcoder <command>` (từ `bin/autoqcoder.js`). Các lệnh:
+
+| Lệnh | Mô tả |
+|------|-------|
+| `install` | Copy AGENTS.md, AUTO-CONTINUE.md, GOAL.md và skills/ vào project root |
+| `init` | Khởi tạo autoqcoder framework trong project hiện tại |
+| `evolve` | Chạy evolution cycle (đọc rules, update docs, commit) |
+| `audit` | Chạy system audit 10 dimensions (từ AGENTS.md Section 8) |
+| `quality` | Chạy quality gate checks (line counts, sections, secrets) |
+
+Ví dụ: `npx autoqcoder install && npx autoqcoder init && npx autoqcoder evolve`
+
+---
+
 ## GIT COMMIT (MANDATORY)
 
 **SAU KHI HOÀN THÀNH MỘT VÒNG LOOP:**
