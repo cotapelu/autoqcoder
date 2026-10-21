@@ -129,6 +129,49 @@ Báo cáo rõ:
 - Cấm che giấu technical debt (phải báo cáo rõ)
 
 ---
+## Output Format
+
+```
+Production Readiness Report:
+✅ Mental Tests: [số] cases passed
+✅ Flow Coverage: UI→DB: [x], DB→UI: [y]
+✅ Scenarios: [số] scenarios covered
+✅ Edge Cases: [số] cases handled
+✅ Missing Code: [số] functions/components added
+✅ Industry Standards: [x/y] criteria met
+⚠️  Still Missing: [liệt kê nếu có]
+📝 Recommendations: [nếu cần]
+```
+
+**Cấm:**
+- ❌ Nói "không cần test" mà không mental test
+- ❌ Bỏ sót flow direction (chỉ check 1 chiều)
+- ❌ Skip edge case
+- ❌ Remove code thay vì thêm code
+- ❌ Nói "đã đủ" khi thực tế chưa đủ
+
+---
+
+## Khi nào dùng
+
+- Khi codebase có dấu hiệu rapid prototyping, demo-oriented code
+- Khi cần technical debt cleanup
+- Khi cần phát hiện và làm sạch AI-generated "vibe code"
+- Khi cần nhận diện anti-patterns, logic thừa, coupling ẩn
+- Khi cần clean up: dead code, redundant checks, poor naming
+- Khi cần 14 nguyên tắc từ guideline.md
+
+**Không dùng khi:**
+- Chỉ thay đổi văn bản, comment, documentation không ảnh hưởng logic
+- Chỉ thay đổi giao diện UI không liên quan đến business logic
+
+---
+
+## Khi nào dùng skill này
+
+- Khi codebase có dấu hiệu rapid prototyping, demo-oriented code, hoặc cần technical debt cleanup.
+
+---
 ## 7️⃣ Debugging & Issue Resolution (QUAN TRỌNG)
 
 ### Nguyên tắc bắt buộc:

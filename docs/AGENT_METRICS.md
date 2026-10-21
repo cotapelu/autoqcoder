@@ -323,3 +323,14 @@
 - **Performance**: N/A
 - **Security**: None
 - **Notes**: Added YAML frontmatter to skills/AUDIT.md, skills/PUSHGUIDE.md, skills/TESTRULE.md (3 files missing metadata). Added Output Format section to skills/backend-db-pattern/SKILL.md. Updated AGENTS.md Section 13.1 cross-reference table with complete skill mappings including system-audit, push-guide, test-rule. All 13 skill files now have complete YAML frontmatter, Output Format, and Khi nào dùng sections.
+
+## [2026-06-23T05:00:00.000Z] Cycle - Task: evolution-round-18-skill-completeness-fix
+- **Type**: Skill Completeness Fix
+- **Priority**: HIGH
+- **Duration**: N/A (editor time)
+- **Status**: ✅ Success
+- **Test Delta**: 0 tests
+- **Coverage Delta**: 0% (documentation update)
+- **Performance**: N/A
+- **Security**: None
+- **Notes**: Added missing "Khi nào dùng" section to skills/angular-modular-architect/SKILL.md, skills/erp-architect/SKILL.md, skills/react-architect/SKILL.md. Added explicit "Output Format" + "Khi nào dùng" to skills/code-review/SKILL.md. All 13 skills now have complete YAML frontmatter, Output Format, and Khi nào dùng sections. AGENTS.md: 567 lines (≤700 ✓), 17 sections (≤20 ✓). AUTO-CONTINUE.md: 292 lines (≤400 ✓). Skill metadata consistency: 100%.

@@ -560,6 +560,26 @@ DB: 1 database (separate schemas/prefixes)
 
 ---
 
+## Khi nào dùng
+
+- Khi xây dựng ERP hệ thống theo mô hình Modular Monolith (.NET Backend) + Angular SPA (Frontend)
+- Khi cần 1-1 mapping giữa Backend module và Frontend feature
+- Khi cần Platform Layer (IAM, MDM, Eventing, Config) cho cross-cutting concerns
+- Khi cần App Core cho bootstrap, orchestration, transaction coordination
+- Khi cần module independence (code, data, event boundaries)
+- Khi cần Event-driven cross-module communication
+- Khi cần 1 artifact, 1 process, 1 database deployment
+- Khi cần schema/prefix riêng cho mỗi module trong DB
+
+**Không dùng khi:**
+- Cần microservices thực sự (mỗi module có DB riêng, deploy riêng)
+- Cần module có DB riêng biệt (vi phạm Modular Monolith)
+- Cần giao tiếp HTTP/gRPC giữa modules (cấm trong Modular Monolith)
+- Cần deploy module/feature riêng lẻ
+- Cần runtime plugin loading hoặc module federation
+
+---
+
 ## Output Format
 
 ```

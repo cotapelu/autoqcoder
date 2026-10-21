@@ -360,6 +360,25 @@ Modular SPA (Angular):
 
 ---
 
+## Khi nào dùng
+
+- Khi xây dựng Angular SPA (v17+) theo mô hình Feature-based Modular
+- Khi cần lazy-loaded features với 1-1 mapping với backend modules
+- Khi cần Signal-based state management (không global store như NgRx/Akita)
+- Khi cần compile-time boundary enforcement (tsconfig paths + ESLint)
+- Khi cần @defer blocks cho performance optimization
+- Khi cần component library chia thành atoms/molecules/organisms
+- Khi cần cross-feature communication qua Core services (không direct import)
+
+**Không dùng khi:**
+- Cần micro-frontend (multiple bundles, separate deploy)
+- Cần module federation hoặc runtime plugin
+- Cần global store (NgRx, Akita) cho business state
+- Cần cross-feature direct service calls
+- Cần deploy feature riêng lẻ
+
+---
+
 ## Kết luận
 
 > **Features** = nghiệp vụ (100+ features, lazy-loaded)
