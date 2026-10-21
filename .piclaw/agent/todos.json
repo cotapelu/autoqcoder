@@ -3,47 +3,78 @@
   "phases": [
     {
       "id": "phase-1",
-      "name": "Round 19 - npm Package & TESTRULE Fix",
+      "name": "Round 20 - Evolution Cycle",
       "tasks": [
         {
           "id": "task-1",
-          "content": "Fix TESTRULE.md - add missing Output Format section",
-          "status": "completed"
+          "content": "Explore project structure and read all key files",
+          "status": "completed",
+          "details": "Read AGENTS.md, AUTO-CONTINUE.md, GOAL.md, all skills/*.md, docs/*"
         },
         {
           "id": "task-2",
-          "content": "Create package.json for npm package (autoqcoder@3.0.0)",
-          "status": "in_progress"
+          "content": "Read all skill files in skills/*/SKILL.md",
+          "status": "completed",
+          "details": "All 13 skills have YAML frontmatter + Output Format + Khi nào dùng (100%)"
         },
         {
           "id": "task-3",
-          "content": "Create bin/autoqcoder.js entry point for npx",
-          "status": "pending"
+          "content": "Sync terminology between AGENTS.md and skills/ files",
+          "status": "completed",
+          "details": "Terminology is consistent across all files"
         },
         {
           "id": "task-4",
-          "content": "Update README.md with full installation instructions",
-          "status": "pending"
+          "content": "Update AGENTS.md for Round 20",
+          "status": "in_progress",
+          "details": "AGENTS.md at 569 lines, 19 sections - all complete. Minor terminology sync if needed."
         },
         {
           "id": "task-5",
-          "content": "Update GOAL.md to mark Round 19 status",
-          "status": "pending"
+          "content": "Update AUTO-CONTINUE.md for Round 20",
+          "status": "pending",
+          "details": "AUTO-CONTINUE.md at 308 lines - all complete"
         },
         {
           "id": "task-6",
-          "content": "Update docs/ files (AGENT_METRICS.md, AGENT_PROFILE.md, EVOLUTION.md)",
-          "status": "pending"
+          "content": "Update GOAL.md for Round 20",
+          "status": "pending",
+          "details": "Update status from 'Sẵn sàng cho Vòng 20' to 'Vòng 20 hoàn thành'"
         },
         {
           "id": "task-7",
-          "content": "git add -A, git commit",
-          "status": "pending"
+          "content": "Update docs/AGENT_METRICS.md",
+          "status": "pending",
+          "details": "Add Round 20 entry"
+        },
+        {
+          "id": "task-8",
+          "content": "Update docs/AGENT_PROFILE.md",
+          "status": "pending",
+          "details": "Add Round 20 info"
+        },
+        {
+          "id": "task-9",
+          "content": "Update docs/EVOLUTION.md",
+          "status": "pending",
+          "details": "Mark Round 20 as completed"
+        },
+        {
+          "id": "task-10",
+          "content": "Run pre-commit self-check verification",
+          "status": "pending",
+          "details": "Verify all gates pass before commit"
+        },
+        {
+          "id": "task-11",
+          "content": "Git commit for Round 20",
+          "status": "pending",
+          "details": "git add -A && git commit"
         }
       ]
     }
   ],
-  "nextTaskId": 8,
+  "nextTaskId": 12,
   "nextPhaseId": 2,
-  "updatedAt": "2026-10-21T02:46:56.178Z"
+  "updatedAt": "2026-10-21T03:35:02.755Z"
 }
