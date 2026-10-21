@@ -3,78 +3,48 @@
   "phases": [
     {
       "id": "phase-1",
-      "name": "Round 20 - Evolution Cycle",
+      "name": "Round 21 - Evolution Cycle",
       "tasks": [
         {
           "id": "task-1",
-          "content": "Explore project structure and read all key files",
-          "status": "completed",
-          "details": "Read AGENTS.md, AUTO-CONTINUE.md, GOAL.md, all skills/*.md, docs/*"
+          "content": "Update docs/AGENT_METRICS.md with Round 21 metrics",
+          "status": "in_progress",
+          "notes": "Health score, evolution rate, test deltas, all gates verified"
         },
         {
           "id": "task-2",
-          "content": "Read all skill files in skills/*/SKILL.md",
-          "status": "completed",
-          "details": "All 13 skills have YAML frontmatter + Output Format + Khi nào dùng (100%)"
+          "content": "Update docs/AGENT_PROFILE.md with Round 21 weaknesses",
+          "status": "pending",
+          "notes": "New weaknesses, fragile modules, risk register"
         },
         {
           "id": "task-3",
-          "content": "Sync terminology between AGENTS.md and skills/ files",
-          "status": "completed",
-          "details": "Terminology is consistent across all files"
+          "content": "Update docs/EVOLUTION.md with Round 21 phase status",
+          "status": "pending",
+          "notes": "Roadmap, trajectory, phase status"
         },
         {
           "id": "task-4",
-          "content": "Update AGENTS.md for Round 20",
-          "status": "in_progress",
-          "details": "AGENTS.md at 569 lines, 19 sections - all complete. Minor terminology sync if needed."
+          "content": "Update GOAL.md to mark Round 21 complete",
+          "status": "pending",
+          "notes": "Mark status as complete"
         },
         {
           "id": "task-5",
-          "content": "Update AUTO-CONTINUE.md for Round 20",
+          "content": "Run pre-commit self-check (Section 3.4 GOAL.md)",
           "status": "pending",
-          "details": "AUTO-CONTINUE.md at 308 lines - all complete"
+          "notes": "All gates must pass before commit"
         },
         {
           "id": "task-6",
-          "content": "Update GOAL.md for Round 20",
+          "content": "Git commit Round 21",
           "status": "pending",
-          "details": "Update status from 'Sẵn sàng cho Vòng 20' to 'Vòng 20 hoàn thành'"
-        },
-        {
-          "id": "task-7",
-          "content": "Update docs/AGENT_METRICS.md",
-          "status": "pending",
-          "details": "Add Round 20 entry"
-        },
-        {
-          "id": "task-8",
-          "content": "Update docs/AGENT_PROFILE.md",
-          "status": "pending",
-          "details": "Add Round 20 info"
-        },
-        {
-          "id": "task-9",
-          "content": "Update docs/EVOLUTION.md",
-          "status": "pending",
-          "details": "Mark Round 20 as completed"
-        },
-        {
-          "id": "task-10",
-          "content": "Run pre-commit self-check verification",
-          "status": "pending",
-          "details": "Verify all gates pass before commit"
-        },
-        {
-          "id": "task-11",
-          "content": "Git commit for Round 20",
-          "status": "pending",
-          "details": "git add -A && git commit"
+          "notes": "chore: evolution round 21 - <description>"
         }
       ]
     }
   ],
-  "nextTaskId": 12,
+  "nextTaskId": 7,
   "nextPhaseId": 2,
-  "updatedAt": "2026-10-21T03:35:02.755Z"
+  "updatedAt": "2026-10-21T04:23:23.080Z"
 }
