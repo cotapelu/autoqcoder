@@ -149,6 +149,7 @@ Trước khi chạy `git add -A && git commit`, LLM phải tự verify:
 5. Terminology đồng bộ giữa `AGENTS.md` và `skills/` files
 6. Mọi `SKILL.md` có đầy đủ YAML frontmatter (name, description, license, compatibility, metadata)
 7. Mọi `SKILL.md` có section Output Format và Khi nào dùng
+8. Đã chạy deep content validation theo file `/SELF-AUDIT.md` (Section 4 deep content check)
 
 Nếu bất kỳ mục nào fail → KHÔNG được commit, phải sửa trước.
 
@@ -211,6 +212,7 @@ Trước khi commit bất kỳ file .md nào, phải pass:
 - [ ] Terminology đồng bộ giữa AGENTS.md và skills/ files
 - [ ] Mọi SKILL.md phải có đầy đủ YAML frontmatter (name, description, license, compatibility, metadata)
 - [ ] Mọi SKILL.md phải có section Output Format và Khi nào dùng
+- [ ] Đã chạy deep content validation theo `/SELF-AUDIT.md` (Section 4 deep content check)
 
 ---
 
