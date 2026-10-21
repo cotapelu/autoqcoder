@@ -3,54 +3,54 @@
   "phases": [
     {
       "id": "phase-1",
-      "name": "Round 1 - Remaining Tasks",
+      "name": "Round 17 - Evolution: Compress & Sync",
       "tasks": [
         {
           "id": "task-1",
-          "content": "Update docs/AGENT_METRICS.md with Round 1 data",
-          "status": "in_progress",
-          "notes": "Add Round 1 metrics, health score, evolution rate"
+          "content": "Compress AGENTS.md to ≤700 lines (currently 718)",
+          "status": "completed",
+          "details": "Done - now 567 lines"
         },
         {
           "id": "task-2",
-          "content": "Update docs/AGENT_PROFILE.md with Round 1 weaknesses",
-          "status": "pending",
-          "notes": "Add new weaknesses found during analysis"
+          "content": "Compress AUTO-CONTINUE.md to ≤400 lines (currently 572)",
+          "status": "completed",
+          "details": "Done - now 292 lines"
         },
         {
           "id": "task-3",
-          "content": "Update docs/EVOLUTION.md with Round 1 trajectory",
-          "status": "pending",
-          "notes": "Update roadmap and phase status"
+          "content": "Add Output Format section to code-review/SKILL.md",
+          "status": "completed",
+          "details": "Done - added Output Format section"
         },
         {
           "id": "task-4",
-          "content": "Verify quality gate ≥90 for AGENTS.md and AUTO-CONTINUE.md",
-          "status": "pending",
-          "notes": "Self-score check"
+          "content": "Update docs/AGENT_METRICS.md with Round 17 results",
+          "status": "completed",
+          "details": "Done - recorded compression metrics"
         },
         {
           "id": "task-5",
-          "content": "Verify skills metadata consistency 100%",
-          "status": "pending",
-          "notes": "All SKILL.md have YAML frontmatter + Output Format + Khi nào dùng"
+          "content": "Verify quality gates ≥90 for AGENTS.md and AUTO-CONTINUE.md",
+          "status": "completed",
+          "details": "All gates pass: sections ≤20, lines within limits, skill metadata 100%, no hardcoded secrets"
         },
         {
           "id": "task-6",
-          "content": "git add -A and git commit for Round 1",
-          "status": "pending",
-          "notes": "Required before starting Round 2"
+          "content": "git add -A, git commit",
+          "status": "in_progress",
+          "details": "Commit with message 'chore: evolution round 17 - compress AGENTS.md/AUTO-CONTINUE.md, add code-review Output Format'"
         },
         {
           "id": "task-7",
-          "content": "Create report and recommendations for next round",
+          "content": "Report results and recommendations",
           "status": "pending",
-          "notes": "Final summary of Round 1"
+          "details": "Summarize changes, quality gate results, next steps."
         }
       ]
     }
   ],
   "nextTaskId": 8,
   "nextPhaseId": 2,
-  "updatedAt": "2026-10-21T01:43:19.856Z"
+  "updatedAt": "2026-10-21T01:57:26.273Z"
 }

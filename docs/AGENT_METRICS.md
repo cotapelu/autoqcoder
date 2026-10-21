@@ -1,15 +1,15 @@
-# Agent Metrics - Performance Tracking (v2.1+behavior, Sync 2026-06-23)
+# Agent Metrics - Performance Tracking (v3.0, Sync 2026-06-23)
 
-**Tracking Period:** 2025-05-25 to 2026-06-23 (Round 10-13 + Current Sync)
-**Version:** 2.1+behavior
-**Rounds:** 16 total (Rounds 1-9 + Round 10 mate/ + Round 11 AUDIT + Round 12 Compression + Round 13 CLAUDE + Round 14 Sync Update + Round 15 Meta-evolution + Round 16 Skill Metadata Fix)
+**Tracking Period:** 2025-05-25 to 2026-06-23 (Round 10-17 + Current Sync)
+**Version:** 3.0
+**Rounds:** 17 total (Rounds 1-9 + Round 10 mate/ + Round 11 AUDIT + Round 12 Compression + Round 13 CLAUDE + Round 14 Sync Update + Round 15 Meta-evolution + Round 16 Skill Metadata Fix + Round 17 Compression & Sync)
 
 ## Iteration Metrics
 - **Avg iterations/task:** N/A (documentation synthesis)
 - **Max iterations/task:** N/A
 - **Min iterations/task:** N/A
-- **Tasks completed:** 6 rounds (Round 10: mate/ synthesis, Round 11: AUDIT integration, Round 12: Compression, Round 13: CLAUDE, Round 14: Sync Update, Round 15: Meta-evolution) + Round 16: Skill Metadata Fix
-- **Evolution rounds:** 14 total (including current sync)
+- **Tasks completed:** 7 rounds (Round 10: mate/ synthesis, Round 11: AUDIT integration, Round 12: Compression, Round 13: CLAUDE, Round 14: Sync Update, Round 15: Meta-evolution, Round 16: Skill Metadata Fix) + Round 17: Compression & Sync
+- **Evolution rounds:** 17 total
 - **Real-world projects:** 1 (todos-api v2.0)
 - **Files modified (total):** 2 core per round (AGENTS.md, AUTO-CONTINUE.md)
 - **Lines added (total):**
@@ -19,7 +19,10 @@
   - Round 13: +126 (AGENTS: +99 (468→567), AUTO-CONTINUE: +75 (132→207))
   - **Net growth:** +343 lines from Round 0 (431→774 lines, +80%)
   - **Compression ratio:** Post-compression stable (+126 lines for guidelines)
-  - **Sections:** 34 → 24 core (+1 new)
+  - Round 17: -431 (AGENTS: -151 (718→567), AUTO-CONTINUE: -280 (572→292))
+  - **Net growth:** -88 lines from Round 16 peak (774→686 lines)
+  - **Compression ratio:** Significant reduction while preserving all 17 sections
+  - **Sections:** 24 core (all preserved)
 - **Sections added:**
   - Round 10: 11 major (self-eval, profile, edge, deprecation, coverage, meta-learning, pipeline, search, strict, mental, compliance++)
   - Round 11: 1 major (SYSTEM AUDIT) + Audit workflow integration
@@ -37,6 +40,7 @@
     - Surgical Changes
     - Goal-Driven Execution
     - Complements existing workflow, emphasizes caution over speed
+- Round 17: **Compression & Sync** - Compressed AGENTS.md (718→567 lines), AUTO-CONTINUE.md (572→292 lines). Added Output Format to code-review/SKILL.md. All 13 skill files have complete YAML frontmatter, Output Format, and Khi nào dùng sections.
 - **Source files integrated:** 5 documents (AGENTS_2, PUSHGUIDE, TESTRULE, AUDIT, skill definitions ×13)
 - **Content reuse ratio:** ~85% direct integration, ~15% adapted/merged
 - **Synthesis completeness:** 100% (0 gaps, 0 contradictions)

@@ -1,40 +1,40 @@
 # SELF-OPTIMIZING PROMPT ENGINE - v2.1 (Compressed)
 
-**Production-ready code generator với self-evolution. Target: 15-20 sections, 600 lines.**
+**Production-ready code generator với self-evolution. Target: ≤20 sections, ≤700 lines.**
 
 ---
 
 ## 1. QUALITY FRAMEWORK
 
 ### 1.1 Metrics (≥90 points)
-- [ ] Functions ≤20 lines (business), ≤50 lines (UI)
-- [ ] Cyclomatic complexity ≤10
-- [ ] No 5+ duplicate lines
-- [ ] 100% error handling (public API)
-- [ ] 100% input validation (external)
-- [ ] No hardcoded secrets
-- [ ] Testable (no direct DB/network in business logic)
-- [ ] Coverage ≥80% (CI-measured)
-- [ ] All tests pass
+- Functions ≤20 lines (business), ≤50 lines (UI)
+- Cyclomatic complexity ≤10
+- No 5+ duplicate lines
+- 100% error handling (public API)
+- 100% input validation (external)
+- No hardcoded secrets
+- Testable (no direct DB/network in business logic)
+- Coverage ≥80% (CI-measured)
+- All tests pass
 
 ### 1.2 Anti-Patterns (12)
-God Object (>300 lines or >10 methods), Arrow Code (nesting >3), Magic Constants, Shotgun Surgery (>2 duplications), Circular Dependency, Deep Inheritance (>2 levels), Feature Envy (access other's data >3x), N+1 Queries, Blocking I/O in async, O(n²) algorithms, Unbounded Cache, Sync Rate Limiting. **Fix**: Extract, guard clauses, named constants, single responsibility, interfaces, composition, atomic ops, TTL, token bucket.
+God Object (>300 lines or >10 methods), Arrow Code (nesting >3), Magic Constants, Shotgun Surgery (>2 duplications), Circular Dependency, Deep Inheritance (>2 levels), Feature Envy (>3x data access), N+1 Queries, Blocking I/O in async, O(n²), Unbounded Cache, Sync Rate Limiting. **Fix**: Extract, guard clauses, named constants, single responsibility, interfaces, composition, atomic ops, TTL, token bucket.
 
 ### 1.3 Devil's Advocate Checklist
-- Failure modes: timeout, deadlock, OOM, unhandled exceptions?
-- Scale: O(n), memory linear, DB indexes, 1M+ users?
-- Security: SQL/XSS/command injection, privilege escalation?
-- Over-engineering, missing edge cases, poor naming?
-- On-call: alert storms, retry storms, cascading failures?
+- Failure modes: timeout, deadlock, OOM, unhandled exceptions
+- Scale: O(n), memory linear, DB indexes, 1M+ users
+- Security: SQL/XSS/injection, privilege escalation
+- Over-engineering, missing edge cases, poor naming
+- On-call: alert storms, retry storms, cascading failures
 - SLOs: p99<200ms, error rate <0.1%, availability 99.9%
 
 ---
 
 ## 2. PRODUCTION STANDARDS (COMPACT)
 
-**Security**: Input validation, parameterized queries, no eval/crypto, KMS, TLS 1.2+, Auth for ALL state-changing, HttpOnly cookies, No PII logs, JWT RS256, Rate limiting, CSP, SQL/XSS/CSRF prevention, Password hashing (bcrypt/Argon2), Command injection prevention, **STRIDE+DREAD threat model**.
+**Security**: Input validation, parameterized queries, no eval/crypto, KMS, TLS 1.2+, Auth for ALL state-changing, HttpOnly cookies, No PII logs, JWT RS256, Rate limiting, CSP, SQL/XSS/CSRF prevention, Password hashing (bcrypt/Argon2), Command injection prevention, STRIDE+DREAD.
 
-**Performance**: p50<100ms, p99<200ms, 1000+ RPS, O(n). **Benchmark required**: realistic scenario (10k+ records, 1MB+ payload), baseline vs optimized with metrics, warm cache 50ms, profiling. No O(n²), N+1, blocking I/O.
+**Performance**: p50<100ms, p99<200ms, 1000+ RPS, O(n). Benchmark: 10k+ records, 1MB+ payload, baseline vs optimized, warm cache 50ms, profiling. No O(n²), N+1, blocking I/O.
 
 **Observability**: Structured JSON logs, Correlation IDs (X-Request-ID), Levels ERROR/WARN/INFO/DEBUG, /metrics (Prometheus): http_requests_total, http_request_duration_seconds, errors_total, business_metrics. SLOs: 99.9% uptime, p99<200ms, error<0.1%. Tracing (OpenTelemetry), Alerting (Alertmanager).
 
@@ -46,7 +46,7 @@ God Object (>300 lines or >10 methods), Arrow Code (nesting >3), Magic Constants
 
 **Verification & Collaboration**: Pre-commit (husky): lint, type-check, test --coverage. CI (GitHub Actions): lint, type-check, test --coverage (≥80%), security scan. Danger.js: warn PR>500 lines, fail if new code without tests, fail if potential secrets. Makefile: `make quality`. PR template: description, quality checklist, CODEOWNERS. SLA: initial<24h, follow-up<12h, critical<4h. Protected branches, PR required.
 
-**Versioning & Deprecation**: SemVer 2.0, Conventional Commits, Git tagging, Changelog. Pin exact for apps, caret/tilde for libraries. Deprecation workflow: detect → fallback (polyfill/feature detection) → log → migrate (TODOs, tickets, CI test both paths) → version pinning.
+**Versioning & Deprecation**: SemVer 2.0, Conventional Commits, Git tagging, Changelog. Pin exact for apps, caret/tilde for libraries. Deprecation: detect → fallback → log → migrate → version pinning.
 
 ---
 
@@ -54,93 +54,60 @@ God Object (>300 lines or >10 methods), Arrow Code (nesting >3), Magic Constants
 
 **Self-Evolution Files** (auto-maintain):
 - `docs/AGENT_METRICS.md`: iterations/task, failure rate, rollback, regressions, MTTR
-- `docs/AGENT_PROFILE.md`: weaknesses, fragile modules, error-prone stacks
-- `docs/EVOLUTION.md`: 3-6 month roadmap, refactors, debt, infrastructure evolution
+- `docs/AGENT_PROFILE.md`: weaknesses, fragile modules
+- `docs/EVOLUTION.md`: 3-6 month roadmap, refactors, debt
 
 **After every meaningful change**:
 1. Update metrics with actual numbers
 2. Reflect new weaknesses in PROFILE
 3. Adjust EVOLUTION trajectory if changed
 
-**Meta-Goal**: System that breaks less, fixes faster, plans further ahead, makes fewer repeated mistakes.
+**Meta-Goal**: System that breaks less, fixes faster, plans further ahead.
 
 ### 3.1 Continuous Improvement Metrics
 
-Agent phải theo dõi và cải thiện các metrics này mỗi iteration:
+**- Health Score**: `(coverage% * 0.3) + ((1 - avg_complexity/20) * 0.3) + (test_count/1000 * 0.2) + ((1 - duplication%) * 0.2)`
+  Target: tăng ≥0.5%/tuần. Stagnant >3 ngày → escalate.
+**- Evolution Rate**: improvements/tuần. Target: ≥10.
+**- Technical Debt Reduction**: TODOs/FIXMEs giảm ≥2/tuần.
+**- Security Posture**: CVE patches <24h, no secrets, JWT RS256, rate limiting.
+**- Performance Trend**: p50/p99 giảm ≥5%/iteration. Baseline: p50<100ms, p99<200ms.
+**- Documentation Coverage**: JSDoc ≥95% public APIs.
+**- Observability Depth**: Mỗi service ≥5 custom metrics + tracing + structured logs.
 
-- **Health Score**:
-  ```
-  Health = (coverage% * 0.3) + ((1 - avg_complexity/20) * 0.3) + (test_count/1000 * 0.2) + ((1 - duplication%) * 0.2)
-  ```
-  Target: tăng ≥0.5% mỗi tuần. Nếu stagnant >3 ngày → escalate.
-
-- **Evolution Rate**: Số improvements hoàn thành mỗi tuần. Target: ≥10.
-
-- **Technical Debt Reduction**: TODOs/FIXMEs giảm ≥2 mỗi tuần.
-
-- **Security Posture**: CVE patches within 24h, no secrets in code, JWT RS256 enforced, rate limiting active.
-
-- **Performance Trend**: p50/p99 giảm ≥5% mỗi iteration (khi có performance tasks). Baseline: p50<100ms, p99<200ms.
-
-- **Documentation Coverage**: JSDoc coverage ≥95% cho public APIs.
-
-- **Observability Depth**: Mỗi service ≥5 custom metrics + tracing + structured logs.
-
-Log metrics hàng tuần vào `docs/EVOLUTION.md`. Nếu bất kỳ metric nào giảm >2% → tạo urgent task.
+Log metrics hàng tuần vào `docs/EVOLUTION.md`. Metric giảm >2% → urgent task.
 
 ### 3.2 Autonomous Operation
-
-Agent chạy trong autonomous mode với:
 - **Discovery Cycle**: mỗi 2 giờ
-- **Sleep**: 5 phút giữa cycles nếu không có task
+- **Sleep**: 5 phút nếu không có task
 - **Emergency Break**: stop nếu error rate >5%, memory >90%, disk <10%
 - **Startup**: đọc metrics/profile/evolution, schedule discovery
 
-Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
+Xem chi tiết trong AUTO-CONTINUE.md Section 3.
 
 ---
 
 ## 4. MANDATORY PRINCIPLES
 
-**Code Preservation**: KHÔNG XÓA CODE (last resort). Debug: Read → Understand → Isolate → Test → Verify. If error: preserve, find root cause, fix logic. Always have restore plan from git. Disable feature temporarily (feature flag) instead of delete.
+**Code Preservation**: KHÔNG XÓA CODE (last resort). Debug: Read → Understand → Isolate → Test → Verify. If error: preserve, find root cause, fix logic. Always have restore plan from git. Disable feature temporarily instead of delete.
 
-**Change Cost & Risk**: Estimate engineering cost (hours/days). Risk: Low / Medium / High. Estimated rollback time. **Prefer**: Low-risk, high-impact > High-risk, aesthetic/speculative.
+**Change Cost & Risk**: Estimate cost (hours/days). Risk: Low / Medium / High. Rollback time. **Prefer**: Low-risk, high-impact > High-risk, aesthetic.
 
-**Missing Code = Write More**: If missing → VIẾT THÊM. KHÔNG skip "not required". KHÔNG remove code to simplify. KHÔNG reduce scope to pass fast. **App must become MORE complete over time**.
+**Missing Code = Write More**: If missing → VIẾT THÊM. KHÔNG skip, KHÔNG remove code, KHÔNG reduce scope. App must become MORE complete over time.
 
-**Production Readiness Checklist** (mental test ALL):
-- [ ] All functions mental-tested (valid/invalid/edge/error)
-- [ ] All APIs contract verified
-- [ ] All flows UI→DB AND DB→UI (BOTH directions)
-- [ ] All edge cases covered
-- [ ] All error paths handled
-- [ ] Security vulnerabilities none
-- [ ] Performance acceptable (O(n), profiling)
-- [ ] Industry standards met
-- [ ] Documentation updated
-- [ ] Missing code = written (not skipped)
+**Production Readiness Checklist**:
+- All functions mental-tested (valid/invalid/edge/error)
+- All APIs contract verified
+- All flows UI→DB AND DB→UI
+- All edge cases covered
+- All error paths handled
+- Security vulnerabilities none
+- Performance acceptable (O(n), profiling)
+- Industry standards met
+- Documentation updated
+- Missing code = written
 
-**Mental Testing Mode** (NO test code written):
-- Imagine ALL inputs: valid, invalid, null, empty, boundary, malformed
-- Every branch covered
-- Every error path handled
-- Data flow BOTH directions (UI→DB, DB→UI)
-- If missing → VIẾT THÊM (do NOT skip)
-
-### 4.1 Mental Testing Dimensions
-
-| Dimension | What to Verify |
-|-----------|----------------|
-| Inputs | valid, invalid, null, empty, boundary, malformed |
-| Outputs | return values correct, side effects verified |
-| Branches | every if/else/switch covered |
-| Errors | every throw/catch/path handled |
-| Data Flow | UI→DB AND DB→UI |
-| Security | injection, auth bypass, XSS, CSRF |
-| Performance | O(n) not O(n²), no memory leaks, no blocking I/O |
-| Concurrency | race conditions, deadlocks, atomicity |
-| State | consistent across async ops, no corruption |
-| Observability | logs, metrics, traces emitted |
+**Mental Testing Mode**: Imagine ALL inputs (valid, invalid, null, empty, boundary, malformed). Every branch covered. Every error path handled. Data flow BOTH directions. If missing → VIẾT THÊM.
 
 **If missing → VIẾT THÊM** (do not skip).
 
@@ -148,24 +115,24 @@ Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
 
 ## 5. DEBUGGING FRAMEWORK
 
-### 5.1 Systematic Debugging Process (BẮT BUỘC)
-1. **Read entire file** - every line, imports, dependencies
-2. **Understand context** - structure, related logic, external calls
-3. **Isolate problem** - reproduction case, minimal code
-4. **Test hypotheses** - add debug prints, unit tests
-5. **Verify fix** - ensure no regression
+### 5.1 Systematic Debugging Process
+1. Read entire file - every line, imports, dependencies
+2. Understand context - structure, related logic, external calls
+3. Isolate problem - reproduction case, minimal code
+4. Test hypotheses - debug prints, unit tests
+5. Verify fix - ensure no regression
 
 ### 5.2 Debugging Checklist
-- [ ] Read full file before modify
-- [ ] Identify root cause (không skip)
-- [ ] Check braces, parentheses, indentation
-- [ ] Verify async/await, promises
-- [ ] Check lifetimes (memory, connections)
-- [ ] Review error logs full context (stack trace, request ID)
-- [ ] Add debug output if needed
-- [ ] Isolate section with comments/disable
-- [ ] Test hypotheses step by step
-- [ ] Verify happy path & error paths
+- Read full file before modify
+- Identify root cause
+- Check braces, parentheses, indentation
+- Verify async/await, promises
+- Check lifetimes (memory, connections)
+- Review error logs full context
+- Add debug output if needed
+- Isolate section with comments/disable
+- Test hypotheses step by step
+- Verify happy path & error paths
 
 ### 5.3 If Still Failing
 - Consult team/pair programming
@@ -173,7 +140,7 @@ Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
 - Disable feature temporarily (feature flag) - DO NOT DELETE
 - Always have restore plan from git
 
-**Cấm tuyệt đối**: ❌ Xóa code để pass test, ❌ "vá áo" temporary fix causing more bugs, ❌ chấp nhận degradation, ❌ bỏ qua root cause.
+**Cấm tuyệt đối**: Xóa code để pass test, "vá áo" tạm thời, chấp nhận degradation, bỏ qua root cause.
 
 ---
 
@@ -182,13 +149,13 @@ Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
 ### 6.1 Search & Analysis Mode
 MAXIMIZE SEARCH EFFORT. Launch multiple background agents IN PARALLEL: explore agents (codebase patterns), librarian agents (remote docs, GitHub examples). Use tools: Grep, rg, ast-grep. **NEVER stop at first result** - be exhaustive.
 
-**Analysis Mode**: Gather context before diving deep. Context gathering in parallel (1-2 explore + 1-2 librarian agents). IF COMPLEX → consult specialists: Oracle (conventional), Artistry (non-conventional). SYNTHESIZE findings before proceeding.
+**Analysis Mode**: Gather context before diving deep. Parallel: 1-2 explore + 1-2 librarian agents. IF COMPLEX → consult specialists: Oracle, Artistry. SYNTHESIZE findings before proceeding.
 
 ### 6.2 Strict Mode - NO HALLUCINATION
-**MUST NOT**: guess, infer missing behavior, invent APIs, assume inputs, assume error handling. If information missing → STOP and output: "Cannot generate tests because: <exact missing information>". No tests until all required info present.
+**MUST NOT**: guess, infer missing behavior, invent APIs, assume inputs, assume error handling. If missing → STOP and output: "Cannot generate tests because: <exact missing information>".
 
-### 6.3 Mental Testing Prompt (Production Readiness Enforcer)
-**Core Principle**: Code must be safe for production after mental verification. **Test ALL dimensions**:
+### 6.3 Mental Testing Prompt
+Code must be safe for production after mental verification. Test ALL dimensions:
 - Inputs: valid, invalid, null, empty, boundary, malformed
 - Outputs: return values correct, side effects verified
 - Branches: every if/else/switch covered
@@ -200,14 +167,14 @@ MAXIMIZE SEARCH EFFORT. Launch multiple background agents IN PARALLEL: explore a
 - State: consistent across async ops, no corruption
 - Observability: logs, metrics, traces emitted
 
-**If missing → VIẾT THÊM** (do not skip).
+If missing → VIẾT THÊM.
 
 ---
 
 ## 7. TESTING & QUALITY ASSURANCE
 
 ### 7.1 Test Generation
-Mock external deps; test pure logic only; tests <100ms; deterministic. Include: valid, null/undefined, boundaries, malformed. Verify effects and side effects. Coverage: CI branch ≥80%. All error paths covered. Each public API ≥1 test. Structure: `describe` → `it` (AAA). Unit=business logic; Integration=service contracts; E2E <10% of suite.
+Mock external deps; test pure logic only; tests <100ms; deterministic. Include: valid, null/undefined, boundaries, malformed. Coverage: CI branch ≥80%. All error paths covered. Each public API ≥1 test. Structure: `describe` → `it` (AAA). Unit=business logic; Integration=service contracts; E2E <10% of suite.
 
 ### 7.2 Coverage Refactoring Triggers
 - Branch <70% → REFACTOR
@@ -215,37 +182,37 @@ Mock external deps; test pure logic only; tests <100ms; deterministic. Include: 
 - Error handling <80% → HIGH PRIORITY
 - Conditionals not fully covered → missing branches or dead code
 
-**Priorities**: dead code first, then untested error paths, then complex functions, then public API <80%. If coverage <80% → output COVERAGE IMPROVEMENT PLAN with root causes and refactor strategy. **Penalty -10** if no plan.
+**Priorities**: dead code first, then untested error paths, then complex functions, then public API <80%. If coverage <80% → output COVERAGE IMPROVEMENT PLAN.
 
 ### 7.3 Production Testing Pipeline (27 Gates)
-Before push: Code must pass through ALL gates: Source Hygiene → Dependency Freeze → Clean Build → Artifact Verification → Static Analysis → Type/Schema Verification → Unit Test → Coverage Gate → Integration → Contract → Data Migration Validation → Security Scan → Compliance → Performance Sanity → Stress/Edge Case → Failure Mode → Observability Validation → Config Validation → Packaging → Staging Deploy → Smoke Test → Rollback Test → Human Review → Sign-off → Git Push → CI Re-run → Production Release.
+Source Hygiene → Dependency Freeze → Clean Build → Artifact Verification → Static Analysis → Type/Schema Verification → Unit Test → Coverage Gate → Integration → Contract → Data Migration → Security Scan → Compliance → Performance Sanity → Stress/Edge Case → Failure Mode → Observability Validation → Config Validation → Packaging → Staging Deploy → Smoke Test → Rollback Test → Human Review → Sign-off → Git Push → CI Re-run → Production Release.
 
-**Conclusion**: LLM only does Step 0. All other steps exist because code lies until proven correct. "Vibe code then push straight" = prototype, not software engineering.
+LLM only does Step 0. All other steps exist because code lies until proven correct.
 
 ---
 
 ## 8. SYSTEM AUDIT FRAMEWORK
 
 ### 8.1 Audit Dimensions (10)
-**Khi audit codebase (trước khi production), phải kiểm tra TẤT CẢ**:
+**Khi audit codebase (trước khi production), kiểm tra TẤT CẢ**:
 
-1. **Business Logic Integrity**: bypass validation, client input manipulation, edge case logic, dangerous assumptions, implicit dependencies. **Phải mô tả exploit nếu có vulnerability**.
+1. **Business Logic Integrity**: bypass validation, client input manipulation, edge cases, dangerous assumptions, implicit dependencies. **Mô tả exploit nếu có**.
 
-2. **End-to-End Flow Audit**: Phân tích `Client → API → Service → DB → Cache → Queue → Worker → External → Response`. Tìm: flow ngắt giữa chừng, không rollback, silent failure, missing error handling, resource leak.
+2. **End-to-End Flow Audit**: `Client → API → Service → DB → Cache → Queue → Worker → External → Response`. Tìm: flow ngắt, không rollback, silent failure, missing error handling, resource leak.
 
-3. **Concurrency & Race Condition**: Giả lập: 2 request cùng lúc, 100 request song song, multi-tab, retry, background job song song. Xác định: lost update, double execution, dirty write, non-atomic, lock thiếu.
+3. **Concurrency & Race Condition**: 2 request cùng lúc, 100 request song song, multi-tab, retry, background job song song. Xác định: lost update, double execution, dirty write, non-atomic, lock thiếu.
 
-4. **Database & Data Integrity**: Dùng transaction? Isolation level? Risk deadlock? Unique constraint đủ? Foreign key đầy đủ? Orphan data? Inconsistent state?
+4. **Database & Data Integrity**: Transaction? Isolation level? Deadlock risk? Unique constraint? Foreign key đầy đủ? Orphan data? Inconsistent state?
 
 5. **Caching & Consistency**: Cache invalidation đúng? Stale cache? Cache stampede? Distributed inconsistency? Cache update trước DB commit?
 
 6. **Idempotency**: Endpoint idempotent? Retry gây double? Webhook 2 lần? Background job trùng? **Implement**: idempotency key header, unique constraint on operation_id.
 
-7. **Failure Scenarios**: Giả lập: DB crash giữa transaction, external API timeout, worker crash, network partition, disk full, memory spike, CPU spike, queue backlog. **Mô tả**: hệ thống phản ứng? auto recovery? data corruption? fallback?
+7. **Failure Scenarios**: DB crash giữa transaction, external API timeout, worker crash, network partition, disk full, memory spike, CPU spike, queue backlog. **Mô tả**: phản ứng? auto recovery? data corruption? fallback?
 
-8. **Security Audit** (STRIDE+DREAD): Input validation, output encoding, SQL/NoSQL injection, XSS, CSRF, SSRF, broken access control, JWT verification, webhook signature, replay attack. **THREAT MODEL**: DREAD ≥7 → fix immediately.
+8. **Security Audit** (STRIDE+DREAD): Input validation, output encoding, SQL/NoSQL injection, XSS, CSRF, SSRF, broken access control, JWT verification, webhook signature, replay attack. DREAD ≥7 → fix immediately.
 
-9. **Scalability Analysis**: O(n) ở đâu? N+1 query? Memory leak? Blocking I/O? Thread starvation? Event loop blocking? Horizontal scale an toàn? Shared state thread-safe? **Benchmark**: p50<100ms, p99<200ms.
+9. **Scalability Analysis**: O(n)? N+1 query? Memory leak? Blocking I/O? Thread starvation? Event loop blocking? Horizontal scale an toàn? Shared state thread-safe? Benchmark: p50<100ms, p99<200ms.
 
 10. **Observability & Monitoring**: Log đầy đủ? PII trong log? Metric quan trọng? Alert khi failure? Health check? Correlation ID? Distributed tracing?
 
@@ -253,74 +220,37 @@ Before push: Code must pass through ALL gates: Source Hygiene → Dependency Fre
 Cho mỗi vấn đề phát hiện, phải tạo: load test, concurrency test, retry test, chaos test, edge case input, malicious input, boundary value, stress test, memory leak simulation, integration test (full E2E). **Test structure**: `describe` → `it` (AAA). Mock external only.
 
 ### 8.3 Audit Report Template
-```markdown
-# System Audit Report
-
-## Executive Summary
-- Overall Risk: [LOW/MEDIUM/HIGH/CRITICAL]
-- Critical Issues: [count]
-- High Issues: [count]
-- Medium Issues: [count]
-- Low Issues: [count]
-- Estimated Fix Time: [X days]
-
-## Detailed Findings
-
-### 🔥 [SEVERITY] Issue Title
-- **Location**: [flow/module/function]
-- **Exploit**: [how to trigger]
-- **Impact**: [data loss, financial, security]
-- **Root Cause**: [technical deep-dive]
-- **Fix**: [code change, config]
-- **Test Case**: [concrete test]
-- **Priority**: [P0/P1/P2]
-
-## Compliance Check
-- [ ] GDPR: [compliant/gap]
-- [ ] PCI-DSS: [compliant/gap]
-- [ ] SOC2: [compliant/gap]
-
-## Observability Gaps
-- Missing logs: [list]
-- Missing metrics: [list]
-- Missing alerts: [list]
-
-## Recommendations (Prioritized)
-1. [P0] Fix critical immediately
-2. [P1] Address high this sprint
-3. [P2] Schedule medium next quarter
-4. [P3] Low - monitor
-
-## Sign-off
-- [ ] Security Team
-- [ ] SRE Team
-- [ ] Tech Lead
-```
+- **Executive Summary**: Overall risk, critical/high/medium/low counts, fix time
+- **Detailed Findings**: Severity, location, exploit, impact, root cause, fix, test case, priority
+- **Compliance Check**: GDPR, PCI-DSS, SOC2
+- **Observability Gaps**: Missing logs, metrics, alerts
+- **Recommendations**: P0-P3 prioritized
+- **Sign-off**: Security Team, SRE Team, Tech Lead
 
 ### 8.4 Fix Priority Matrix (P0-P3)
 | Severity | Ease | Priority |
 |----------|------|----------|
-| Critical | Easy | **P0 - Immediate** |
-| Critical | Hard | **P0 - Plan** |
-| High | Easy | **P1 - This Sprint** |
-| High | Hard | **P1 - Next Sprint** |
-| Medium | - | **P2 - Backlog** |
-| Low | - | **P3 - Optional** |
+| Critical | Easy | P0 - Immediate |
+| Critical | Hard | P0 - Plan |
+| High | Easy | P1 - This Sprint |
+| High | Hard | P1 - Next Sprint |
+| Medium | - | P2 - Backlog |
+| Low | - | P3 - Optional |
 
 ### 8.5 Audit Checklist (Self-Score ≥90 Required)
-- [ ] All 10 dimensions audited
-- [ ] All critical findings documented
-- [ ] All high findings have fix plan
-- [ ] All test cases written
-- [ ] All security threats modeled (STRIDE)
-- [ ] All failure scenarios tested
-- [ ] All race conditions identified
-- [ ] All data integrity risks assessed
-- [ ] All caching issues resolved
-- [ ] All idempotency gaps fixed
-- [ ] All scalability bottlenecks addressed
-- [ ] All observability gaps filled
-- [ ] Report signed off by required teams
+- All 10 dimensions audited
+- All critical findings documented
+- All high findings have fix plan
+- All test cases written
+- All security threats modeled (STRIDE)
+- All failure scenarios tested
+- All race conditions identified
+- All data integrity risks assessed
+- All caching issues resolved
+- All idempotency gaps fixed
+- All scalability bottlenecks addressed
+- All observability gaps filled
+- Report signed off by required teams
 
 **Penalty -30** if audit incomplete OR critical issue missed.
 
@@ -331,30 +261,20 @@ Cho mỗi vấn đề phát hiện, phải tạo: load test, concurrency test, r
 **Triggered by keywords**: GDPR, HIPAA, PCI, SOX, COPPA, "cloud", "AWS", "legacy", "monolith", "migration".
 
 ### 9.1 Compliance Matrix (GDPR, HIPAA, PCI-DSS, SOX, COPPA)
-**GDPR**: data minimization, purpose limitation, storage limitation, right to erasure/export, consent management, 72h breach notification, DPO, DPIA, ROPA.
+- **GDPR**: data minimization, purpose limitation, storage limitation, right to erasure/export, consent management, 72h breach notification, DPO, DPIA, ROPA.
+- **HIPAA**: RBAC, audit logs (all PHI access), encryption (AES-256 rest, TLS 1.2+ transit), encrypted backups (quarterly restore), BAAs, minimum necessary, annual training, 24/7 incident response.
+- **PCI-DSS**: Never store cardholder data unless necessary; PAN masked (first 6/last 4); NEVER store CVV; network segmentation (CDE isolated); quarterly scans + annual pentest; MFA for admin; FIM on CDE; TLS 1.2+; ASV compliance.
+- **SOX**: change management (approved, logged), separation of duties (dev ≠ deployer ≠ approver), retention 7+ years immutable, controls documentation mapped to code, quarterly automated audits, no manual acceptance for financial calc.
+- **COPPA**: verifiable parental consent before collecting data, no behavioral ads targeting children, parents can delete data, collect only necessary, clear privacy policy in parent-friendly language, no social features without verifiable parental consent.
 
-**HIPAA**: RBAC, audit logs (all PHI access), encryption (AES-256 rest, TLS 1.2+ transit), encrypted backups (quarterly restore), BAAs, minimum necessary, annual training, 24/7 incident response.
+**Require COMPLIANCE section**: Applicable Standards, Status (Compliant/Non-compliant), Controls, Gaps & Remediation, Audit Evidence, Next Audit Date.
 
-**PCI-DSS**: Never store cardholder data unless necessary; PAN masked (first 6/last 4); NEVER store CVV; network segmentation (CDE isolated); quarterly scans + annual pentest; MFA for admin; FIM on CDE; TLS 1.2+; ASV compliance.
-
-**SOX**: change management (approved, logged), separation of duties (dev ≠ deployer ≠ approver), retention 7+ years immutable, controls documentation mapped to code, quarterly automated audits, no manual acceptance for financial calc.
-
-**COPPA**: verifiable parental consent before collecting data, no behavioral ads targeting children, parents can delete data, collect only necessary, clear privacy policy in parent-friendly language, no social features without verifiable parental consent.
-
-**Require COMPLIANCE section**:
-```markdown
-## Compliance
-- Applicable Standards: [list]
-- Status: ✅ Compliant / ⚠️ Non-compliant (gap analysis)
-- Controls: [x] implemented, [ ] missing
-- Gaps & Remediation: [unchecked items with plan]
-- Audit Evidence: [links]
-- Next Audit Date: YYYY-MM-DD
-```
 **Penalty -25** if compliance-critical and missing OR missing mandatory controls.
 
 ### 9.2 Cost Optimization (Cloud)
-Compute: right-size (60-70% CPU), spot/preemptible for non-critical, reserved (1-3y, 30-50% off). Storage: S3 Intelligent-Tiering, lifecycle (Glacier), EBS gp3 vs io2. Database: read replicas, auto-scaling, Aurora Serverless. Network: minimize transfer (same-region, compression, CDN), NAT optimization. Serverless: pay-per-use for spiky workloads. Budget alerts (50%, 80%, 100%), tagging (Environment, Team, Project, Owner). **Penalty -15** if cloud deployment without optimization plan/tagging/monitoring.
+Compute: right-size (60-70% CPU), spot/preemptible for non-critical, reserved (1-3y, 30-50% off). Storage: S3 Intelligent-Tiering, lifecycle (Glacier), EBS gp3 vs io2. Database: read replicas, auto-scaling, Aurora Serverless. Network: minimize transfer (same-region, compression, CDN), NAT optimization. Serverless: pay-per-use for spiky workloads. Budget alerts (50%, 80%, 100%), tagging (Environment, Team, Project, Owner).
+
+**Penalty -15** if cloud deployment without optimization plan/tagging/monitoring.
 
 ### 9.3 Legacy System Integration
 **Strangler Fig**: identify bounded context, build parallel isolated module, gradually route traffic, monitor, expand, decommission.
@@ -365,7 +285,9 @@ Compute: right-size (60-70% CPU), spot/preemptible for non-critical, reserved (1
 
 **Technical debt assessment**: debt ratio = legacy LOC / total; >30% → recommend refactor sprint first.
 
-**Requirement**: If touching legacy code, add tests for modified area AND document specific legacy risks addressed. **Penalty -10** if touching legacy without tests/notes.
+**Requirement**: If touching legacy code, add tests for modified area AND document specific legacy risks addressed.
+
+**Penalty -10** if touching legacy without tests/notes.
 
 ---
 
@@ -373,45 +295,22 @@ Compute: right-size (60-70% CPU), spot/preemptible for non-critical, reserved (1
 
 ### 10.1 SELF-EVALUATION QUESTIONS
 
-**Code Output Quality**:
-- SOLID principles?
-- Testable without mocks for external deps?
-- Edge cases and errors gracefully handled?
-- Names clear, functions appropriately sized, single responsibility?
-- Complexity low (cyclomatic <10, nesting <3)?
-- Security vulnerabilities (injection, auth bypass, XSS, CSRF)?
-- Performance issues (O(n²), blocking I/O, memory leaks)?
-- Would this pass code review at Google/Amazon/Microsoft?
-- Can another dev understand in 5 minutes?
+**Code Output Quality**: SOLID principles? Testable without mocks? Edge cases/errors handled? Clear names? Complexity low (<10 cyclomatic, <3 nesting)? Security vulnerabilities? Performance issues? Would pass code review at Google/Amazon/Microsoft? Can another dev understand in 5 minutes?
 
-**Prompt Effectiveness**:
-- Did prompt produce high-quality code? What metrics?
-- Where did output fall short? What missing?
-- Which instructions unclear or ignored?
-- Did output match user intent? Misinterpretations?
-- Patterns emerged that should be codified?
-- Should prompt emphasize certain quality attributes more?
-- Domain-specific best practices missing?
+**Prompt Effectiveness**: High-quality code? What metrics? Where did output fall short? Which instructions unclear? Did output match user intent? Patterns to codify? Emphasize certain quality attributes? Domain-specific best practices missing?
 
-**Learning from Feedback**:
-- Code smells repeated?
-- Edge cases consistently missed?
-- User corrections? Patterns?
-- Would previous code fail in production? Why?
-- Trade-offs poorly explained/omitted?
+**Learning from Feedback**: Code smells repeated? Edge cases missed? User corrections? Patterns? Would previous code fail in production? Trade-offs poorly explained?
 
 ### 10.2 PROJECT PROFILE (Auto-Detect)
 
-Based on query analysis:
-
 | Profile | Detection Keywords | Adjustments |
 |---------|-------------------|-------------|
-| **Size** | "small project", "prototype", "POC" → Small (<10k LOC)<br>"medium", "app" → Medium (10-100k)<br>"large", "enterprise", "scale" → Large (>100k) | Small: simplify Tier 2<br>Large: full rigor |
-| **Risk** | "internal tool", "admin panel" → Low<br>"public API", "customer-facing" → Medium<br>"payment", "health", "GDPR", "PII" → High | High: all tiers + compliance |
-| **Deployment** | "cloud", "AWS", "GCP", "Azure" → Cloud<br>"on-prem", "datacenter" → On-prem<br>"hybrid" → Hybrid | Cloud: cost optimization applies |
-| **Team** | "solo", "1 dev" → Solo<br>"team", "2-10 devs" → Small team<br>"org", "multiple teams" → Large team | Large team: full process (PR templates, CODEOWNERS, SLA) |
+| **Size** | small/prototype/POC → Small (<10k LOC)<br>medium/app → Medium (10-100k)<br>large/enterprise/scale → Large (>100k) | Small: simplify Tier 2<br>Large: full rigor |
+| **Risk** | internal tool/admin panel → Low<br>public API/customer-facing → Medium<br>payment/health/GDPR/PII → High | High: all tiers + compliance |
+| **Deployment** | cloud/AWS/GCP/Azure → Cloud<br>on-prem/datacenter → On-prem<br>hybrid → Hybrid | Cloud: cost optimization applies |
+| **Team** | solo/1 dev → Solo<br>team/2-10 devs → Small team<br>org/multiple teams → Large team | Large team: PR templates, CODEOWNERS, SLA |
 
-**Default**: Medium risk, Medium size, assume Cloud, Small team → Full Tier 1 + Tier 2.
+**Default**: Medium risk, Medium size, Cloud, Small team → Full Tier 1 + Tier 2.
 
 ### 10.3 DOMAIN-SPECIFIC EDGE CASES
 
@@ -425,7 +324,7 @@ Based on query analysis:
 
 **Embedded**: watchdog timeout, heap corruption, power loss, sensor drift, network partition, real-time deadline miss.
 
-**Requirement**: "For your domain, explicitly list applicable edge cases and show how code handles each."
+**Requirement**: For your domain, explicitly list applicable edge cases and show how code handles each.
 
 ### 10.4 API DEPRECATION
 
@@ -436,50 +335,9 @@ Based on query analysis:
 - Migration: TODO comments with deadline, backlog tickets, test both paths in CI.
 - Version pinning: lock to non-deprecated versions, `npm outdated`, test next major before upgrade.
 
-**Require API COMPATIBILITY section**:
-```markdown
-## API Compatibility
-- APIs Used: [list + versions]
-- Deprecation Status: [None/Some deprecated]
-- Fallback Strategy: [polyfill/feature detection/none]
-- Migration Plan: [issues, deadlines]
-- Version Pinning: [lockfile committed, update schedule]
-```
+**Require API COMPATIBILITY section**: APIs Used, Deprecation Status, Fallback Strategy, Migration Plan, Version Pinning.
+
 **Penalties**: -10 if no section; -20 if deprecated without fallback.
-
-### 10.5 CONTINUOUS IMPROVEMENT METRICS
-
-Agent phải theo dõi và cải thiện các metrics này mỗi iteration:
-
-- **Health Score**:
-  ```
-  Health = (coverage% * 0.3) + ((1 - avg_complexity/20) * 0.3) + (test_count/1000 * 0.2) + ((1 - duplication%) * 0.2)
-  ```
-  Target: tăng ≥0.5% mỗi tuần. Nếu stagnant >3 ngày → escalate.
-
-- **Evolution Rate**: Số improvements hoàn thành mỗi tuần. Target: ≥10.
-
-- **Technical Debt Reduction**: TODOs/FIXMEs giảm ≥2 mỗi tuần.
-
-- **Security Posture**: CVE patches within 24h, no secrets in code, JWT RS256 enforced, rate limiting active.
-
-- **Performance Trend**: p50/p99 giảm ≥5% mỗi iteration (khi có performance tasks). Baseline: p50<100ms, p99<200ms.
-
-- **Documentation Coverage**: JSDoc coverage ≥95% cho public APIs.
-
-- **Observability Depth**: Mỗi service ≥5 custom metrics + tracing + structured logs.
-
-Log metrics hàng tuần vào `docs/EVOLUTION.md`. Nếu bất kỳ metric nào giảm >2% → tạo urgent task.
-
-### 10.6 AUTONOMOUS OPERATION
-
-Agent chạy trong autonomous mode với:
-- **Discovery Cycle**: mỗi 2 giờ
-- **Sleep**: 5 phút giữa cycles nếu không có task
-- **Emergency Break**: stop nếu error rate >5%, memory >90%, disk <10%
-- **Startup**: đọc metrics/profile/evolution, schedule discovery
-
-Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
 
 ---
 
@@ -487,11 +345,7 @@ Xem chi tiết trong AUTO-CONTINUE.md Section 3 (Autonomous Execution Engine).
 
 **Atomic Design**: Atoms (Button, Input, Icon...), Molecules (FormGroup, Card, Modal...), Organisms (Header, Sidebar, DataTable...), Templates (AuthLayout, DashboardLayout...), Pages (use Templates, NO inline UI).
 
-**Rules**:
-- Pages use component library (không inline UI)
-- Features organized by domain (not layers)
-- Mỗi feature có component library riêng hoặc dùng shared
-- UI/UX nhất quán qua shared components
+**Rules**: Pages use component library (no inline UI). Features organized by domain (not layers). Mỗi feature có component library riêng hoặc dùng shared. UI/UX nhất quán qua shared components.
 
 **Structure**:
 ```
@@ -502,12 +356,7 @@ frontend/
 └── pages/
 ```
 
-**Validation Checklist**:
-- [ ] Pages sử dụng component library
-- [ ] Không inline UI trong pages
-- [ ] Components dùng đúng atomic hierarchy
-- [ ] Features organized by domain
-- [ ] Shared components không chứa business logic
+**Validation Checklist**: Pages use component library. No inline UI in pages. Components use correct atomic hierarchy. Features organized by domain. Shared components no business logic.
 
 ---
 
@@ -522,7 +371,7 @@ frontend/
 **Modular Monolith** (.NET, Java):
 - 1 artifact, 1 process, 1 DB
 - Module independence (code, data, event boundaries)
-- App Core (bootstrap, orchestration, transaction)
+- App Core: bootstrap, orchestration, transaction
 - Platform Layer: IAM, MDM, Eventing, Config
 - Cross-module: Events + App Core facade (no direct calls)
 
@@ -540,7 +389,7 @@ frontend/
 **Frontend**: `angular-modular-architect`, `react-architect`
 **Backend**: `go-architect`, `python-architect`, `rust-architect`, `dotnet-modular-architect`
 **Fullstack**: `erp-architect` (BE .NET + FE Angular)
-**Specialized**: `backend-db-pattern` (4 Steps to Database), `iam-platform-layer` (Auth/Authorization), `code-review` (Vibe-cleaner cleanup)
+**Specialized**: `backend-db-pattern` (4 Steps to Database), `iam-platform-layer` (Auth/Authorization), `code-review` (Vibe-cleaner cleanup), `system-audit` (10-dim system audit), `push-guide` (27-gate pipeline), `test-rule` (production-grade testing)
 
 **Use each skill when appropriate**. Output formats trong từng skill file.
 

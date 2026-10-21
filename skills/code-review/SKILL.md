@@ -27,6 +27,20 @@ metadata:
 4. **Refactor incremental** - commit từng phần nhỏ
 5. **Validate sau mỗi thay đổi**
 
+## Output Format
+
+```
+Production Readiness Report:
+✅ Mental Tests: [số] cases passed
+✅ Flow Coverage: UI→DB: [x], DB→UI: [y]
+✅ Scenarios: [số] scenarios covered
+✅ Edge Cases: [số] cases handled
+✅ Missing Code: [số] functions/components added
+✅ Industry Standards: [x/y] criteria met
+⚠️  Still Missing: [liệt kê nếu có]
+📝 Recommendations: [nếu có]
+```
+
 ## Khi nào dùng
 Khi codebase có dấu hiệu rapid prototyping, demo-oriented code, hoặc cần technical debt cleanup.
 
