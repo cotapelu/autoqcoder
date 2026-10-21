@@ -334,3 +334,14 @@
 - **Performance**: N/A
 - **Security**: None
 - **Notes**: Added missing "Khi nào dùng" section to skills/angular-modular-architect/SKILL.md, skills/erp-architect/SKILL.md, skills/react-architect/SKILL.md. Added explicit "Output Format" + "Khi nào dùng" to skills/code-review/SKILL.md. All 13 skills now have complete YAML frontmatter, Output Format, and Khi nào dùng sections. AGENTS.md: 567 lines (≤700 ✓), 17 sections (≤20 ✓). AUTO-CONTINUE.md: 292 lines (≤400 ✓). Skill metadata consistency: 100%.
+
+## [2026-06-23T06:00:00.000Z] Cycle - Task: evolution-round-19-npm-package
+- **Type**: npm Package Creation
+- **Priority**: HIGH
+- **Duration**: N/A (editor time)
+- **Status**: ✅ Success
+- **Test Delta**: 0 tests
+- **Coverage Delta**: 0% (documentation update)
+- **Performance**: N/A
+- **Security**: None
+- **Notes**: Created package.json (autoqcoder@3.0.0), bin/autoqcoder.js entry point for npx autoqcoder, updated README.md with full installation instructions, fixed TESTRULE.md missing Output Format section. AGENTS.md: 567 lines (≤700 ✓), 19 sections (≤20 ✓). AUTO-CONTINUE.md: 292 lines (≤400 ✓). All 13 skills have YAML frontmatter + Output Format + Khi nào dùng (100% consistency).

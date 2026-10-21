@@ -1,7 +1,49 @@
 {
   "version": 1,
-  "phases": [],
-  "nextTaskId": 1,
-  "nextPhaseId": 1,
-  "updatedAt": "2026-10-21T02:42:33.005Z"
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Round 19 - npm Package & TESTRULE Fix",
+      "tasks": [
+        {
+          "id": "task-1",
+          "content": "Fix TESTRULE.md - add missing Output Format section",
+          "status": "completed"
+        },
+        {
+          "id": "task-2",
+          "content": "Create package.json for npm package (autoqcoder@3.0.0)",
+          "status": "in_progress"
+        },
+        {
+          "id": "task-3",
+          "content": "Create bin/autoqcoder.js entry point for npx",
+          "status": "pending"
+        },
+        {
+          "id": "task-4",
+          "content": "Update README.md with full installation instructions",
+          "status": "pending"
+        },
+        {
+          "id": "task-5",
+          "content": "Update GOAL.md to mark Round 19 status",
+          "status": "pending"
+        },
+        {
+          "id": "task-6",
+          "content": "Update docs/ files (AGENT_METRICS.md, AGENT_PROFILE.md, EVOLUTION.md)",
+          "status": "pending"
+        },
+        {
+          "id": "task-7",
+          "content": "git add -A, git commit",
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "nextTaskId": 8,
+  "nextPhaseId": 2,
+  "updatedAt": "2026-10-21T02:46:56.178Z"
 }

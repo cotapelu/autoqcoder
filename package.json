@@ -1,0 +1,48 @@
+{
+  "name": "autoqcoder",
+  "version": "3.0.0",
+  "description": "Self-optimizing prompt engine for AI coding agents - Production-ready code generation with continuous evolution",
+  "main": "bin/autoqcoder.js",
+  "bin": {
+    "autoqcoder": "bin/autoqcoder.js"
+  },
+  "scripts": {
+    "install": "node bin/autoqcoder.js install",
+    "init": "node bin/autoqcoder.js init",
+    "evolve": "node bin/autoqcoder.js evolve",
+    "audit": "node bin/autoqcoder.js audit",
+    "quality": "node bin/autoqcoder.js quality"
+  },
+  "keywords": [
+    "autoqcoder",
+    "prompt-engine",
+    "self-evolution",
+    "ai-coding-agent",
+    "production-ready",
+    "code-generation"
+  ],
+  "author": "autoqcoder team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cotapelu/autoqcoder"
+  },
+  "bugs": {
+    "url": "https://github.com/cotapelu/autoqcoder/issues"
+  },
+  "homepage": "https://github.com/cotapelu/autoqcoder#readme",
+  "files": [
+    "AGENTS.md",
+    "AUTO-CONTINUE.md",
+    "GOAL.md",
+    "bin/",
+    "skills/",
+    "docs/",
+    "mate/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

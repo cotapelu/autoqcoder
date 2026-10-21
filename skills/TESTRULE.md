@@ -238,6 +238,25 @@ No untested failure modes.
 
 ---
 
+## Output Format
+
+```
+Production-Grade Test Suite:
+✅ Unit Tests (mỗi file có test file riêng)
+✅ Branch Coverage (mỗi if/else/switch/throw/catch có test)
+✅ Mock Strategy (external deps mocked, pure logic tested)
+✅ Integration Tests (real implementations, only external stubbed)
+✅ Test Coverage Map (file → function → branch → test name)
+✅ Edge Cases (null, undefined, boundary, malformed, invalid)
+✅ Error Paths (all throw/catch/rejection tested)
+✅ Async Failures (timeout, rejection handled)
+✅ Deterministic (no flaky tests, <100ms per test)
+❌ No happy-path only tests
+❌ No skipped branches
+❌ No unverified behavior
+❌ No untested failure modes
+```
+
 ## Khi nào dùng
 
 - Khi cần tạo test suite production-grade cho module mới hoặc module đã có
