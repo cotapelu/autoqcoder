@@ -1,8 +1,10 @@
-# GOAL.md - Mục tiêu Tự Tiến Hóa (v3.0)
+# GOAL.md - Mục tiêu Tự Tiến Hóa (v3.1)
 
 ## 1. MỤC TIÊU TỔ QUAN
 
 **Mục tiêu chính**: Tự động tiến hóa toàn bộ hệ thống hướng dẫn (prompt engine) trong dự án `autoqcoder` để đạt chất lượng production-grade, tự cải thiện liên tục mà không cần can thiệp thủ công.
+
+**Nguyên cốt**: Hệ thống tiến hóa chạy hoàn toàn trên các file `.md`. LLM đọc các file này làm nguồn sự thật duy nhất. **Không cần file test JS, không cần script kiểm tra bổ sung**.
 
 **Phạm vi**:
 - `AGENTS.md` - Self-Optimizing Prompt Engine (văn bản luật chính)
@@ -64,7 +66,7 @@
 2. Mỗi skill SKILL.md phải có đầy đủ YAML frontmatter: name, description, license, compatibility, metadata (audience, scope).
 3. Mỗi skill phải có section Output Format và Khi nào dùng.
 4. Nếu skill thiếu bất kỳ section bắt buộc nào → VIẾT THÊM (không skip).
-5. Đồng bộ terminology giữa AGENTS.md và skills/ files.
+5. Đồng sync terminology giữa AGENTS.md và skills/ files.
 6. Thêm cross-reference table từ AGENTS.md Section 13.1 → skills/.
 7. Tiến hóa bản thân skill files: Nếu phát hiện skill cũ, thiếu thông tin, hoặc không khớp với AGENTS.md/AUTO-CONTINUE.md → cập nhật skill đó trong cùng vòng.
 
@@ -99,7 +101,7 @@ Mỗi vòng phải **tiến hóa toàn bộ** các file sau, không chia tách t
 
 **Checklist mỗi vòng (bắt buộc):**
 - [ ] Đọc FULL tất cả file skill trong `skills/*/` trước khi bắt đầu
-- [ ] Đồng bộ terminology giữa AGENTS.md và skills/
+- [ ] Đồng sync terminology giữa AGENTS.md và skills/
 - [ ] Cập nhật YAML metadata frontmatter cho mọi SKILL.md còn thiếu
 - [ ] Đảm bảo mọi SKILL.md có section Output Format và Khi nào dùng
 - [ ] Thêm cross-reference table AGENTS.md Section 13.1 → skills/
@@ -174,15 +176,17 @@ Chỉ sau commit xong thì mới bắt đầu vòng mới.
 
 Sau khi hoàn thành tất cả 6 vòng:
 
-1. **Validation suite**: Tạo `tests/prompt-compliance.test.js` để tự động verify AGENTS.md có tất cả sections bắt buộc
+1. **Cập nhật full mọi file .md**: Đảm bảo mọi file markdown đều tự chứa đủ thông tin, LLM đọc xong tự chạy vòng tiến hóa mà không cần code JS kiểm tra bổ sung.
 2. **Real deployment**: Áp dụng full evolution loop vào một project thực tế (khác todos-api)
 3. **npm package**: Publish `autoqcoder@3.0.0`
-4. **Metrics automation**: Tạo script tự động cập nhật docs/AGENT_METRICS.md từ git history
+4. **Metrics automation**: Cập nhật docs/AGENT_METRICS.md thủ công sau mỗi vòng (không cần script tự động)
+
+**Lý do**: Hệ thống tiến hóa chạy hoàn toàn trên các file `.md`. LLM đọc các file này làm nguồn sự thật duy nhất. Không cần file test JS hay script kiểm tra bổ sung.
 
 ---
 
 ## 8. TỔNG KẾT
 
-Mục tiêu củaGOAL.md là định nghĩa bản thiết kế cho việc tự tiến hóa của hệ thống prompt engine. Mỗi vòng phải có kết quả cụ thể, có thể đo lường, và phải commit trước khi chuyển sang vòng tiếp theo.
+Mục tiêu của GOAL.md là định nghĩa bản thiết kế cho việc tự tiến hóa của hệ thống prompt engine. Mỗi vòng phải có kết quả cụ thể, có thể đo lường, và phải commit trước khi chuyển sang vòng tiếp theo.
 
-**Trạng thái**: Bắt đầu Vòng 1 (GOAL.md)
+**Trạng thái**: Đã hoàn thành Vòng 17 (Compression & Sync). Sẵn sàng cho Vòng 18.

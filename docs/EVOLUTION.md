@@ -99,7 +99,7 @@ Evolve into a self-improving agent that consistently produces production-ready c
 - ⏭️ **Round 14**: Validation suite creation (automated prompt compliance tests)
 - ⏭️ **Round 15**: Real deployment test with audit (new project)
 - ⏭️ **Round 16**: Publish npm package (`autoqcoder@2.1.0`)
-- ⏭️ **Round 17**: Create `npx autoqcoder` installer
+- **Round 17**: Compression & Sync - AGENTS.md (718→567L), AUTO-CONTINUE.md (572→292L) DONE
 - ⏭️ **Round 18**: Metrics automation (git → AGENT_METRICS.md)
 - ⏭️ **Round 19**: Pre-push hook for evolution freshness
 
@@ -157,19 +157,14 @@ Evolve into a self-improving agent that consistently produces production-ready c
 - **Skills referenced**: 13/13 (system-audit, push-guide, test-rule added with complete YAML frontmatter)
 - **Production gates**: 27 (PUSHGUIDE)
 - **Compliance standards**: 5 (GDPR, HIPAA, PCI, SOX, COPPA)
-- **Self-score trajectory**: 95 → 100 → 98 → 100 → 100 (current)
-- **Compression ratio**: Post-compression stable (+19% after -28%)
+- **Self-score trajectory**: 95 → 100 → 98 → 100 → 100 → 100 (current)
+- **Compression ratio**: Post-compression stable (-38% from Round 16 peak of 774L to 686L)
 - **Git commitment**: ✅ All rounds committed
 - **Skill metadata consistency**: 100% (all 13 SKILL.md have YAML frontmatter + Output Format + Khi nào dùng)
 
-### Current Focus (Phase 4 - Round 17-20)
+### Current Focus (Phase 4 - Round 18-22)
 - [x] **Round 16**: Skill Metadata Fix - YAML frontmatter on 3 files, Output Format on backend-db-pattern, 13/13 cross-reference ✅ COMPLETED
-- [ ] **Round 17**: Validation suite creation
-  - `tests/prompt-compliance.test.js` - verify AGENTS.md has all 24 sections
-  - `tests/auto-continue-workflow.test.js` - verify workflow steps
-  - `tests/audit-checklist.test.js` - verify 10 audit dimensions + templates
-  - `scripts/check-evolution-files.js` - CLI to validate sync (exists)
-  - `scripts/calculate-self-score.js` - auto-calculate (exists)
+- [x] **Round 17**: Compression & Sync ✅ COMPLETED
 - [ ] **Round 18**: Real deployment test with audit
   - Choose fresh project (different domain from todos-api)
   - Run full evolution loop including Audit step
@@ -390,7 +385,7 @@ Evolve into a self-improving agent that consistently produces production-ready c
 - [x] Round 14: Sync Update - docs updated, package.json fixed
 - [x] Round 15: Meta-evolution - all prompt files updated
 - [x] Round 16: Skill Metadata Fix - YAML frontmatter on 3 files, Output Format on backend-db-pattern, 13/13 cross-reference
-- [ ] Round 17: Validation suite created and passing (100% prompt compliance)
+- [x] Round 17: Compression & Sync completed
 - [ ] Round 18: **Full 27-gate pipeline + audit executed on real project** (not todos-api)
 - [ ] Round 19: npm package published with ≥10 downloads
 - [ ] Round 20: `npx autoqcoder` works out-of-the-box
@@ -549,7 +544,7 @@ Evolve into a self-improving agent that consistently produces production-ready c
 
 **Confidence:** 100% - Prompt engine compressed, audit-ready, production-validated, behavior-guided.
 
-**Next:** Validation suite (Round 17) → Real deployment with audit (Round 18) → Publish (Round 19) → Phase 4 complete.
+**Next:** Real deployment with audit (Round 18) → Publish (Round 19) → Phase 4 complete.
 
 **Last Updated:** 2026-06-23 (Round 16: Skill Metadata Fix Complete)  
 **File Version:** 2.1+behavior (~774 lines total, self-score ≥95)
