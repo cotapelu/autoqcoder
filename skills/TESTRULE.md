@@ -1,3 +1,13 @@
+---
+name: test-rule
+description: Production-Grade Test Generation - Complete test suite generation with unit + integration layers, branch coverage, mock strategy
+license: MIT
+compatibility: opencode
+metadata:
+  audience: senior-developers
+  scope: test-generation
+---
+
 # TEST RULE - Production-Grade Test Generation
 
 ## Search & Analysis Mode
@@ -225,6 +235,22 @@ No untested failure modes.
 - Seed test data within each test
 
 **Note:** Integration tests run with REAL database - not mocked. This ensures end-to-end behavior matches production.
+
+---
+
+## Khi nào dùng
+
+- Khi cần tạo test suite production-grade cho module mới hoặc module đã có
+- Khi muốn đảm bảo module an toàn để deploy lên production sau khi tất cả tests pass
+- Khi cần test bao quát: valid, invalid, null/undefined, boundary, malformed input
+- Khi cần mock external dependencies và test pure logic only
+- Khi cần viết integration test với real database (SQLite in-memory)
+- Khi cần đảm bảo coverage ≥80% và tất cả error paths được cover
+
+**Không dùng khi:**
+- Thiếu thông tin về module cần test (dùng Strict Mode - báo cáo missing info)
+- Module chưa có code rõ ràng để phân tích export map và branch map
+- Chỉ cần test đơn giản không yêu cầu production-grade
 
 ---
 

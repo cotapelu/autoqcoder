@@ -550,16 +550,18 @@ frontend/
 |-------------------|------------|-------------------|
 | Section 12 (Backend Patterns) | `go-architect`, `python-architect`, `rust-architect`, `dotnet-modular-architect` | Backend architecture reference |
 | Section 11 (Frontend Patterns) | `angular-modular-architect`, `react-architect` | Frontend architecture reference |
-| Section 8 (System Audit) | `code-review` | Vibe code detection & cleanup |
+| Section 8 (System Audit) | `code-review`, `system-audit` | Vibe code detection, 10-dim system audit |
 | Section 9 (Compliance/Cost/Legacy) | `iam-platform-layer` | IAM, MDM, Eventing, Config |
-| Section 7 (Testing) | `backend-db-pattern` | 4 Steps to Database pattern |
+| Section 7 (Testing) | `backend-db-pattern`, `test-rule` | 4 Steps to Database, production-grade test generation |
+| Section 15 (Verification & Automation) | `push-guide` | 27-gate production release pipeline |
 | Section 16 (Collaborative Review) | `code-review` | Code review checklist |
 | Fullstack ERP | `erp-architect` | End-to-end ERP architecture |
+| IAM Platform | `iam-platform-layer` | Identity & Access Management platform layer |
 
 **Skill Selection Rule**: Khi modify code trong domain nào, phải đọc skill file tương ứng trước.
 
 **Skill Metadata Consistency**: Mọi SKILL.md phải có:
-- `name`, `description`, `license`, `compatibility`, `metadata` (audience, scope)
+- `name`, `description`, `license`, `compatibility`, `metadata` (audience, scope) trong YAML frontmatter
 - Output format section
 - Khi nào dùng section
 

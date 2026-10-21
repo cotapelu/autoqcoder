@@ -3,22 +3,54 @@
   "phases": [
     {
       "id": "phase-1",
-      "name": "Vòng 6: Commit & báo cáo",
+      "name": "Round 1 - Remaining Tasks",
       "tasks": [
         {
           "id": "task-1",
-          "content": "git add -A, git commit sau mỗi vòng",
-          "status": "in_progress"
+          "content": "Update docs/AGENT_METRICS.md with Round 1 data",
+          "status": "in_progress",
+          "notes": "Add Round 1 metrics, health score, evolution rate"
         },
         {
           "id": "task-2",
-          "content": "Đưa ra báo cáo và khuyến nghị tiếp theo",
-          "status": "pending"
+          "content": "Update docs/AGENT_PROFILE.md with Round 1 weaknesses",
+          "status": "pending",
+          "notes": "Add new weaknesses found during analysis"
+        },
+        {
+          "id": "task-3",
+          "content": "Update docs/EVOLUTION.md with Round 1 trajectory",
+          "status": "pending",
+          "notes": "Update roadmap and phase status"
+        },
+        {
+          "id": "task-4",
+          "content": "Verify quality gate ≥90 for AGENTS.md and AUTO-CONTINUE.md",
+          "status": "pending",
+          "notes": "Self-score check"
+        },
+        {
+          "id": "task-5",
+          "content": "Verify skills metadata consistency 100%",
+          "status": "pending",
+          "notes": "All SKILL.md have YAML frontmatter + Output Format + Khi nào dùng"
+        },
+        {
+          "id": "task-6",
+          "content": "git add -A and git commit for Round 1",
+          "status": "pending",
+          "notes": "Required before starting Round 2"
+        },
+        {
+          "id": "task-7",
+          "content": "Create report and recommendations for next round",
+          "status": "pending",
+          "notes": "Final summary of Round 1"
         }
       ]
     }
   ],
-  "nextTaskId": 3,
+  "nextTaskId": 8,
   "nextPhaseId": 2,
-  "updatedAt": "2026-10-21T01:27:32.605Z"
+  "updatedAt": "2026-10-21T01:43:19.856Z"
 }

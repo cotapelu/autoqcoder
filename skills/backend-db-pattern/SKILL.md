@@ -220,3 +220,36 @@ Tạo repository khi Service cần thao tác với entity:
 - [ ] EntityConfiguration trong Infrastructure/EntityConfigurations/
 - [ ] DbSet khai báo trong ErpDbContext
 - [ ] Build thành công: `dotnet build`
+
+---
+
+## Output Format
+
+```
+Backend DB Pattern (4 Steps to Database):
+✅ 1. Service (Application Layer) - Inject Repository Interface (IRepository), KHÔNG inject DbContext
+✅ 2. Repository Interface (Domain Layer) - IMyEntityRepository trong Domain/Repositories.cs
+✅ 3. Repository Implementation (Infrastructure Layer) - MyEntityRepository trong Infrastructure/Repositories.cs
+✅ 4. Entity + Config + DbSet:
+   - 4a. Entity trong Domain/Entities.cs
+   - 4b. EntityConfiguration trong Infrastructure/EntityConfigurations/
+   - 4c. DbSet trong ErpDbContext
+❌ KHÔNG để Service inject ErpDbContext trực tiếp
+❌ KHÔNG để Service query DbContext entity trực tiếp
+✅ Mỗi module có schema/prefix riêng hoặc RLS
+```
+
+---
+
+## Khi nào dùng
+
+- Khi thêm entity mới vào module backend (.NET)
+- Khi cần tách logic data access ra khỏi service (Repository pattern)
+- Khi muốn unit test service độc lập với database (mock repository interface)
+- Khi triển khai Clean Architecture cho .NET Modular Monolith
+- Khi module cần schema/prefix riêng cho data boundary
+
+**Không dùng khi:**
+- Chỉ đọc từ cache hoặc API bên ngoài (không cần repository)
+- Entity đã có repository sẵn (mở rộng interface thay vì tạo mới)
+- Không tương tác trực tiếp với database

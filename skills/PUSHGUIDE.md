@@ -1,3 +1,13 @@
+---
+name: push-guide
+description: 27-Gate Production Release Pipeline - Industrial-grade code verification cycle from untrusted artifact to production release
+license: MIT
+compatibility: opencode
+metadata:
+  audience: senior-developers
+  scope: ci-cd-pipeline
+---
+
 DANH SÁCH ĐẦY ĐỦ – CHU TRÌNH CÔNG NGHIỆP
 áp dụng cho mọi app, mọi ngôn ngữ, mọi kiến trúc,
 khi LLM hoặc dev vừa tạo xong một vòng code → đến khi được phép push & release production.
@@ -222,3 +232,54 @@ Tất cả các bước còn lại tồn tại vì:
 Code luôn nói dối cho đến khi bị chứng minh là đúng.
 Nếu bạn đang “vibe code rồi push thẳng”
 → đó là prototype, không phải kỹ nghệ phần mềm.
+
+---
+
+## Output Format
+
+```
+27-Gate Pipeline Status:
+✅ Gate 0: Untrusted Code Artifact (code vừa tạo, chưa kiểm chứng)
+✅ Gate 1: Source Hygiene (làm sạch placeholder, TODO, mock hardcode)
+✅ Gate 2: Dependency Freeze (lock version, snapshot dependency tree)
+✅ Gate 3: Clean Build (build từ zero, compile, link, bundle)
+✅ Gate 4: Artifact Verification (binary tồn tại, hash ổn định)
+✅ Gate 5: Static Code Analysis (undefined behavior, race condition, injection)
+✅ Gate 6: Type/Schema Verification (type compatibility, API contract)
+✅ Gate 7: Unit Test Execution (business rule, validation, calculation)
+✅ Gate 8: Test Coverage Gate (core logic, auth, payment, data mutation)
+✅ Gate 9: Integration Test (API↔DB, Service↔Service, Frontend↔Backend)
+✅ Gate 10: Contract Test (API backward compatible, event schema)
+✅ Gate 11: Data Migration Validation (migrate, rollback, no data loss)
+✅ Gate 12: Security Scan (vulnerable dependency, secret leak, hardcoded credential)
+✅ Gate 13: Compliance Check (logging, audit trail, data retention, PII)
+✅ Gate 14: Performance Sanity (CPU, RAM, IO, thread, connection pool)
+✅ Gate 15: Stress/Edge Case (empty input, max size, burst traffic)
+✅ Gate 16: Failure Mode Test (DB down, API down, disk full, network loss)
+✅ Gate 17: Observability Validation (log, metrics, trace, error report)
+✅ Gate 18: Configuration Validation (env var, secret store, feature flag)
+✅ Gate 19: Packaging (Docker image, binary, bundle, Helm)
+✅ Gate 20: Staging Deploy (real infra, real network, real scale)
+✅ Gate 21: Smoke Test (app start, API respond, job run)
+✅ Gate 22: Rollback Test (deploy mới, rollback cũ, không mất data)
+✅ Gate 23: Human Review Gate (kiến trúc, business rule, security)
+✅ Gate 24: Sign-off (tech lead, security, product)
+✅ Gate 25: GIT PUSH ALLOWED (chỉ sau khi tất cả gate pass)
+✅ Gate 26: CI Re-Run All Gates (không có bypass)
+✅ Gate 27: Production Release
+
+🔑 Key Principle: "LLM chỉ làm được Bước 0. Tất cả các bước còn lại tồn tại vì code luôn nói dối cho đến khi bị chứng minh là đúng."
+```
+
+---
+
+## Khi nào dùng
+
+- Sau khi LLM hoặc dev tạo xong một vòng code, trước khi push & release production
+- Khi cần đảm bảo code artifact đã được kiểm chứng đầy đủ trước production
+- Khi muốn áp dụng chu kỳ kiểm soát chuẩn ISO/enterprise cho phát triển phần mềm
+- Khi cần pipeline bảo mật, kiểm thử, và đánh giá chất lượng code theo quy trình công nghiệp
+
+**Không dùng khi:**
+- Chỉ thay đổi văn bản, comment, documentation không ảnh hưởng code chạy
+- Chỉ thay đổi cấu hình không liên quan đến logic nghiệp vụ

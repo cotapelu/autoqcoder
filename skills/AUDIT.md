@@ -1,3 +1,13 @@
+---
+name: system-audit
+description: Universal System Audit Prompt - 10-dimension full system audit for production-grade systems
+license: MIT
+compatibility: opencode
+metadata:
+  audience: senior-developers
+  scope: system-audit
+---
+
 Dưới đây là Universal System Audit Prompt (Full Version) — dùng được cho mọi loại hệ thống (SaaS, Auth, Ecommerce, AI pipeline, Realtime, Distributed system, Fintech, v.v.).
 
 ---
@@ -362,6 +372,49 @@ Phải nghi ngờ mọi thứ
 Phải audit như production scale
 
 Nếu thiếu thông tin → yêu cầu thêm trước khi kết luận
+
+---
+
+## Output Format
+
+```
+System Audit Report:
+🔍 10 Audit Dimensions:
+  1. Business Logic Integrity - bypass validation, client manipulation, edge cases
+  2. End-to-End Flow Audit - Client→API→Service→DB→Cache→Queue→Worker→External→Response
+  3. Concurrency & Race Condition - lost update, double execution, dirty write, non-atomic
+  4. Database & Data Integrity - transaction, isolation level, deadlock, unique constraint, FK
+  5. Caching & Consistency - invalidation, stale cache, stampede, distributed inconsistency
+  6. Idempotency - retry double execution, webhook duplicate, background job overlap
+  7. Failure Scenarios - DB crash, API timeout, worker crash, network partition, disk full
+  8. Security Audit (STRIDE+DREAD) - injection, XSS, CSRF, SSRF, broken access control, JWT
+  9. Scalability Analysis - O(n), N+1, memory leak, blocking I/O, thread starvation
+  10. Observability & Monitoring - logs, PII in logs, metrics, alerts, health check
+📋 Audit Report Template:
+  - Executive Summary (overall risk, critical/high/medium/low counts)
+  - Detailed Findings (severity, location, exploit, impact, root cause, fix, test case, priority)
+  - Compliance Check (GDPR, PCI-DSS, SOC2)
+  - Observability Gaps (missing logs, metrics, alerts)
+  - Recommendations (P0-P3 prioritized)
+  - Sign-off (Security, SRE, Tech Lead)
+🧪 Mandatory Test Cases:
+  - Load test, Concurrency test, Retry test, Chaos test, Edge case input
+  - Malicious input, Boundary value, Stress test, Memory leak simulation, Integration test
+```
+
+---
+
+## Khi nào dùng
+
+- Trước khi deploy hệ thống lên production (bắt buộc)
+- Sau khi có thay đổi lớn trong kiến trúc hoặc logic nghiệp vụ
+- Khi cần đánh giá bảo mật, hiệu năng, độ tin cậy của hệ thống
+- Khi phát hiện bug sản xuất cần root cause analysis sâu
+- Khi chuẩn bị sẵn sàng cho compliance audit (GDPR, PCI, HIPAA, SOC2)
+
+**Không dùng khi:**
+- Chỉ thay đổi văn bản, comment, documentation không ảnh hưởng logic
+- Chỉ thay đổi giao diện UI không liên quan đến business logic
 
 
 

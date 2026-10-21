@@ -57,39 +57,70 @@
 - Timeline và milestone
 - Quality gates cho mỗi file
 
+### 2.4 SKILLS/ REQUIREMENT (Bắt buộc đọc và tiến hóa)
+
+**Mọi vòng tiến hóa phải:**
+1. Đọc FULL tất cả file skill trong thư mục con `skills/*/` trước khi bắt đầu bất kỳ vòng nào.
+2. Mỗi skill SKILL.md phải có đầy đủ YAML frontmatter: name, description, license, compatibility, metadata (audience, scope).
+3. Mỗi skill phải có section Output Format và Khi nào dùng.
+4. Nếu skill thiếu bất kỳ section bắt buộc nào → VIẾT THÊM (không skip).
+5. Đồng bộ terminology giữa AGENTS.md và skills/ files.
+6. Thêm cross-reference table từ AGENTS.md Section 13.1 → skills/.
+7. Tiến hóa bản thân skill files: Nếu phát hiện skill cũ, thiếu thông tin, hoặc không khớp với AGENTS.md/AUTO-CONTINUE.md → cập nhật skill đó trong cùng vòng.
+
+**Skill Integration Rule**: Khi modify code trong domain nào, phải đọc skill file tương ứng trước.
+- Backend Go → đọc skills/go-architect/SKILL.md
+- Backend Python → đọc skills/python-architect/SKILL.md
+- Backend Rust → đọc skills/rust-architect/SKILL.md
+- Backend .NET → đọc skills/dotnet-modular-architect/SKILL.md
+- Frontend Angular → đọc skills/angular-modular-architect/SKILL.md
+- Frontend React → đọc skills/react-architect/SKILL.md
+- Fullstack ERP → đọc skills/erp-architect/SKILL.md
+- Database pattern → đọc skills/backend-db-pattern/SKILL.md
+- IAM Platform → đọc skills/iam-platform-layer/SKILL.md
+- Code Review → đọc skills/code-review/SKILL.md
+
+**Missing Code = Write More**: Nếu skill thiếu section bắt buộc → VIẾT THÊM, không skip.
+
 ---
 
 ## 3. VÒNG TIẾN HÓA (EVOLUTION ROUNDS)
 
-### Vòng 1: GOAL.md (Hiện tại)
-- [ ] Viết lại GOAL.md với cấu trúc rõ ràng
-- [ ] Định nghĩa success criteria cho từng file
-- [ ] Thiết lập timeline và quality gates
+### Mỗi vòng tiến hóa (Full Cycle)
+Mỗi vòng phải **tiến hóa toàn bộ** các file sau, không chia tách theo vòng:
 
-### Vòng 2: AGENTS.md
-- [ ] Tích hợp improvements từ skills/AUDIT.md, skills/PUSHGUIDE.md, skills/TESTRULE.md
-- [ ] Cập nhật skill integration table
-- [ ] Thêm concurrency analysis template chi tiết
-- [ ] Verify quality gate ≥90
+1. `GOAL.md` - Định nghĩa mục tiêu, success criteria, timeline
+2. `AGENTS.md` - Prompt engine chính, skill integration, concurrency template, audit framework
+3. `AUTO-CONTINUE.md` - Autonomous workflow, improvement catalog, emergency break, quality gate
+4. `skills/**/*.md` - Tất cả SKILL.md: YAML frontmatter, Output Format, Khi nào dùng, cross-reference
+5. `docs/AGENT_METRICS.md` - Cập nhật số liệu, health score, evolution rate
+6. `docs/AGENT_PROFILE.md` - Cập nhật weaknesses, fragile modules, risk register
+7. `docs/EVOLUTION.md` - Cập nhật roadmap, trajectory, phase status
 
-### Vòng 3: AUTO-CONTINUE.md
-- [ ] Nâng cấp task delegation, cycle timing, emergency break
-- [ ] Thêm improvement catalog
-- [ ] Verify consistency với AGENTS.md
-
-### Vòng 4: skills/ files
-- [ ] Đồng bộ skills/AUDIT.md, skills/PUSHGUIDE.md, skills/TESTRULE.md
-- [ ] Cập nhật metadata consistency across all skill SKILL.md files
-- [ ] Verify all skills files quality
-
-### Vòng 5: docs/ evolution files
-- [ ] Cập nhật docs/AGENT_METRICS.md
-- [ ] Cập nhật docs/AGENT_PROFILE.md
-- [ ] Cập nhật docs/EVOLUTION.md
-
-### Vòng 6: Commit & Báo cáo
-- [ ] git add -A, git commit sau mỗi vòng
+**Checklist mỗi vòng (bắt buộc):**
+- [ ] Đọc FULL tất cả file skill trong `skills/*/` trước khi bắt đầu
+- [ ] Đồng bộ terminology giữa AGENTS.md và skills/
+- [ ] Cập nhật YAML metadata frontmatter cho mọi SKILL.md còn thiếu
+- [ ] Đảm bảo mọi SKILL.md có section Output Format và Khi nào dùng
+- [ ] Thêm cross-reference table AGENTS.md Section 13.1 → skills/
+- [ ] Tiến hóa skill files cũ/thiếu/không khớp với AGENTS.md/AUTO-CONTINUE.md
+- [ ] Cập nhật docs/AGENT_METRICS.md với số liệu thực sau vòng
+- [ ] Cập nhật docs/AGENT_PROFILE.md với weaknesses mới (nếu có)
+- [ ] Cập nhật docs/EVOLUTION.md với trajectory thay đổi (nếu có)
+- [ ] Verify quality gate ≥90 cho AGENTS.md và AUTO-CONTINUE.md
+- [ ] Verify skills metadata consistency 100%
+- [ ] git add -A, git commit sau khi vòng hoàn thành
 - [ ] Đưa ra báo cáo và khuyến nghị tiếp theo
+
+### GIT COMMIT RULE (sau mỗi vòng full cycle)
+Sau khi hoàn thành toàn bộ checklist trên:
+
+```bash
+git add -A
+git commit -m "chore: evolution round N - <brief description>"
+```
+
+Chỉ sau commit xong thì mới bắt đầu vòng mới.
 
 ---
 

@@ -258,3 +258,16 @@ Modular Monolith (.NET):
 ✅ Scale: 100+ modules supported
 ❌ No microservices, no plugins, no runtime loading
 ```
+
+## Khi nào dùng
+
+- Khi xây dựng .NET backend theo mô hình Modular Monolith (1 artifact, 1 process, 1 DB)
+- Khi cần tách module thành bounded contexts độc lập (code, data, event boundaries)
+- Khi cần Platform Layer (IAM, MDM, Eventing, Config) cho cross-cutting concerns
+- Khi module giao tiếp qua events hoặc App Core facade (không direct cross-module calls)
+- Khi cần scale từ 10+ modules lên 100+ modules mà không chuyển sang microservices
+
+**Không dùng khi:**
+- Cần microservices thực sự (mỗi module có DB riêng, deploy riêng)
+- Cần runtime plugin loading hoặc module federation
+- Cần giao tiếp HTTP/gRPC giữa modules (cấm trong Modular Monolith)

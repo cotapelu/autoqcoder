@@ -396,3 +396,17 @@ IAM Platform Layer (.NET):
 ❌ No business logic in platform
 ❌ No direct domain module calls
 ```
+
+## Khi nào dùng
+
+- Khi cần xây dựng IAM platform layer cho .NET Modular Monolith
+- Khi cần quản lý authentication, authorization, user context, session
+- Khi cần multi-tenancy support với tenant isolation
+- Khi cần JWT + Refresh Token authentication flow
+- Khi cần audit logging cho tất cả authentication events
+- Khi domain modules cần inject IUserContext, IAuthorizationService
+
+**Không dùng khi:**
+- Chỉ cần simple authentication không cần role/permission phức tạp
+- Không cần multi-tenancy
+- Cần business logic trong platform layer (IAM platform KHÔNG chứa business logic)

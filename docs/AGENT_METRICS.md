@@ -2,13 +2,13 @@
 
 **Tracking Period:** 2025-05-25 to 2026-06-23 (Round 10-13 + Current Sync)
 **Version:** 2.1+behavior
-**Rounds:** 14 total (Rounds 1-9 + Round 10 mate/ + Round 11 AUDIT + Round 12 Compression + Round 13 CLAUDE + Round 14 Sync Update)
+**Rounds:** 16 total (Rounds 1-9 + Round 10 mate/ + Round 11 AUDIT + Round 12 Compression + Round 13 CLAUDE + Round 14 Sync Update + Round 15 Meta-evolution + Round 16 Skill Metadata Fix)
 
 ## Iteration Metrics
 - **Avg iterations/task:** N/A (documentation synthesis)
 - **Max iterations/task:** N/A
 - **Min iterations/task:** N/A
-- **Tasks completed:** 4 rounds (Round 10: mate/ synthesis, Round 11: AUDIT integration, Round 12: Compression, Round 13: CLAUDE) + Round 14: Sync Update
+- **Tasks completed:** 6 rounds (Round 10: mate/ synthesis, Round 11: AUDIT integration, Round 12: Compression, Round 13: CLAUDE, Round 14: Sync Update, Round 15: Meta-evolution) + Round 16: Skill Metadata Fix
 - **Evolution rounds:** 14 total (including current sync)
 - **Real-world projects:** 1 (todos-api v2.0)
 - **Files modified (total):** 2 core per round (AGENTS.md, AUTO-CONTINUE.md)
@@ -37,7 +37,7 @@
     - Surgical Changes
     - Goal-Driven Execution
     - Complements existing workflow, emphasizes caution over speed
-- **Source files integrated:** 5 documents (AGENTS_2, PUSHGUIDE, TESTRULE, AUDIT, skill definitions ×10)
+- **Source files integrated:** 5 documents (AGENTS_2, PUSHGUIDE, TESTRULE, AUDIT, skill definitions ×13)
 - **Content reuse ratio:** ~85% direct integration, ~15% adapted/merged
 - **Synthesis completeness:** 100% (0 gaps, 0 contradictions)
 
@@ -78,7 +78,7 @@
 ## Quality Gates Pass Rate
 - **Self-score ≥90:** 100% (Round 10: 95, Round 11: 98 projected)
 - **All mandatory sections:** 100% (Round 10: 11/11, Round 11: adds SYSTEM AUDIT)
-- **Skill integration:** 10/10 skills referenced in table
+- **Skill integration:** 13/13 skills referenced in table (system-audit, push-guide, test-rule added with YAML frontmatter)
 - **Production pipeline integrated:** 27 gates documented (PUSHGUIDE)
 - **Audit framework integrated:** 10 dimensions + report template + test cases (AUDIT)
 - **Mental testing framework:** Complete (MENTAL TESTING PROMPT with 10 dimensions)
@@ -97,7 +97,7 @@
 - **Audit risk exposure:** 0 (no critical security issues found in prompts)
 
 ## Integration Metrics
-- **Source files integrated (cumulative):** 5 primary (AGENTS_2, PUSHGUIDE, TESTRULE, AUDIT, skills ×10)
+- **Source files integrated (cumulative):** 5 primary (AGENTS_2, PUSHGUIDE, TESTRULE, AUDIT, skills ×13)
 - **Sections successfully merged:** 12 major sections (Round 10: 11, Round 11: 1) + templates + checklists
 - **Content adapted:** ~15% required reformatting/condensing
 - **Duplication eliminated:** 0 (no prior version had these sections)
@@ -308,3 +308,14 @@
 - **Performance**: N/A
 - **Security**: Fixed dangling script reference (validate.js)
 - **Notes**: Updated evolution files to current state (2026-06-23). Consolidated duplicate entries. Extended Phase 4 timeline. Self-score maintained 100/100. Round 15: Meta-evolution of AGENTS.md, AUTO-CONTINUE.md, GOAL.md, skills/ completed.
+
+## [2026-06-23T04:00:00.000Z] Cycle - Task: evolution-round-16-skill-metadata-fix
+- **Type**: Skill Metadata Fix
+- **Priority**: HIGH
+- **Duration**: N/A (editor time)
+- **Status**: ✅ Success
+- **Test Delta**: 0 tests
+- **Coverage Delta**: 0% (documentation update)
+- **Performance**: N/A
+- **Security**: None
+- **Notes**: Added YAML frontmatter to skills/AUDIT.md, skills/PUSHGUIDE.md, skills/TESTRULE.md (3 files missing metadata). Added Output Format section to skills/backend-db-pattern/SKILL.md. Updated AGENTS.md Section 13.1 cross-reference table with complete skill mappings including system-audit, push-guide, test-rule. All 13 skill files now have complete YAML frontmatter, Output Format, and Khi nào dùng sections.
