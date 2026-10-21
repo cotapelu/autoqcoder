@@ -102,6 +102,8 @@ Mỗi vòng phải **tiến hóa toàn bộ** các file sau, không chia tách t
 **Checklist mỗi vòng (bắt buộc):**
 - [ ] Đọc FULL tất cả file skill trong `skills/*/` trước khi bắt đầu
 - [ ] Đồng sync terminology giữa AGENTS.md và skills/
+- [ ] **Cập nhật nội dung AGENTS.md** (refine terminology, sync skills, version v3.0.0, cross-reference) — KHÔNG được skip lặng lẽ
+- [ ] **Cập nhật nội dung AUTO-CONTINUE.md** (refine, sync với AGENTS.md, cycle timing, improvement catalog) — KHÔNG được skip lặng lẽ
 - [ ] Cập nhật YAML metadata frontmatter cho mọi SKILL.md còn thiếu
 - [ ] Đảm bảo mọi SKILL.md có section Output Format và Khi nào dùng
 - [ ] Thêm cross-reference table AGENTS.md Section 13.1 → skills/
@@ -111,18 +113,26 @@ Mỗi vòng phải **tiến hóa toàn bộ** các file sau, không chia tách t
 - [ ] Cập nhật docs/EVOLUTION.md với trajectory thay đổi (nếu có)
 - [ ] Verify quality gate ≥90 cho AGENTS.md và AUTO-CONTINUE.md
 - [ ] Verify skills metadata consistency 100%
+- [ ] Nếu file đã đạt ceiling (AGENTS.md ≥700 lines hoặc ≥20 sections; AUTO-CONTINUE.md ≥400 lines): ghi chú lý do skip vào báo cáo vòng, KHÔNG được skip mà không ghi lý do
 - [ ] git add -A, git commit sau khi vòng hoàn thành
 - [ ] Đưa ra báo cáo và khuyến nghị tiếp theo
 
 ### GIT COMMIT RULE (sau mỗi vòng full cycle)
-Sau khi hoàn thành toàn bộ checklist trên:
+**Trước khi commit**, LLM phải tự verify:
+1. Đã xử lý đủ tất cả 7 file trong danh sách trên (hoặc ghi lý do skip cho file đạt ceiling)
+2. AGENTS.md ≤700 lines, ≤20 sections
+3. AUTO-CONTINUE.md ≤400 lines
+4. Không có hardcoded secrets trong bất kỳ file .md nào
+5. Terminology đồng bộ giữa AGENTS.md và skills/
+
+Sau khi verify xong:
 
 ```bash
 git add -A
 git commit -m "chore: evolution round N - <brief description>"
 ```
 
-Chỉ sau commit xong thì mới bắt đầu vòng mới.
+Chỉ sau commit xong thì mới bắt đầu vòng mới. Nếu commit thiếu file bắt buộc mà không ghi lý do → vi phạm quy tắc, phải revert và làm lại.
 
 ---
 
@@ -144,9 +154,11 @@ Chỉ sau commit xong thì mới bắt đầu vòng mới.
 
 ## 5. QUALITY GATES (Non-negotiable)
 
-Trước khi commit bất kỳ file nào, phải pass:
+### 5.1 Quality Gate cho code (.js, .ts, .go, .py, .rs, .cs, v.v.)
 
-- [ ] Tất cả functions ≤20 lines (business logic)
+Trước khi commit bất kỳ code file nào, phải pass:
+
+- [ ] Tất cả functions ≤20 lines (business logic), ≤50 lines (UI)
 - [ ] Cyclomatic complexity ≤10
 - [ ] Không có 5+ duplicate lines
 - [ ] 100% error handling (public API)
@@ -155,20 +167,32 @@ Trước khi commit bất kỳ file nào, phải pass:
 - [ ] Testable (không có direct DB/network trong business logic)
 - [ ] Coverage ≥80% (nếu có tests)
 - [ ] Tất cả tests pass
-- [ ] Documentation updated
+
+### 5.2 Quality Gate cho file .md (AGENTS.md, AUTO-CONTINUE.md, GOAL.md, skills/*.md)
+
+Trước khi commit bất kỳ file .md nào, phải pass:
+
+- [ ] AGENTS.md ≤700 lines, ≤20 sections
+- [ ] AUTO-CONTINUE.md ≤400 lines
+- [ ] Không có hardcoded secrets trong bất kỳ file .md nào
+- [ ] Terminology đồng bộ giữa AGENTS.md và skills/ files
+- [ ] Mọi SKILL.md phải có đầy đủ YAML frontmatter (name, description, license, compatibility, metadata)
+- [ ] Mọi SKILL.md phải có section Output Format và Khi nào dùng
 
 ---
 
 ## 6. GIT COMMIT RULE
 
-Sau mỗi vòng hoàn thành:
+Tham khảo Section 3 (Checklist mỗi vòng) và Section 5.2 (Quality Gate cho .md). 
+
+Sau khi verify đầy đủ checklist Section 3 và quality gate Section 5.2:
 
 ```bash
 git add -A
 git commit -m "chore: evolution round N - <brief description>"
 ```
 
-Chỉ sau commit xong thì mới bắt đầu vòng mới.
+Chỉ sau commit xong thì mới bắt đầu vòng mới. Nếu commit thiếu file bắt buộc mà không ghi lý do skip → vi phạm quy tắc, phải revert và làm lại.
 
 ---
 
@@ -189,4 +213,8 @@ Sau khi hoàn thành tất cả 6 vòng:
 
 Mục tiêu của GOAL.md là định nghĩa bản thiết kế cho việc tự tiến hóa của hệ thống prompt engine. Mỗi vòng phải có kết quả cụ thể, có thể đo lường, và phải commit trước khi chuyển sang vòng tiếp theo.
 
-**Trạng thái**: Đã hoàn thành Vòng 19 (npm Package Creation). Sẵn sàng cho Vòng 20 (Real Deployment + Audit).
+**Vấn đề đã phát hiện (Round 19):** Round 19 đã commit nhưng KHÔNG cập nhật nội dung `AGENTS.md` và `AUTO-CONTINUE.md` — vi phạm Section 3 quy tắc "tiến hóa toàn bộ các file". Nguyên nhân: GOAL.md cũ không ràng buộc đủ chặt (chỉ yêu cầu "verify quality gate", không bắt buộc "cập nhật nội dung"). Đã sửa trong bản này.
+
+**Trạng thái hiện tại:** GOAL.md đã được refine để ràng buộc chặt chẽ hơn. Round 19 cần được làm lại (hoặc coi Round 20 là bù đắp) với việc cập nhật đầy đủ `AGENTS.md` và `AUTO-CONTINUE.md`.
+
+**Trạng thái:** Sẵn sàng cho Vòng 20 (Real Deployment + Audit) sau khi Round 19 được bù đắp đầy đủ.
